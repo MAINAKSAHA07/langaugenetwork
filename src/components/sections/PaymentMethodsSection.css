@@ -1,0 +1,19 @@
+@keyframes payment-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.payment-scroll-container {
+  display: flex;
+  width: max-content;
+  animation: payment-scroll 20s linear infinite;
+}
+
+.payment-scroll-container:hover {
+  animation-play-state: paused;
+}
+

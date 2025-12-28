@@ -92,7 +92,7 @@ const Header = ({ onDemoClick }) => {
             <Button onClick={onDemoClick} className="text-white hover:brightness-110 transition-all" style={{ backgroundColor: '#1F9F90' }}>
               Get Started
             </Button>
-            <Button variant="secondary" className="border-2 text-white transition-all hover:brightness-110" style={{ borderColor: '#1F9F90', backgroundColor: '#1F9F90' }}>
+            <Button variant="secondary" className="border-2 bg-white transition-all hover:bg-[#1F9F90] hover:text-white" style={{ borderColor: '#1F9F90', color: '#1F9F90' }}>
               Already Booked a Class
             </Button>
           </div>
@@ -164,7 +164,7 @@ const Header = ({ onDemoClick }) => {
               <Button onClick={() => { onDemoClick(); setMobileMenuOpen(false); }} className="mt-2 text-white" style={{ backgroundColor: '#1F9F90' }}>
                 Get Started
               </Button>
-              <Button onClick={() => { onDemoClick(); setMobileMenuOpen(false); }} variant="outline" className="text-white border-2" style={{ borderColor: '#1F9F90', backgroundColor: '#1F9F90' }}>
+              <Button onClick={() => { onDemoClick(); setMobileMenuOpen(false); }} variant="outline" className="bg-white border-2 hover:bg-[#1F9F90] hover:text-white transition-all" style={{ borderColor: '#1F9F90', color: '#1F9F90' }}>
                 Already Booked a Class
               </Button>
             </div>

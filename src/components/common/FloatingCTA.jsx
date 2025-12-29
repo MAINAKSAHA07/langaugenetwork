@@ -2,7 +2,7 @@ import React from 'react';
 
 const FloatingCTA = () => {
   return (
-    <div className="fixed right-4 bottom-4 md:right-6 md:bottom-6 z-50 flex flex-col gap-3 md:gap-4">
+    <div className="fixed right-4 bottom-20 md:right-6 md:bottom-24 z-50 flex flex-col gap-3 md:gap-4">
       {/* WhatsApp Button */}
       <a
         href="https://wa.me/1234567890"

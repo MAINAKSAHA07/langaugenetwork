@@ -3,7 +3,7 @@ import Button from '../common/Button';
 
 const CEFRLevelsSection = ({ onEnquire }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   const levels = [
     {
       id: 1,
@@ -86,13 +86,13 @@ const CEFRLevelsSection = ({ onEnquire }) => {
   ];
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       (prevIndex + 1) % levels.length
     );
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? levels.length - 1 : prevIndex - 1
     );
   };
@@ -110,9 +110,9 @@ const CEFRLevelsSection = ({ onEnquire }) => {
               className="w-full h-auto rounded-2xl shadow-xl"
             />
             {/* Graduation Cap Icon Overlay */}
-            <div className="absolute bottom-6 left-6 w-20 h-20 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1F9F90' }}>
+            <div className="absolute bottom-6 left-6 w-20 h-20 bg-accent rounded-full flex items-center justify-center shadow-lg">
               <svg className="w-10 h-10 text-white" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+                <path d="M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" />
               </svg>
             </div>
           </div>
@@ -132,8 +132,8 @@ const CEFRLevelsSection = ({ onEnquire }) => {
               <Button
                 onClick={onEnquire}
                 className="text-white px-10 py-3.5 text-lg font-semibold"
-                style={{ backgroundColor: '#1F9F90' }}
                 size="large"
+                style={{ backgroundColor: '#1F9F90' }}
               >
                 Enquire now
               </Button>
@@ -160,8 +160,7 @@ const CEFRLevelsSection = ({ onEnquire }) => {
                 {levels[currentIndex].skills.map((skill, index) => (
                   <li key={index} className="flex items-start gap-2">
                     <svg
-                      className="w-4 h-4 mt-0.5 flex-shrink-0"
-                      style={{ color: '#1F9F90' }}
+                      className="w-4 h-4 mt-0.5 flex-shrink-0 text-accent"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -229,8 +228,7 @@ const CEFRLevelsSection = ({ onEnquire }) => {
                   {level.skills.map((skill, index) => (
                     <li key={index} className="flex items-start gap-2">
                       <svg
-                        className="w-4 h-4 mt-0.5 flex-shrink-0"
-                        style={{ color: '#1F9F90' }}
+                        className="w-4 h-4 mt-0.5 flex-shrink-0 text-accent"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -256,8 +254,8 @@ const CEFRLevelsSection = ({ onEnquire }) => {
           <Button
             onClick={onEnquire}
             className="text-white px-12 py-4 text-lg font-semibold"
-            style={{ backgroundColor: '#1F9F90' }}
             size="large"
+            style={{ backgroundColor: '#1F9F90' }}
           >
             Get started
           </Button>

@@ -107,7 +107,7 @@ const DemoForm = ({ isOpen, onClose }) => {
           </select>
         </div>
 
-        <Button type="submit" className="w-full mt-6" size="large" icon>
+        <Button type="submit" className="w-full mt-6" size="large" icon style={{ backgroundColor: '#1F9F90' }}>
           Submit
         </Button>
       </form>

@@ -2,27 +2,27 @@ import React, { useState } from 'react';
 
 const InternationalExamsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   const exams = [
-    { id: 1, name: 'TEF', image: '/images/exams/Group 40.png', alt: 'TEF - Test d\'Évaluation de Français' },
-    { id: 2, name: 'DALF', image: '/images/exams/Group 41.png', alt: 'DALF' },
-    { id: 3, name: 'GOETHE', image: '/images/exams/Group 42.png', alt: 'Goethe Institut' },
-    { id: 4, name: 'TOPIK', image: '/images/exams/Group 43.png', alt: 'TOPIK Korean Proficiency Test' },
-    { id: 5, name: 'SIELE', image: '/images/exams/Group 44.png', alt: 'SIELE Spanish' },
-    { id: 6, name: 'IELTS', image: '/images/exams/Group 127.png', alt: 'IELTS' },
-    { id: 7, name: 'HSK', image: '/images/exams/Group 128.png', alt: 'HSK Chinese Proficiency Test' },
-    { id: 8, name: 'JLPT', image: '/images/exams/Group 129.png', alt: 'JLPT Japanese Language Proficiency Test' },
-    { id: 9, name: 'GOETHE_INST', image: '/images/exams/Group 130.png', alt: 'Goethe Institut' }
+    { id: 1, name: 'TEF', image: '/images/exams/tef.png', alt: 'TEF - Test d\'Évaluation de Français' },
+    { id: 2, name: 'DELF', image: '/images/exams/delf.png', alt: 'DELF' },
+    { id: 3, name: 'DALF', image: '/images/exams/dalf.png', alt: 'DALF' },
+    { id: 4, name: 'GOETHE', image: '/images/exams/goethe.png', alt: 'Goethe Institut' },
+    { id: 5, name: 'DELE', image: '/images/exams/dele.png', alt: 'DELE Spanish' },
+    { id: 6, name: 'SIELE', image: '/images/exams/siele.png', alt: 'SIELE Spanish' },
+    { id: 7, name: 'IELTS', image: '/images/exams/ielts.png', alt: 'IELTS' },
+    { id: 8, name: 'JLPT', image: '/images/exams/jlpt.png', alt: 'JLPT Japanese Language Proficiency Test' },
+    { id: 9, name: 'TOPIK', image: '/images/exams/topik.png', alt: 'TOPIK Korean Proficiency Test' }
   ];
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       (prevIndex + 1) % exams.length
     );
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? exams.length - 1 : prevIndex - 1
     );
   };

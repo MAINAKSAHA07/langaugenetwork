@@ -19,7 +19,7 @@ const PaymentMethodsSection = () => {
           {paymentMethods.map((method) => (
             <div 
               key={`first-${method.id}`}
-              className="flex-shrink-0 flex items-center justify-center px-6 lg:px-8"
+              className="flex-shrink-0 flex items-center justify-center px-8 lg:px-12"
             >
               <img
                 src={method.image}
@@ -29,11 +29,39 @@ const PaymentMethodsSection = () => {
             </div>
           ))}
           
-          {/* Duplicate set for seamless loop */}
+          {/* Second set for seamless loop */}
           {paymentMethods.map((method) => (
             <div 
               key={`second-${method.id}`}
-              className="flex-shrink-0 flex items-center justify-center px-6 lg:px-8"
+              className="flex-shrink-0 flex items-center justify-center px-8 lg:px-12"
+            >
+              <img
+                src={method.image}
+                alt={method.name}
+                className="h-5 lg:h-6 w-auto object-contain filter brightness-0 invert"
+              />
+            </div>
+          ))}
+
+          {/* Third set for extra smoothness */}
+          {paymentMethods.map((method) => (
+            <div 
+              key={`third-${method.id}`}
+              className="flex-shrink-0 flex items-center justify-center px-8 lg:px-12"
+            >
+              <img
+                src={method.image}
+                alt={method.name}
+                className="h-5 lg:h-6 w-auto object-contain filter brightness-0 invert"
+              />
+            </div>
+          ))}
+
+          {/* Fourth set for extra smoothness */}
+          {paymentMethods.map((method) => (
+            <div 
+              key={`fourth-${method.id}`}
+              className="flex-shrink-0 flex items-center justify-center px-8 lg:px-12"
             >
               <img
                 src={method.image}

@@ -3,7 +3,7 @@ import Button from '../common/Button';
 
 const LanguageTripSection = ({ onRegister, onDemo }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   const steps = [
     {
       id: 1,
@@ -11,7 +11,7 @@ const LanguageTripSection = ({ onRegister, onDemo }) => {
       title: 'Register with us',
       description: 'Complete a short form with your details and language preference to register. Our team will then assist you with online classes, study materials, and more!',
       image: '/images/hero/Rectangle 477.png',
-      bgColor: 'bg-[#1F9F90]'
+      bgColor: 'bg-accent'
     },
     {
       id: 2,
@@ -19,7 +19,7 @@ const LanguageTripSection = ({ onRegister, onDemo }) => {
       title: 'Experience a free demo class',
       description: 'Discover the power of learning with our complimentary demo class at your convenient time!',
       image: '/images/hero/Rectangle 478.png',
-      bgColor: 'bg-[#1F9F90]'
+      bgColor: 'bg-accent'
     },
     {
       id: 3,
@@ -27,18 +27,18 @@ const LanguageTripSection = ({ onRegister, onDemo }) => {
       title: 'Get started',
       description: 'Love our demo, now pick and choose batches according to your flexibility and get started on your learning adventure!',
       image: '/images/hero/Rectangle 479.png',
-      bgColor: 'bg-[#1F9F90]'
+      bgColor: 'bg-accent'
     }
   ];
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       (prevIndex + 1) % steps.length
     );
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? steps.length - 1 : prevIndex - 1
     );
   };
@@ -46,7 +46,7 @@ const LanguageTripSection = ({ onRegister, onDemo }) => {
   return (
     <>
       {/* Fluency Banner Section */}
-      <section style={{ backgroundColor: '#1F9F90' }} className="py-16 lg:py-20">
+      <section className="py-16 lg:py-20" style={{ backgroundColor: '#1F9F90' }}>
         <div className="container-custom max-w-5xl text-center">
           <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-6">
             Fluency, Culture, Career & Beyond
@@ -85,7 +85,7 @@ const LanguageTripSection = ({ onRegister, onDemo }) => {
               {/* Card with integrated step badge */}
               <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm w-full flex flex-col">
                 {/* Step Header Badge */}
-                <div className={`${steps[currentIndex].bgColor} text-white text-center py-4`}>
+                <div className="text-white text-center py-4" style={{ backgroundColor: '#1F9F90' }}>
                   <h3 className="text-lg font-semibold">
                     {steps[currentIndex].stepNumber}
                   </h3>
@@ -148,7 +148,7 @@ const LanguageTripSection = ({ onRegister, onDemo }) => {
                 {/* Card with integrated step badge */}
                 <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm w-full flex flex-col h-full">
                   {/* Step Header Badge */}
-                  <div className={`${step.bgColor} text-white text-center py-4`}>
+                  <div className="text-white text-center py-4" style={{ backgroundColor: '#1F9F90' }}>
                     <h3 className="text-lg font-semibold">
                       {step.stepNumber}
                     </h3>

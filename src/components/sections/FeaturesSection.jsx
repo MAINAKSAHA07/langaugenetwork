@@ -67,13 +67,13 @@ const FeaturesSection = () => {
   };
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       (prevIndex + 1) % features.length
     );
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? features.length - 1 : prevIndex - 1
     );
   };
@@ -103,8 +103,8 @@ const FeaturesSection = () => {
             <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6 text-center transition-all duration-300 hover:shadow-lg max-w-sm mx-auto">
               {/* Icon Image */}
               <div className="flex items-center justify-center mb-5">
-                <img 
-                  src={features[currentIndex].iconImage} 
+                <img
+                  src={features[currentIndex].iconImage}
                   alt={features[currentIndex].title}
                   className="w-16 h-16 object-contain"
                 />
@@ -118,13 +118,10 @@ const FeaturesSection = () => {
               {/* Learn More Button */}
               <button
                 onClick={() => openModal(features[currentIndex])}
-                className="group inline-flex items-center justify-center gap-2 px-6 py-2.5 border-2 font-medium rounded-lg hover:text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:scale-98 min-w-[140px]"
-                style={{ 
-                  borderColor: '#1F9F90', 
-                  color: '#1F9F90'
-                }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#1F9F90'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                className="group inline-flex items-center justify-center gap-2 px-6 py-2.5 border-2 font-medium rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:scale-98 min-w-[140px]"
+                style={{ borderColor: '#1F9F90', color: '#1F9F90' }}
+                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#1F9F90'; e.currentTarget.style.color = 'white'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#1F9F90'; }}
               >
                 Learn more
                 <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -165,8 +162,8 @@ const FeaturesSection = () => {
               <div key={feature.id} className="bg-white rounded-2xl shadow-md border border-gray-100 p-6 text-center transition-all duration-300 hover:shadow-lg">
                 {/* Icon Image */}
                 <div className="flex items-center justify-center mb-5">
-                  <img 
-                    src={feature.iconImage} 
+                  <img
+                    src={feature.iconImage}
                     alt={feature.title}
                     className="w-16 h-16 object-contain"
                   />
@@ -180,13 +177,10 @@ const FeaturesSection = () => {
                 {/* Learn More Button */}
                 <button
                   onClick={() => openModal(feature)}
-                  className="group inline-flex items-center justify-center gap-2 px-6 py-2.5 border-2 font-medium rounded-lg hover:text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:scale-98 min-w-[140px]"
-                  style={{ 
-                    borderColor: '#1F9F90', 
-                    color: '#1F9F90'
-                  }}
-                  onMouseEnter={(e) => e.target.style.backgroundColor = '#1F9F90'}
-                  onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                  className="group inline-flex items-center justify-center gap-2 px-6 py-2.5 border-2 font-medium rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:scale-98 min-w-[140px]"
+                  style={{ borderColor: '#1F9F90', color: '#1F9F90' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#1F9F90'; e.currentTarget.style.color = 'white'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#1F9F90'; }}
                 >
                   Learn more
                   <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

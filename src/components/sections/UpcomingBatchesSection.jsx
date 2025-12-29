@@ -79,13 +79,13 @@ const UpcomingBatchesSection = () => {
   const currentBatches = batches[selectedMonth] || [];
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       (prevIndex + 1) % currentBatches.length
     );
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? currentBatches.length - 1 : prevIndex - 1
     );
   };
@@ -106,16 +106,15 @@ const UpcomingBatchesSection = () => {
         {/* Month Tabs */}
         <div className="flex flex-wrap justify-center gap-3 md:gap-4 mb-10 md:mb-12">
           {months.map((month) => (
-              <button
-                key={month}
-                onClick={() => setSelectedMonth(month)}
-                className={`px-5 md:px-8 py-2.5 md:py-3 rounded-lg font-medium transition-all duration-300 text-sm md:text-base ${
-                  selectedMonth === month
-                    ? 'text-white shadow-lg'
-                    : 'bg-white text-gray-600 hover:bg-gray-100'
+            <button
+              key={month}
+              onClick={() => setSelectedMonth(month)}
+              className={`px-5 md:px-8 py-2.5 md:py-3 rounded-lg font-medium transition-all duration-300 text-sm md:text-base ${selectedMonth === month
+                  ? 'text-white shadow-lg'
+                  : 'bg-white text-gray-600 hover:bg-gray-100'
                 }`}
-                style={selectedMonth === month ? { backgroundColor: '#1F9F90' } : {}}
-              >
+              style={selectedMonth === month ? { backgroundColor: '#1F9F90' } : {}}
+            >
               {month}
             </button>
           ))}
@@ -176,10 +175,8 @@ const UpcomingBatchesSection = () => {
 
                   {/* Enroll Button */}
                   <Button
-                    className="w-full text-white py-2.5 font-semibold transition-all duration-300 text-sm"
+                    className="w-full text-white py-2.5 font-semibold hover:brightness-90 transition-all duration-300 text-sm"
                     style={{ backgroundColor: '#1F9F90' }}
-                    onMouseEnter={(e) => e.target.style.backgroundColor = '#18847A'}
-                    onMouseLeave={(e) => e.target.style.backgroundColor = '#1F9F90'}
                   >
                     Enroll now
                   </Button>
@@ -273,11 +270,9 @@ const UpcomingBatchesSection = () => {
 
                 {/* Enroll Button */}
                 <Button
-                  className="w-full text-white py-3 font-semibold transition-all duration-300"
-                  style={{ backgroundColor: '#1F9F90' }}
-                  onMouseEnter={(e) => e.target.style.backgroundColor = '#18847A'}
-                  onMouseLeave={(e) => e.target.style.backgroundColor = '#1F9F90'}
+                  className="w-full text-white py-3 font-semibold hover:brightness-90 transition-all duration-300"
                   size="large"
+                  style={{ backgroundColor: '#1F9F90' }}
                 >
                   Enroll now
                 </Button>

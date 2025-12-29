@@ -62,8 +62,8 @@ const LanguagePage = () => {
           <div className="md:hidden">
             <ClassCard
               image={data.kidsImage}
-              title={`${data.name} Class for kids`}
-              description="Engaging language programs designed specifically for young learners, making education fun and interactive through age-appropriate content and activities."
+              title={`${data.name} Classes for Kids`}
+              description="Dive into French fun with interactive online classes designed to spark excitement and curiosity in young learners!"
             />
           </div>
 
@@ -71,18 +71,18 @@ const LanguagePage = () => {
           <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             <ClassCard
               image={data.kidsImage}
-              title={`${data.name} Class for kids`}
-              description="Engaging language programs designed specifically for young learners, making education fun and interactive through age-appropriate content and activities."
+              title={`${data.name} Classes for Kids`}
+              description="Dive into French fun with interactive online classes designed to spark excitement and curiosity in young learners!"
             />
             <ClassCard
               image={data.adultImage}
-              title={`${data.name} Class for adults`}
-              description="Comprehensive language courses for adult learners focusing on practical communication skills, professional vocabulary, and cultural understanding."
+              title={`${data.name} Classes for Adults`}
+              description="Embark on a journey to French fluency with dynamic online classes tailored to fit your busy lifestyle and ignite your passion for language learning!"
             />
             <ClassCard
-              image={data.adultImage}
-              title={`Regular ${data.name} in Small Batch`}
-              description="Intimate class sizes ensuring personalized attention, better interaction with instructors, and faster progress in your language learning journey."
+              image={data.abroadImage}
+              title={`${data.name} Classes to Study Abroad`}
+              description="Prepare for your French adventure with immersive online classes that will equip you with the language skills and cultural insights needed to thrive abroad!"
             />
           </div>
         </div>
@@ -98,30 +98,28 @@ const LanguagePage = () => {
           {/* Mobile Carousel */}
           <div className="md:hidden">
             <GoalCard
-              image={data.adultImage}
-              title={`Learn ${data.name} for Travel`}
-              description="Master essential phrases and conversation skills for traveling, ordering food, asking directions, and connecting with locals during your adventures abroad."
-              trending={true}
+              image={data.schoolImage}
+              title={`${data.name} Classes for School`}
+              description="Spark excitement with our online French classes for kids! Whether it's curriculum-based or as a hobby, we make learning engaging and enjoyable."
             />
           </div>
 
           {/* Desktop Grid */}
           <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             <GoalCard
-              image={data.adultImage}
-              title={`Learn ${data.name} for Travel`}
-              description="Master essential phrases and conversation skills for traveling, ordering food, asking directions, and connecting with locals during your adventures abroad."
-              trending={true}
+              image={data.schoolImage}
+              title={`${data.name} Classes for School`}
+              description="Spark excitement with our online French classes for kids! Whether it's curriculum-based or as a hobby, we make learning engaging and enjoyable."
             />
             <GoalCard
-              image={data.adultImage}
-              title={`Prepare for ${data.name} Exams`}
-              description="Structured preparation for official language proficiency exams with targeted practice, test strategies, and comprehensive skill development."
+              image={data.collegeImage}
+              title={`${data.name} Classes for College`}
+              description="Dive into French fluency with our flexible online classes tailored to fit your college schedule. Explore the language, culture, and opportunities that await!"
             />
             <GoalCard
-              image={data.adultImage}
-              title={`Learn ${data.name} for Career`}
-              description="Advance your professional prospects with business language skills, industry-specific vocabulary, and communication techniques for global workplace success."
+              image={data.corporateImage}
+              title={`${data.name} Classes for Corporate`}
+              description="Elevate your French skills with our customized online classes. Whether you're an individual seeking personal growth or a company fostering a global mindset, we're here to help you thrive!"
             />
           </div>
         </div>
@@ -161,14 +159,8 @@ const LanguagePage = () => {
           <div className="md:hidden">
             <LevelCard
               level="A1-A2"
-              title="Pre A1- Pre A2"
-              language={data.name}
-              points={[
-                `A1 A2 level students can engage in basic conversations, introduce themselves, and understand simple phrases`,
-                `Introduce yourself to the basics of ${data.name} with foundational vocabulary and grammar`,
-                `Grasp essential phrases necessary for everyday needs and interactions`,
-                `Comprehend and use common expressions in simple social settings`
-              ]}
+              title="Beginner Classes"
+              description={`Start your ${data.name} language journey with our engaging online classes designed for beginners. Learn fundamental grammar, vocabulary, and practical conversation skills at your own pace with our expert instructors' guidance.`}
               onBookDemo={onDemoClick}
             />
           </div>
@@ -177,38 +169,20 @@ const LanguagePage = () => {
           <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             <LevelCard
               level="A1-A2"
-              title="Pre A1- Pre A2"
-              language={data.name}
-              points={[
-                `A1 A2 level students can engage in basic conversations, introduce themselves, and understand simple phrases`,
-                `Introduce yourself to the basics of ${data.name} with foundational vocabulary and grammar`,
-                `Grasp essential phrases necessary for everyday needs and interactions`,
-                `Comprehend and use common expressions in simple social settings`
-              ]}
+              title="Beginner Classes"
+              description={`Start your ${data.name} language journey with our engaging online classes designed for beginners. Learn fundamental grammar, vocabulary, and practical conversation skills at your own pace with our expert instructors' guidance.`}
               onBookDemo={onDemoClick}
             />
             <LevelCard
               level="B1-B2"
-              title="Pre B1- Pre B2"
-              language={data.name}
-              points={[
-                `B1 B2 level students can comprehend complex sentences and identify the main ideas in texts`,
-                `Express yourself clearly on wide range of topics related to personal interests and work`,
-                `Engage in conversations with native speakers fluently and spontaneously`,
-                `Produce detailed text on wide range of subjects with clear organization`
-              ]}
+              title="Intermediate Classes"
+              description={`Elevate your ${data.name} proficiency with our online intermediate classes. Refine pronunciation, expand vocabulary, and master complex grammar structures to confidently engage in conversations and express yourself fluently.`}
               onBookDemo={onDemoClick}
             />
             <LevelCard
               level="C1-C2"
-              title="Pre C1- Pre C2"
-              language={data.name}
-              points={[
-                `C1 C2 level students can understand complex texts and express ideas fluently and spontaneously`,
-                `Comprehend virtually everything heard or read with ease and precision`,
-                `Express yourself spontaneously with high degree of grammatical accuracy`,
-                `Use ${data.name} flexibly and effectively for all purposes, academic and professional`
-              ]}
+              title="Advanced Classes"
+              description={`Advance your ${data.name} skills to the highest level with our online advanced classes. Enhance your conversational abilities, master complex grammar, and increase career prospects with fluent proficiency in ${data.name}.`}
               onBookDemo={onDemoClick}
             />
           </div>
@@ -236,21 +210,29 @@ const LanguagePage = () => {
           {/* Desktop Layout with Diagram */}
           <div className="hidden md:block max-w-7xl mx-auto">
             {/* 3-Column Layout: Left Cards | Center Diagram | Right Cards */}
-            <div className="grid grid-cols-[1fr_auto_1fr] gap-8 lg:gap-12 items-center mb-8">
-              {/* Left Column - 2 Cards Stacked */}
-              <div className="space-y-6">
-                <ReasonCard
-                  title={data.whyLearn.reasons[0].title}
-                  description={data.whyLearn.reasons[0].description}
-                />
-                <ReasonCard
-                  title={data.whyLearn.reasons[1].title}
-                  description={data.whyLearn.reasons[1].description}
-                />
+            <div className="grid grid-cols-[1fr_auto_1fr] gap-6 lg:gap-8 mb-8 min-h-[500px]">
+              {/* Left Column - 2 Cards Stacked with Stagger */}
+              <div className="relative min-h-[500px]">
+                <div className="absolute top-0 -ml-16 lg:-ml-24">
+                  <div className="w-64 lg:w-72 h-[200px]">
+                    <ReasonCard
+                      title={data.whyLearn.reasons[0].title}
+                      description={data.whyLearn.reasons[0].description}
+                    />
+                  </div>
+                </div>
+                <div className="absolute top-[220px] ml-8 lg:ml-12">
+                  <div className="w-64 lg:w-72 h-[200px]">
+                    <ReasonCard
+                      title={data.whyLearn.reasons[1].title}
+                      description={data.whyLearn.reasons[1].description}
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Center Column - Diagram */}
-              <div className="flex justify-center">
+              <div className="flex justify-center items-center px-4 py-8">
                 <div className="w-full max-w-md lg:max-w-lg">
                   <img
                     src="/images/languagepages.png"
@@ -260,21 +242,29 @@ const LanguagePage = () => {
                 </div>
               </div>
 
-              {/* Right Column - 2 Cards Stacked */}
-              <div className="space-y-6">
-                <ReasonCard
-                  title={data.whyLearn.reasons[2].title}
-                  description={data.whyLearn.reasons[2].description}
-                />
-                <ReasonCard
-                  title={data.whyLearn.reasons[3].title}
-                  description={data.whyLearn.reasons[3].description}
-                />
+              {/* Right Column - 2 Cards Stacked with Stagger */}
+              <div className="relative min-h-[500px]">
+                <div className="absolute top-0 -mr-16 lg:-mr-24 right-0">
+                  <div className="w-64 lg:w-72 h-[200px]">
+                    <ReasonCard
+                      title={data.whyLearn.reasons[2].title}
+                      description={data.whyLearn.reasons[2].description}
+                    />
+                  </div>
+                </div>
+                <div className="absolute top-[220px] mr-8 lg:mr-12 right-0">
+                  <div className="w-64 lg:w-72 h-[200px]">
+                    <ReasonCard
+                      title={data.whyLearn.reasons[3].title}
+                      description={data.whyLearn.reasons[3].description}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Bottom Card - Centered */}
-            <div className="max-w-2xl mx-auto mt-10">
+            <div className="max-w-md lg:max-w-lg mx-auto mt-10">
               <ReasonCard
                 title={data.whyLearn.reasons[4].title}
                 description={data.whyLearn.reasons[4].description}
@@ -285,10 +275,8 @@ const LanguagePage = () => {
           <div className="text-center mt-10 md:mt-12">
             <button
               onClick={onDemoClick}
-              className="px-8 py-3 border-2 rounded-lg font-semibold transition-all duration-300 hover:text-white"
+              className="px-8 py-3 border-2 rounded-lg font-semibold transition-all duration-300"
               style={{ borderColor: '#1F9F90', color: '#1F9F90' }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = '#1F9F90'}
-              onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
             >
               Book a free demo
             </button>
@@ -379,7 +367,7 @@ const LanguagePage = () => {
 
 // Component: Class Card
 const ClassCard = ({ image, title, description }) => (
-  <div className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 max-w-sm mx-auto md:max-w-none">
+  <div className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 max-w-sm mx-auto md:max-w-none flex flex-col">
     <div className="h-48 md:h-52 overflow-hidden">
       <img
         src={image}
@@ -387,20 +375,26 @@ const ClassCard = ({ image, title, description }) => (
         className="w-full h-full object-cover"
       />
     </div>
-    <div className="p-5 md:p-6">
+    <div className="p-5 md:p-6 flex-grow flex flex-col">
       <h3 className="text-lg md:text-xl font-semibold text-[#0D5C5C] mb-3">
         {title}
       </h3>
-      <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+      <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-6 flex-grow">
         {description}
       </p>
+      <button
+        className="w-full py-3 rounded-lg font-semibold transition-all duration-300 border-2"
+        style={{ borderColor: '#1F9F90', color: '#1F9F90' }}
+      >
+        Learn more →
+      </button>
     </div>
   </div>
 );
 
 // Component: Goal Card
 const GoalCard = ({ image, title, description, trending }) => (
-  <div className="bg-white rounded-xl border border-gray-200 p-6 md:p-8 text-center shadow-md transition-all duration-300 hover:shadow-xl max-w-sm mx-auto md:max-w-none relative">
+  <div className="bg-white rounded-xl border border-gray-200 p-6 md:p-8 text-center shadow-md transition-all duration-300 hover:shadow-xl max-w-sm mx-auto md:max-w-none relative flex flex-col">
     {trending && (
       <div className="absolute top-4 right-4 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
         TRENDING
@@ -417,9 +411,15 @@ const GoalCard = ({ image, title, description, trending }) => (
     <h3 className="text-lg md:text-xl font-semibold text-[#0D5C5C] mb-3">
       {title}
     </h3>
-    <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+    <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-6 flex-grow">
       {description}
     </p>
+    <button
+      className="w-full py-3 rounded-lg font-semibold transition-all duration-300 border-2"
+      style={{ borderColor: '#1F9F90', color: '#1F9F90' }}
+    >
+      Learn more →
+    </button>
   </div>
 );
 
@@ -440,10 +440,8 @@ const ExamCard = ({ exam }) => (
       {exam.description}
     </p>
     <button
-      className="px-6 py-2.5 border rounded-lg font-medium transition-all duration-300 hover:text-white"
+      className="px-6 py-2.5 border rounded-lg font-medium transition-all duration-300"
       style={{ borderColor: '#1F9F90', color: '#1F9F90' }}
-      onMouseEnter={(e) => e.target.style.backgroundColor = '#1F9F90'}
-      onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
     >
       Learn more
     </button>
@@ -451,52 +449,49 @@ const ExamCard = ({ exam }) => (
 );
 
 // Component: Level Card
-const LevelCard = ({ level, title, language, points, onBookDemo }) => (
-  <div className="bg-[#F0FAF8] rounded-xl p-6 md:p-8 shadow-sm max-w-sm mx-auto md:max-w-none">
-    <h3 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: '#1F9F90' }}>
-      {level}
-    </h3>
-    <h4 className="text-lg md:text-xl font-semibold text-[#0D5C5C] mb-5">
-      {title}
-    </h4>
-    <ul className="space-y-3 mb-6">
-      {points.map((point, index) => (
-        <li key={index} className="flex items-start gap-2 text-sm md:text-base text-gray-700">
-          <svg
-            className="w-5 h-5 flex-shrink-0 mt-0.5"
-            style={{ color: '#1F9F90' }}
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-              clipRule="evenodd"
-            />
-          </svg>
-          <span className="leading-relaxed">{point}</span>
-        </li>
-      ))}
-    </ul>
-    <button
-      onClick={onBookDemo}
-      className="w-full text-white py-3 rounded-lg font-semibold transition-all duration-300 hover:brightness-110"
-      style={{ backgroundColor: '#1F9F90' }}
-    >
-      Book a free demo
-    </button>
+const LevelCard = ({ level, title, description, onBookDemo }) => (
+  <div className="bg-white rounded-2xl overflow-hidden shadow-md max-w-sm mx-auto md:max-w-none border border-gray-200">
+    {/* Light Teal Header */}
+    <div className="p-8 md:p-10 text-center" style={{ backgroundColor: '#D9F1EE' }}>
+      <h3 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: '#1F9F90' }}>
+        {level}
+      </h3>
+      <h4 className="text-xl md:text-2xl font-semibold text-secondary-navy">
+        {title}
+      </h4>
+    </div>
+    
+    {/* White Content Area */}
+    <div className="p-8 md:p-10 text-center">
+      <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8">
+        {description}
+      </p>
+      <button
+        onClick={onBookDemo}
+        className="w-full text-white py-3.5 rounded-lg font-semibold transition-all duration-300 border-2"
+        style={{ backgroundColor: '#1F9F90', borderColor: '#1F9F90' }}
+      >
+        Learn more →
+      </button>
+    </div>
   </div>
 );
 
 // Component: Reason Card
 const ReasonCard = ({ title, description }) => (
-  <div className="bg-[#F0FAF8] rounded-xl p-5 md:p-6 text-center shadow-sm">
-    <h4 className="text-base md:text-lg font-semibold text-[#0D5C5C] mb-2">
-      {title}
-    </h4>
-    <p className="text-xs md:text-sm text-gray-600 leading-relaxed">
-      {description}
-    </p>
+  <div className="bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 h-full flex flex-col">
+    {/* Light Teal Header */}
+    <div className="p-4 md:p-5 text-center min-h-[72px] flex items-center justify-center" style={{ backgroundColor: '#D9F1EE' }}>
+      <h4 className="text-base md:text-lg font-semibold text-[#0D5C5C]">
+        {title}
+      </h4>
+    </div>
+    {/* White Content */}
+    <div className="p-4 md:p-5 text-center flex-1 flex items-center justify-center">
+      <p className="text-xs md:text-sm text-gray-600 leading-relaxed">
+        {description}
+      </p>
+    </div>
   </div>
 );
 

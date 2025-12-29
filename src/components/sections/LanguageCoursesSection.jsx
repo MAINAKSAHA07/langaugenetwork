@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const LanguageCoursesSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   const languages = [
     {
       id: 1,
@@ -57,13 +57,13 @@ const LanguageCoursesSection = () => {
   ];
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       (prevIndex + 1) % languages.length
     );
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? languages.length - 1 : prevIndex - 1
     );
   };

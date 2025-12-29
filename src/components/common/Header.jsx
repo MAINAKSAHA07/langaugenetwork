@@ -35,7 +35,7 @@ const Header = ({ onDemoClick }) => {
             <div className="relative">
               <button
                 onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
-                className="flex items-center gap-1 text-gray-700 transition-colors font-medium hover:text-[#1F9F90]"
+                className="flex items-center gap-1 text-gray-700 transition-colors font-medium hover:text-accent"
               >
                 Languages
                 <svg
@@ -70,29 +70,29 @@ const Header = ({ onDemoClick }) => {
               )}
             </div>
 
-            <Link to="/school" className="text-gray-700 hover:text-[#1F9F90] transition-colors font-medium">
+            <Link to="/school" className="text-gray-700 hover:text-accent transition-colors font-medium">
               School
             </Link>
-            <Link to="/college" className="text-gray-700 hover:text-[#1F9F90] transition-colors font-medium">
+            <Link to="/college" className="text-gray-700 hover:text-accent transition-colors font-medium">
               College
             </Link>
-            <Link to="/study-abroad" className="text-gray-700 hover:text-[#1F9F90] transition-colors font-medium">
+            <Link to="/study-abroad" className="text-gray-700 hover:text-accent transition-colors font-medium">
               Study Abroad
             </Link>
-            <Link to="/corporate-training" className="text-gray-700 hover:text-[#1F9F90] transition-colors font-medium">
+            <Link to="/corporate-training" className="text-gray-700 hover:text-accent transition-colors font-medium">
               Corporate Training
             </Link>
-            <Link to="/work-with-us" className="text-gray-700 hover:text-[#1F9F90] transition-colors font-medium">
+            <Link to="/work-with-us" className="text-gray-700 hover:text-accent transition-colors font-medium">
               Work with us
             </Link>
           </div>
 
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-3">
-            <Button onClick={onDemoClick} className="text-white hover:brightness-110 transition-all" style={{ backgroundColor: '#1F9F90' }}>
+            <Button onClick={onDemoClick} className="bg-accent text-white hover:brightness-110 transition-all">
               Get Started
             </Button>
-            <Button variant="secondary" className="border-2 bg-white transition-all hover:bg-[#1F9F90] hover:text-white" style={{ borderColor: '#1F9F90', color: '#1F9F90' }}>
+            <Button variant="secondary" className="border-2 border-accent text-accent bg-white transition-all hover:bg-accent hover:text-white">
               Already Booked a Class
             </Button>
           </div>
@@ -138,7 +138,7 @@ const Header = ({ onDemoClick }) => {
                     <Link
                       key={lang.name}
                       to={lang.path}
-                      className="text-gray-600 hover:text-[#1F9F90] transition-colors"
+                      className="text-gray-600 hover:text-accent transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {lang.name}
@@ -146,25 +146,25 @@ const Header = ({ onDemoClick }) => {
                   ))}
                 </div>
               </div>
-              <Link to="/school" className="text-gray-700 hover:text-[#1F9F90] transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/school" className="text-gray-700 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>
                 School
               </Link>
-              <Link to="/college" className="text-gray-700 hover:text-[#1F9F90] transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/college" className="text-gray-700 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>
                 College
               </Link>
-              <Link to="/study-abroad" className="text-gray-700 hover:text-[#1F9F90] transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/study-abroad" className="text-gray-700 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>
                 Study Abroad
               </Link>
-              <Link to="/corporate-training" className="text-gray-700 hover:text-[#1F9F90] transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/corporate-training" className="text-gray-700 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>
                 Corporate Training
               </Link>
-              <Link to="/work-with-us" className="text-gray-700 hover:text-[#1F9F90] transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/work-with-us" className="text-gray-700 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>
                 Work with us
               </Link>
-              <Button onClick={() => { onDemoClick(); setMobileMenuOpen(false); }} className="mt-2 text-white" style={{ backgroundColor: '#1F9F90' }}>
+              <Button onClick={() => { onDemoClick(); setMobileMenuOpen(false); }} className="mt-2 bg-accent text-white">
                 Get Started
               </Button>
-              <Button onClick={() => { onDemoClick(); setMobileMenuOpen(false); }} variant="outline" className="bg-white border-2 hover:bg-[#1F9F90] hover:text-white transition-all" style={{ borderColor: '#1F9F90', color: '#1F9F90' }}>
+              <Button onClick={() => { onDemoClick(); setMobileMenuOpen(false); }} variant="outline" className="bg-white border-2 border-accent text-accent hover:bg-accent hover:text-white transition-all">
                 Already Booked a Class
               </Button>
             </div>

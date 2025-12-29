@@ -18,7 +18,7 @@ const HeroSection = ({ onCreateAccount }) => {
             <Button
               onClick={onCreateAccount}
               size="large"
-              className="text-white px-10 py-4 text-lg font-semibold"
+              className="text-white px-10 py-4 text-lg font-semibold hover:scale-100 hover:shadow-none"
               style={{ backgroundColor: '#1F9F90' }}
             >
               Get started
@@ -29,9 +29,9 @@ const HeroSection = ({ onCreateAccount }) => {
           <div className="order-1 lg:order-2 relative">
             <div className="relative w-full max-w-xl mx-auto">
               {/* Main hero image */}
-              <img 
-                src="/images/hero-image.png" 
-                alt="Language Learning - Woman with language flags" 
+              <img
+                src="/images/hero-image.png"
+                alt="Language Learning - Woman with language flags"
                 className="w-full h-auto object-contain"
               />
             </div>

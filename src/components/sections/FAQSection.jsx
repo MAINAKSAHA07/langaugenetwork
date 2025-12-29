@@ -28,10 +28,9 @@ const FAQSection = ({ faqs }) => {
                   {faq.question}
                 </h3>
                 <svg
-                  className={`w-6 h-6 flex-shrink-0 transition-transform duration-300 ${
+                  className={`w-6 h-6 flex-shrink-0 text-accent transition-transform duration-300 ${
                     openIndex === index ? 'rotate-180' : ''
                   }`}
-                  style={{ color: '#1F9F90' }}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -61,8 +60,7 @@ const FAQSection = ({ faqs }) => {
         <div className="text-center mt-12">
           <a
             href="#faqs"
-            className="inline-block text-lg font-semibold hover:underline transition-all duration-300"
-            style={{ color: '#1F9F90' }}
+            className="inline-block text-lg font-semibold text-accent hover:underline transition-all duration-300"
           >
             Read all FAQs
           </a>

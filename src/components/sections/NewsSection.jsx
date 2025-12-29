@@ -8,9 +8,9 @@ const NewsSection = () => {
           {/* Left - HT Logo Card */}
           <div className="lg:col-span-3">
             <div className="bg-white rounded-3xl shadow-lg p-8 flex flex-col items-center justify-center text-center min-h-[300px]">
-              <img 
-                src="/images/news/HT.png" 
-                alt="Hindustan Times" 
+              <img
+                src="/images/news/HT.png"
+                alt="Hindustan Times"
                 className="w-40 h-auto mb-6"
               />
               <h3 className="text-xl font-bold text-gray-800">
@@ -25,9 +25,9 @@ const NewsSection = () => {
           {/* Center - Photo */}
           <div className="lg:col-span-4 flex flex-col items-center justify-center">
             <div className="bg-gray-800 rounded-3xl shadow-xl p-1 overflow-hidden mb-6">
-              <img 
-                src="/images/news/siddhi.png" 
-                alt="Siddhi Chokhani, Co-Founder" 
+              <img
+                src="/images/news/siddhi.png"
+                alt="Siddhi Chokhani, Co-Founder"
                 className="rounded-3xl w-full max-w-sm h-auto object-cover"
               />
             </div>
@@ -44,16 +44,16 @@ const NewsSection = () => {
                 The Language Network Launches its PAN India Expansion Campaign
               </h3>
               <p className="text-gray-700 leading-relaxed text-base mb-6">
-                The institute has recently launched a new and effective Learning Management System 
-                to improve aspects like proper planning, implementing, and assessing students' learning 
-                process. The Language Network has increased its hiring activities and has also set up 
+                The institute has recently launched a new and effective Learning Management System
+                to improve aspects like proper planning, implementing, and assessing students' learning
+                process. The Language Network has increased its hiring activities and has also set up
                 a second workspace.
               </p>
 
               <div>
                 <p className="text-gray-700 text-base">
                   Read our full story{' '}
-                  <a 
+                  <a
                     href="https://www.hindustantimes.com/brand-stories/the-language-network-launches-its-pan-india-expansion-campaign-101659532840850.html"
                     target="_blank"
                     rel="noopener noreferrer"

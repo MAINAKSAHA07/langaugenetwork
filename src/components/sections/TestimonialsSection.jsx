@@ -25,13 +25,13 @@ const TestimonialsSection = () => {
   };
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       (prevIndex + 1) % allTestimonials.length
     );
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? allTestimonials.length - 1 : prevIndex - 1
     );
   };
@@ -48,7 +48,7 @@ const TestimonialsSection = () => {
 
         {/* Mobile Carousel - Single Testimonial */}
         <div className="md:hidden mb-10">
-          <div 
+          <div
             className="bg-white rounded-2xl border-2 overflow-hidden max-w-sm mx-auto"
             style={{ borderColor: '#1F9F90' }}
           >
@@ -63,7 +63,7 @@ const TestimonialsSection = () => {
         {/* Desktop Grid - 2-3 Testimonials */}
         <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-10 transition-all duration-500">
           {currentTestimonials.map((testimonial) => (
-            <div 
+            <div
               key={testimonial.id}
               className="bg-white rounded-2xl border-2 overflow-hidden"
               style={{ borderColor: '#1F9F90' }}

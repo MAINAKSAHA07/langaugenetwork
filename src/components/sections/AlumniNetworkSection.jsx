@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const AlumniNetworkSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   const alumniCompanies = [
     { id: 1, name: 'Amazon', image: '/images/alumni/amazon 1.png' },
     { id: 2, name: 'Deloitte', image: '/images/alumni/deloitte 1.png' },
@@ -12,13 +12,13 @@ const AlumniNetworkSection = () => {
   ];
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       (prevIndex + 1) % alumniCompanies.length
     );
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? alumniCompanies.length - 1 : prevIndex - 1
     );
   };
@@ -71,7 +71,7 @@ const AlumniNetworkSection = () => {
           {/* Desktop Grid - All Logos */}
           <div className="hidden md:flex flex-wrap items-center justify-center gap-6 lg:gap-10 xl:gap-12">
             {alumniCompanies.map((company) => (
-              <div 
+              <div
                 key={company.id}
                 className="flex items-center justify-center"
               >

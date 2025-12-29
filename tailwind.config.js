@@ -17,6 +17,7 @@ export default {
           yellow: '#FFD23F',
           navy: '#0F1B35',
         },
+        accent: '#1F9F90',
       },
       fontFamily: {
         sans: ['Inter', 'Poppins', 'Montserrat', 'sans-serif'],

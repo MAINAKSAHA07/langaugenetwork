@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
-import Button from '../components/common/Button';
+import PaymentMethodsSection from '../components/sections/PaymentMethodsSection';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
-    name: '',
+    fullName: '',
     email: '',
-    phone: '',
-    subject: '',
+    mobile: '',
+    language: '',
     message: ''
   });
 
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [activeField, setActiveField] = useState(null);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Add form submission logic here
+    setLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setLoading(false);
+      setSuccess(true);
+      setFormData({ fullName: '', email: '', mobile: '', language: '', message: '' });
+      setTimeout(() => setSuccess(false), 3000);
+    }, 1500);
   };
 
   const handleChange = (e) => {
@@ -24,207 +34,239 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="py-16 lg:py-20" style={{ backgroundColor: '#1F9F90' }}>
-        <div className="container-custom max-w-6xl text-center">
-          <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6">
-            Contact Us
-          </h1>
-          <p className="text-lg lg:text-xl text-white/90 max-w-3xl mx-auto">
-            Get in touch with us for any queries or support
-          </p>
+    <div className="relative min-h-screen w-full flex flex-col">
+      {/* Main Content Area with Background */}
+      <div className="relative flex-grow flex flex-col justify-center py-20 lg:py-24">
+        {/* Background Image & Overlay */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: "url('/images/contact.png')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-black/60" />
         </div>
-      </section>
 
-      {/* Contact Form Section */}
-      <section className="bg-white py-16 lg:py-20">
-        <div className="container-custom max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div>
-              <h2 className="text-3xl font-bold text-secondary-navy mb-6">Send us a Message</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name *
-                  </label>
+        {/* Content Container */}
+        <div className="relative z-10 container-custom mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white text-center mb-16 tracking-tight drop-shadow-lg">
+            Get In Touch!
+          </h1>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 max-w-7xl mx-auto">
+
+            {/* Left Column - Contact Info */}
+            <div className="bg-white rounded-2xl p-8 md:p-10 shadow-2xl border border-white/20">
+              <h2 className="text-3xl font-bold text-[#1a1a2e] mb-10">Connect with us</h2>
+
+              <div className="space-y-8">
+                {/* Phone */}
+                <div className="flex items-start gap-5 group">
+                  <div className="w-[52px] h-[52px] rounded-full bg-[#E8F7F5] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <svg className="w-6 h-6 text-[#17C3B2]" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.49-5.15-3.8-6.62-6.62l1.97-1.57c.23-.29.35-.63.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3.28 3 3.25 3 4.25c0 9.83 8.16 18 18 18 .99 0 1.03-.65 1.03-1.19v-3.69c0-.55-.45-.99-.99-.99z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-gray-500 mb-1 uppercase tracking-wide">Contact No.</div>
+                    <a href="tel:8369123184" className="text-lg font-bold text-[#333] hover:text-[#17C3B2] transition-colors">
+                      8369123184
+                    </a>
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="flex items-start gap-5 group">
+                  <div className="w-[52px] h-[52px] rounded-full bg-[#E8F7F5] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <svg className="w-6 h-6 text-[#17C3B2]" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-gray-500 mb-1 uppercase tracking-wide">Mail</div>
+                    <a href="mailto:info@thelanguagenetwork.com" className="text-lg font-bold text-[#333] hover:text-[#17C3B2] transition-colors break-all">
+                      info@thelanguagenetwork.com
+                    </a>
+                  </div>
+                </div>
+
+                {/* Business Hours */}
+                <div className="flex items-start gap-5 group">
+                  <div className="w-[52px] h-[52px] rounded-full bg-[#E8F7F5] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <svg className="w-6 h-6 text-[#17C3B2]" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-gray-500 mb-1 uppercase tracking-wide">Business Hours</div>
+                    <div className="text-lg font-bold text-[#333]">10:00 am to 7:00 pm</div>
+                  </div>
+                </div>
+
+                {/* Support Days */}
+                <div className="flex items-start gap-5 group">
+                  <div className="w-[52px] h-[52px] rounded-full bg-[#E8F7F5] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <svg className="w-6 h-6 text-[#17C3B2]" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-gray-500 mb-1 uppercase tracking-wide">Support Days</div>
+                    <div className="text-lg font-bold text-[#333]">Monday to Saturday</div>
+                  </div>
+                </div>
+
+                {/* Opening Hours */}
+                <div className="flex items-start gap-5 group">
+                  <div className="w-[52px] h-[52px] rounded-full bg-[#E8F7F5] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <svg className="w-6 h-6 text-[#17C3B2]" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-gray-500 mb-1 uppercase tracking-wide">Opening Hours</div>
+                    <div className="text-lg font-bold text-[#333]">10:00 am to 7:00 pm</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Form */}
+            <div className="bg-white rounded-2xl p-8 md:p-12 shadow-2xl border border-white/20">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+
+                {/* Full Name */}
+                <div className="relative">
                   <input
                     type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
+                    name="fullName"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-opacity-50 outline-none transition-all"
-                    style={{ focusRing: '#1F9F90' }}
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    onFocus={() => setActiveField('fullName')}
+                    onBlur={() => setActiveField(null)}
+                    placeholder="Full Name"
+                    className={`w-full px-5 py-4 border rounded-lg text-base outline-none transition-all placeholder:text-gray-400
+                      ${activeField === 'fullName' ? 'border-[#17C3B2] ring-4 ring-[#17C3B2]/10' : 'border-[#ddd]'}
+                    `}
                   />
                 </div>
 
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address *
-                  </label>
+                {/* Email */}
+                <div className="relative">
                   <input
                     type="email"
-                    id="email"
                     name="email"
+                    required
                     value={formData.email}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-opacity-50 outline-none transition-all"
+                    onFocus={() => setActiveField('email')}
+                    onBlur={() => setActiveField(null)}
+                    placeholder="Email ID"
+                    className={`w-full px-5 py-4 border rounded-lg text-base outline-none transition-all placeholder:text-gray-400
+                      ${activeField === 'email' ? 'border-[#17C3B2] ring-4 ring-[#17C3B2]/10' : 'border-[#ddd]'}
+                    `}
                   />
                 </div>
 
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                    Phone Number
-                  </label>
+                {/* Mobile */}
+                <div className="relative">
                   <input
                     type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-opacity-50 outline-none transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                    Subject *
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
+                    name="mobile"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-opacity-50 outline-none transition-all"
+                    value={formData.mobile}
+                    onChange={handleChange}
+                    onFocus={() => setActiveField('mobile')}
+                    onBlur={() => setActiveField(null)}
+                    placeholder="Mobile Number"
+                    className={`w-full px-5 py-4 border rounded-lg text-base outline-none transition-all placeholder:text-gray-400
+                      ${activeField === 'mobile' ? 'border-[#17C3B2] ring-4 ring-[#17C3B2]/10' : 'border-[#ddd]'}
+                    `}
                   />
                 </div>
 
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Message *
-                  </label>
+                {/* Language Dropdown */}
+                <div className="relative">
+                  <select
+                    name="language"
+                    required
+                    value={formData.language}
+                    onChange={handleChange}
+                    onFocus={() => setActiveField('language')}
+                    onBlur={() => setActiveField(null)}
+                    className={`w-full px-5 py-4 border rounded-lg text-base outline-none transition-all appearance-none cursor-pointer bg-transparent
+                      ${activeField === 'language' ? 'border-[#17C3B2] ring-4 ring-[#17C3B2]/10' : 'border-[#ddd]'}
+                      ${formData.language ? 'text-gray-900' : 'text-gray-400'}
+                    `}
+                  >
+                    <option value="" disabled>Preferred Language To Learn With Us</option>
+                    <option value="French">French</option>
+                    <option value="German">German</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="English">English</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Korean">Korean</option>
+                    <option value="Mandarin">Mandarin</option>
+                  </select>
+                  <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <svg className={`w-5 h-5 text-[#17C3B2] transition-transform ${activeField === 'language' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div className="relative">
                   <textarea
-                    id="message"
                     name="message"
+                    rows="4"
                     value={formData.message}
                     onChange={handleChange}
-                    required
-                    rows="5"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-opacity-50 outline-none transition-all resize-none"
+                    onFocus={() => setActiveField('message')}
+                    onBlur={() => setActiveField(null)}
+                    placeholder="Message"
+                    className={`w-full px-5 py-4 border rounded-lg text-base outline-none transition-all placeholder:text-gray-400 resize-y min-h-[140px]
+                      ${activeField === 'message' ? 'border-[#17C3B2] ring-4 ring-[#17C3B2]/10' : 'border-[#ddd]'}
+                    `}
                   ></textarea>
                 </div>
 
-                <Button
+                {/* Submit Button */}
+                <button
                   type="submit"
-                  size="large"
-                  className="w-full text-white px-8 py-4 text-lg font-semibold"
-                  style={{ backgroundColor: '#1F9F90' }}
+                  disabled={loading}
+                  className={`mt-2 w-full sm:w-auto px-10 py-4 rounded-lg border-2 font-bold text-base transition-all transform hover:-translate-y-1 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none select-none
+                    ${success
+                      ? 'bg-[#2ECC71] border-[#2ECC71] text-white'
+                      : 'border-[#17C3B2] text-[#17C3B2] hover:bg-[#17C3B2] hover:text-white'
+                    }
+                  `}
                 >
-                  Send Message
-                </Button>
+                  {loading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Sending...
+                    </span>
+                  ) : success ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                      Sent Successfully!
+                    </span>
+                  ) : 'Send enquiry'}
+                </button>
+
               </form>
-            </div>
-
-            {/* Contact Information */}
-            <div>
-              <h2 className="text-3xl font-bold text-secondary-navy mb-6">Get in Touch</h2>
-              <div className="space-y-6">
-                {/* Email */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#1F9F90' }}>
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">Email</h3>
-                    <a href="mailto:contact@thelanguagenetwork.co" className="text-gray-600 hover:text-accent transition-colors">
-                      contact@thelanguagenetwork.co
-                    </a>
-                  </div>
-                </div>
-
-                {/* Phone */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#1F9F90' }}>
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">Phone</h3>
-                    <a href="tel:+1234567890" className="text-gray-600 hover:text-accent transition-colors">
-                      +1 (234) 567-890
-                    </a>
-                  </div>
-                </div>
-
-                {/* Location */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#1F9F90' }}>
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">Location</h3>
-                    <p className="text-gray-600">
-                      The Language Network<br />
-                      Online Language Learning Platform
-                    </p>
-                  </div>
-                </div>
-
-                {/* Working Hours */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#1F9F90' }}>
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">Working Hours</h3>
-                    <p className="text-gray-600">
-                      Monday - Saturday: 9:00 AM - 8:00 PM<br />
-                      Sunday: 10:00 AM - 6:00 PM
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Social Media */}
-              <div className="mt-10">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Follow Us</h3>
-                <div className="flex gap-3">
-                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full flex items-center justify-center text-white transition-all hover:brightness-110" style={{ backgroundColor: '#1F9F90' }}>
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                    </svg>
-                  </a>
-                  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full flex items-center justify-center text-white transition-all hover:brightness-110" style={{ backgroundColor: '#1F9F90' }}>
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z" />
-                      <path d="M12 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                    </svg>
-                  </a>
-                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full flex items-center justify-center text-white transition-all hover:brightness-110" style={{ backgroundColor: '#1F9F90' }}>
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Payment Methods Section - Outside the BG to avoid weird overlay issues, acts as a solid strip at bottom */}
+      <PaymentMethodsSection />
     </div>
   );
 };

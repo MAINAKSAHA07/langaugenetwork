@@ -12,7 +12,7 @@ import LevelsPage from './pages/LevelsPage';
 import SchoolPage from './pages/SchoolPage';
 import CollegePage from './pages/CollegePage';
 import StudyAbroadPage from './pages/StudyAbroadPage';
-import CorporateTrainingPage from './pages/CorporateTrainingPage';
+import CorporatePage from './pages/CorporatePage';
 import WorkWithUsPage from './pages/WorkWithUsPage';
 // About Pages
 import WhoAreWePage from './pages/WhoAreWePage';
@@ -24,7 +24,7 @@ import FAQPage from './pages/FAQPage';
 import TeachPage from './pages/careers/TeachPage';
 import CollaboratePage from './pages/careers/CollaboratePage';
 import ContentCreatorsPage from './pages/careers/ContentCreatorsPage';
-import ReferPage from './pages/careers/ReferPage';
+import ReferAndEarnPage from './pages/ReferAndEarnPage';
 // Legal Pages
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
@@ -52,7 +52,7 @@ function App() {
             <Route path="/school" element={<SchoolPage />} />
             <Route path="/college" element={<CollegePage />} />
             <Route path="/study-abroad" element={<StudyAbroadPage />} />
-            <Route path="/corporate-training" element={<CorporateTrainingPage />} />
+            <Route path="/corporate-training" element={<CorporatePage />} />
             <Route path="/work-with-us" element={<WorkWithUsPage />} />
 
             {/* About Pages */}
@@ -66,7 +66,7 @@ function App() {
             <Route path="/careers/teach" element={<TeachPage />} />
             <Route path="/careers/collaborate" element={<CollaboratePage />} />
             <Route path="/careers/content-creators" element={<ContentCreatorsPage />} />
-            <Route path="/careers/refer" element={<ReferPage />} />
+            <Route path="/careers/refer" element={<ReferAndEarnPage />} />
 
             {/* Legal Pages */}
             <Route path="/terms" element={<TermsPage />} />

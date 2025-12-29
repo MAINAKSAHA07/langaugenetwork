@@ -25,7 +25,7 @@ const Header = ({ onDemoClick }) => {
             <img
               src="/images/TLN_logo-01.png"
               alt="The Language Network"
-              className="h-12 md:h-16 lg:h-20 w-auto object-contain"
+              className="h-16 md:h-20 lg:h-24 w-auto object-contain"
             />
           </Link>
 
@@ -89,10 +89,10 @@ const Header = ({ onDemoClick }) => {
 
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-3">
-            <Button onClick={onDemoClick} className="bg-accent text-white hover:brightness-110 transition-all">
+            <Button onClick={onDemoClick} className="text-white hover:scale-100 hover:shadow-none" style={{ backgroundColor: '#1F9F90' }}>
               Get Started
             </Button>
-            <Button variant="secondary" className="border-2 border-accent text-accent bg-white transition-all hover:bg-accent hover:text-white">
+            <Button variant="secondary" className="bg-white hover:scale-100 hover:shadow-none transition-all" style={{ borderColor: '#1F9F90', color: '#1F9F90', borderWidth: '2px' }}>
               Already Booked a Class
             </Button>
           </div>
@@ -161,10 +161,10 @@ const Header = ({ onDemoClick }) => {
               <Link to="/work-with-us" className="text-gray-700 hover:text-accent transition-colors" onClick={() => setMobileMenuOpen(false)}>
                 Work with us
               </Link>
-              <Button onClick={() => { onDemoClick(); setMobileMenuOpen(false); }} className="mt-2 bg-accent text-white">
+              <Button onClick={() => { onDemoClick(); setMobileMenuOpen(false); }} className="mt-2 text-white hover:scale-100 hover:shadow-none" style={{ backgroundColor: '#1F9F90' }}>
                 Get Started
               </Button>
-              <Button onClick={() => { onDemoClick(); setMobileMenuOpen(false); }} variant="outline" className="bg-white border-2 border-accent text-accent hover:bg-accent hover:text-white transition-all">
+              <Button onClick={() => { onDemoClick(); setMobileMenuOpen(false); }} variant="outline" className="bg-white hover:scale-100 hover:shadow-none transition-all" style={{ borderColor: '#1F9F90', color: '#1F9F90', borderWidth: '2px' }}>
                 Already Booked a Class
               </Button>
             </div>

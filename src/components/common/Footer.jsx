@@ -70,17 +70,17 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Languages to Study Abroad */}
+          {/* Study Abroad */}
           <div>
-            <h4 className="font-bold text-black text-sm mb-3">Languages to Study Abroad</h4>
+            <h4 className="font-bold text-black text-sm mb-3">Study Abroad</h4>
             <ul className="space-y-1.5 text-sm">
-              <li><Link to="/french/study-abroad" className="hover:text-accent transition-colors">Online French Classes to Study Abroad</Link></li>
-              <li><Link to="/german/study-abroad" className="hover:text-accent transition-colors">Online German Classes to Study Abroad</Link></li>
-              <li><Link to="/spanish/study-abroad" className="hover:text-accent transition-colors">Online Spanish Classes to Study Abroad</Link></li>
-              <li><Link to="/korean/study-abroad" className="hover:text-accent transition-colors">Online Korean Classes to Study Abroad</Link></li>
-              <li><Link to="/japanese/study-abroad" className="hover:text-accent transition-colors">Online Japanese Classes to Study Abroad</Link></li>
-              <li><Link to="/mandarin/study-abroad" className="hover:text-accent transition-colors">Online Mandarin Classes to Study Abroad</Link></li>
-              <li><Link to="/english/study-abroad" className="hover:text-accent transition-colors">Online English Classes to Study Abroad</Link></li>
+              <li><Link to="/study-abroad" className="hover:text-accent transition-colors">Study Abroad Programs</Link></li>
+              <li><Link to="/french" className="hover:text-accent transition-colors">French for Study Abroad</Link></li>
+              <li><Link to="/german" className="hover:text-accent transition-colors">German for Study Abroad</Link></li>
+              <li><Link to="/spanish" className="hover:text-accent transition-colors">Spanish for Study Abroad</Link></li>
+              <li><Link to="/korean" className="hover:text-accent transition-colors">Korean for Study Abroad</Link></li>
+              <li><Link to="/japanese" className="hover:text-accent transition-colors">Japanese for Study Abroad</Link></li>
+              <li><Link to="/mandarin" className="hover:text-accent transition-colors">Mandarin for Study Abroad</Link></li>
             </ul>
           </div>
 

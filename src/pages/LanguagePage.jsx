@@ -10,6 +10,108 @@ const LanguagePage = () => {
   const data = languageData[language] || languageData.french;
   const [onDemoClick] = useState(() => () => { });
 
+  // State for mobile carousels
+  const [currentClassIndex, setCurrentClassIndex] = useState(0);
+  const [currentGoalIndex, setCurrentGoalIndex] = useState(0);
+  const [currentExamIndex, setCurrentExamIndex] = useState(0);
+  const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
+  const [currentReasonIndex, setCurrentReasonIndex] = useState(0);
+
+  // Data Arrays
+  const classesData = [
+    {
+      image: data.kidsImage,
+      title: `${data.name} Classes for Kids`,
+      description: "Dive into French fun with interactive online classes designed to spark excitement and curiosity in young learners!"
+    },
+    {
+      image: data.adultImage,
+      title: `${data.name} Classes for Adults`,
+      description: "Embark on a journey to French fluency with dynamic online classes tailored to fit your busy lifestyle and ignite your passion for language learning!"
+    },
+    {
+      image: data.abroadImage,
+      title: `${data.name} Classes to Study Abroad`,
+      description: "Prepare for your French adventure with immersive online classes that will equip you with the language skills and cultural insights needed to thrive abroad!"
+    }
+  ];
+
+  const goalsData = [
+    {
+      image: data.schoolImage,
+      title: `${data.name} Classes for School`,
+      description: "Spark excitement with our online French classes for kids! Whether it's curriculum-based or as a hobby, we make learning engaging and enjoyable."
+    },
+    {
+      image: data.collegeImage,
+      title: `${data.name} Classes for College`,
+      description: "Dive into French fluency with our flexible online classes tailored to fit your college schedule. Explore the language, culture, and opportunities that await!"
+    },
+    {
+      image: data.corporateImage,
+      title: `${data.name} Classes for Corporate`,
+      description: "Elevate your French skills with our customized online classes. Whether you're an individual seeking personal growth or a company fostering a global mindset, we're here to help you thrive!",
+      trending: true
+    }
+  ];
+
+  const levelsData = [
+    {
+      level: "A1-A2",
+      title: "Beginner Classes",
+      description: `Start your ${data.name} language journey with our engaging online classes designed for beginners. Learn fundamental grammar, vocabulary, and practical conversation skills at your own pace with our expert instructors' guidance.`
+    },
+    {
+      level: "B1-B2",
+      title: "Intermediate Classes",
+      description: `Elevate your ${data.name} proficiency with our online intermediate classes. Refine pronunciation, expand vocabulary, and master complex grammar structures to confidently engage in conversations and express yourself fluently.`
+    },
+    {
+      level: "C1-C2",
+      title: "Advanced Classes",
+      description: `Advance your ${data.name} skills to the highest level with our online advanced classes. Enhance your conversational abilities, master complex grammar, and increase career prospects with fluent proficiency in ${data.name}.`
+    }
+  ];
+
+  // Helper for Carousel Navigation
+  const getNav = (currentIndex, setIndex, length) => ({
+    next: () => setIndex((prev) => (prev + 1) % length),
+    prev: () => setIndex((prev) => (prev === 0 ? length - 1 : prev - 1)),
+  });
+
+  const classNav = getNav(currentClassIndex, setCurrentClassIndex, classesData.length);
+  const goalNav = getNav(currentGoalIndex, setCurrentGoalIndex, goalsData.length);
+  const examNav = getNav(currentExamIndex, setCurrentExamIndex, data.exams.length);
+  const levelNav = getNav(currentLevelIndex, setCurrentLevelIndex, levelsData.length);
+  const reasonNav = getNav(currentReasonIndex, setCurrentReasonIndex, data.whyLearn.reasons.length);
+
+  // Reusable Carousel Controls Component
+  const CarouselControls = ({ onPrev, onNext }) => (
+    <div className="flex justify-center items-center gap-4 mt-8">
+      <button
+        onClick={onPrev}
+        className="w-14 h-14 rounded-xl border-2 flex items-center justify-center transition-all duration-300 hover:shadow-lg"
+        style={{ borderColor: '#1F9F90', color: '#1F9F90' }}
+        aria-label="Previous"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <button
+        onClick={onNext}
+        className="w-14 h-14 rounded-xl border-2 flex items-center justify-center transition-all duration-300 hover:shadow-lg"
+        style={{ borderColor: '#1F9F90', color: '#1F9F90' }}
+        aria-label="Next"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  );
+
   return (
     <div className="bg-white">
       {/* SECTION 1: HERO SECTION */}
@@ -27,7 +129,7 @@ const LanguagePage = () => {
               <Button
                 onClick={onDemoClick}
                 size="large"
-                className="text-white px-8 md:px-10 py-3 md:py-4 text-base md:text-lg font-semibold"
+                className="text-white px-8 md:px-10 py-3 md:py-4 text-base md:text-lg font-semibold hover:scale-100 hover:shadow-none"
                 style={{ backgroundColor: '#1F9F90' }}
               >
                 Get started
@@ -35,7 +137,7 @@ const LanguagePage = () => {
             </div>
 
             {/* Right Side - Hero Image */}
-            <div className="order-1 lg:order-2 relative -mt-4 lg:-mt-8">
+            <div className="order-1 lg:order-2 relative -mt-12 lg:-mt-8">
               <div className="relative w-full max-w-xl mx-auto">
                 <img
                   src={data.heroImage}
@@ -61,29 +163,23 @@ const LanguagePage = () => {
           {/* Mobile Carousel */}
           <div className="md:hidden">
             <ClassCard
-              image={data.kidsImage}
-              title={`${data.name} Classes for Kids`}
-              description="Dive into French fun with interactive online classes designed to spark excitement and curiosity in young learners!"
+              image={classesData[currentClassIndex].image}
+              title={classesData[currentClassIndex].title}
+              description={classesData[currentClassIndex].description}
             />
+            <CarouselControls onPrev={classNav.prev} onNext={classNav.next} />
           </div>
 
           {/* Desktop Grid */}
           <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            <ClassCard
-              image={data.kidsImage}
-              title={`${data.name} Classes for Kids`}
-              description="Dive into French fun with interactive online classes designed to spark excitement and curiosity in young learners!"
-            />
-            <ClassCard
-              image={data.adultImage}
-              title={`${data.name} Classes for Adults`}
-              description="Embark on a journey to French fluency with dynamic online classes tailored to fit your busy lifestyle and ignite your passion for language learning!"
-            />
-            <ClassCard
-              image={data.abroadImage}
-              title={`${data.name} Classes to Study Abroad`}
-              description="Prepare for your French adventure with immersive online classes that will equip you with the language skills and cultural insights needed to thrive abroad!"
-            />
+            {classesData.map((item, index) => (
+              <ClassCard
+                key={index}
+                image={item.image}
+                title={item.title}
+                description={item.description}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -98,29 +194,25 @@ const LanguagePage = () => {
           {/* Mobile Carousel */}
           <div className="md:hidden">
             <GoalCard
-              image={data.schoolImage}
-              title={`${data.name} Classes for School`}
-              description="Spark excitement with our online French classes for kids! Whether it's curriculum-based or as a hobby, we make learning engaging and enjoyable."
+              image={goalsData[currentGoalIndex].image}
+              title={goalsData[currentGoalIndex].title}
+              description={goalsData[currentGoalIndex].description}
+              trending={goalsData[currentGoalIndex].trending}
             />
+            <CarouselControls onPrev={goalNav.prev} onNext={goalNav.next} />
           </div>
 
           {/* Desktop Grid */}
           <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            <GoalCard
-              image={data.schoolImage}
-              title={`${data.name} Classes for School`}
-              description="Spark excitement with our online French classes for kids! Whether it's curriculum-based or as a hobby, we make learning engaging and enjoyable."
-            />
-            <GoalCard
-              image={data.collegeImage}
-              title={`${data.name} Classes for College`}
-              description="Dive into French fluency with our flexible online classes tailored to fit your college schedule. Explore the language, culture, and opportunities that await!"
-            />
-            <GoalCard
-              image={data.corporateImage}
-              title={`${data.name} Classes for Corporate`}
-              description="Elevate your French skills with our customized online classes. Whether you're an individual seeking personal growth or a company fostering a global mindset, we're here to help you thrive!"
-            />
+            {goalsData.map((item, index) => (
+              <GoalCard
+                key={index}
+                image={item.image}
+                title={item.title}
+                description={item.description}
+                trending={item.trending}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -134,8 +226,11 @@ const LanguagePage = () => {
 
           {/* Mobile Carousel */}
           <div className="md:hidden">
-            {data.exams[0] && (
-              <ExamCard exam={data.exams[0]} />
+            {data.exams.length > 0 && (
+              <>
+                <ExamCard exam={data.exams[currentExamIndex]} />
+                <CarouselControls onPrev={examNav.prev} onNext={examNav.next} />
+              </>
             )}
           </div>
 
@@ -158,33 +253,25 @@ const LanguagePage = () => {
           {/* Mobile Carousel */}
           <div className="md:hidden">
             <LevelCard
-              level="A1-A2"
-              title="Beginner Classes"
-              description={`Start your ${data.name} language journey with our engaging online classes designed for beginners. Learn fundamental grammar, vocabulary, and practical conversation skills at your own pace with our expert instructors' guidance.`}
+              level={levelsData[currentLevelIndex].level}
+              title={levelsData[currentLevelIndex].title}
+              description={levelsData[currentLevelIndex].description}
               onBookDemo={onDemoClick}
             />
+            <CarouselControls onPrev={levelNav.prev} onNext={levelNav.next} />
           </div>
 
           {/* Desktop Grid */}
           <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            <LevelCard
-              level="A1-A2"
-              title="Beginner Classes"
-              description={`Start your ${data.name} language journey with our engaging online classes designed for beginners. Learn fundamental grammar, vocabulary, and practical conversation skills at your own pace with our expert instructors' guidance.`}
-              onBookDemo={onDemoClick}
-            />
-            <LevelCard
-              level="B1-B2"
-              title="Intermediate Classes"
-              description={`Elevate your ${data.name} proficiency with our online intermediate classes. Refine pronunciation, expand vocabulary, and master complex grammar structures to confidently engage in conversations and express yourself fluently.`}
-              onBookDemo={onDemoClick}
-            />
-            <LevelCard
-              level="C1-C2"
-              title="Advanced Classes"
-              description={`Advance your ${data.name} skills to the highest level with our online advanced classes. Enhance your conversational abilities, master complex grammar, and increase career prospects with fluent proficiency in ${data.name}.`}
-              onBookDemo={onDemoClick}
-            />
+            {levelsData.map((item, index) => (
+              <LevelCard
+                key={index}
+                level={item.level}
+                title={item.title}
+                description={item.description}
+                onBookDemo={onDemoClick}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -198,13 +285,11 @@ const LanguagePage = () => {
 
           {/* Mobile Stack */}
           <div className="md:hidden space-y-4 mb-8">
-            {data.whyLearn.reasons.map((reason, index) => (
-              <ReasonCard
-                key={index}
-                title={reason.title}
-                description={reason.description}
-              />
-            ))}
+            <ReasonCard
+              title={data.whyLearn.reasons[currentReasonIndex].title}
+              description={data.whyLearn.reasons[currentReasonIndex].description}
+            />
+            <CarouselControls onPrev={reasonNav.prev} onNext={reasonNav.next} />
           </div>
 
           {/* Desktop Layout with Diagram */}
@@ -330,16 +415,6 @@ const LanguagePage = () => {
               </div>
             </div>
           </div>
-
-          <div className="text-center mt-12">
-            <a
-              href="#more"
-              className="inline-block text-lg font-semibold hover:underline transition-all duration-300"
-              style={{ color: '#1F9F90' }}
-            >
-              Read more
-            </a>
-          </div>
         </div>
       </section>
 
@@ -354,8 +429,9 @@ const LanguagePage = () => {
           </p>
           <Button
             onClick={onDemoClick}
-            className="bg-white text-[#1F9F90] hover:bg-gray-100 px-12 py-4 text-lg font-semibold"
+            className="px-12 py-4 text-lg font-semibold hover:scale-100 hover:shadow-none"
             size="large"
+            style={{ backgroundColor: 'white', color: '#f4f4f4ff' }}
           >
             Get started today
           </Button>
@@ -460,7 +536,7 @@ const LevelCard = ({ level, title, description, onBookDemo }) => (
         {title}
       </h4>
     </div>
-    
+
     {/* White Content Area */}
     <div className="p-8 md:p-10 text-center">
       <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8">

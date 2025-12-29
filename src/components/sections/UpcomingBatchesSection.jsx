@@ -110,8 +110,8 @@ const UpcomingBatchesSection = () => {
               key={month}
               onClick={() => setSelectedMonth(month)}
               className={`px-5 md:px-8 py-2.5 md:py-3 rounded-lg font-medium transition-all duration-300 text-sm md:text-base ${selectedMonth === month
-                  ? 'text-white shadow-lg'
-                  : 'bg-white text-gray-600 hover:bg-gray-100'
+                ? 'text-white shadow-lg'
+                : 'bg-white text-gray-600 hover:bg-gray-100'
                 }`}
               style={selectedMonth === month ? { backgroundColor: '#1F9F90' } : {}}
             >
@@ -137,19 +137,11 @@ const UpcomingBatchesSection = () => {
                       />
                     ))}
                   </div>
-                  {/* Trainer Image Placeholder */}
-                  <div className="absolute inset-0 flex items-end justify-center pb-0">
-                    <div className="w-40 h-56 bg-gray-200/50 rounded-t-full" />
-                  </div>
                 </div>
 
                 {/* Batch Details */}
                 <div className="p-5">
-                  {/* Trainer Info */}
-                  <h3 className="text-lg font-bold text-gray-900 mb-1">
-                    {currentBatches[currentIndex].trainerName}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">{currentBatches[currentIndex].trainerRole}</p>
+                  {/* Batch Info */}
 
                   {/* Batch Info */}
                   <div className="space-y-2.5 mb-5">
@@ -232,20 +224,10 @@ const UpcomingBatchesSection = () => {
                     />
                   ))}
                 </div>
-                {/* Trainer Image Placeholder */}
-                <div className="absolute inset-0 flex items-end justify-center pb-0">
-                  <div className="w-48 h-64 bg-gray-200/50 rounded-t-full" />
-                </div>
               </div>
 
               {/* Batch Details */}
               <div className="p-6">
-                {/* Trainer Info */}
-                <h3 className="text-xl font-bold text-gray-900 mb-1">
-                  {batch.trainerName}
-                </h3>
-                <p className="text-gray-600 mb-4">{batch.trainerRole}</p>
-
                 {/* Batch Info */}
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between items-center">

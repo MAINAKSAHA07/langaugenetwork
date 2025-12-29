@@ -8,7 +8,8 @@ const Button = ({
   onClick,
   type = 'button',
   disabled = false,
-  icon = false
+  icon = false,
+  ...props
 }) => {
   const baseStyles = 'font-medium rounded-button transition-all duration-300 inline-flex items-center justify-center gap-2';
 
@@ -29,9 +30,9 @@ const Button = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className} ${
-        disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
-      }`}
+      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className} ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+        }`}
+      {...props}
     >
       {children}
       {icon && (

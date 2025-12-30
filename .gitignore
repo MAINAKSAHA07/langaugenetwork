@@ -25,3 +25,11 @@ dist-ssr
 
 # Local Netlify folder
 .netlify
+
+# PocketBase
+backend/pb_data/*
+!backend/pb_data/.gitkeep
+backend/pb_migrations/
+
+# Docker
+.docker/

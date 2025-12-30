@@ -5,11 +5,21 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "backend": "docker-compose up pocketbase",
+    "backend:build": "docker-compose build pocketbase",
+    "backend:down": "docker-compose down",
+    "backend:logs": "docker-compose logs -f pocketbase",
+    "dev:all": "concurrently \"npm run dev\" \"npm run backend\"",
+    "pb:setup": "node backend/scripts/setup-collections.cjs",
+    "pb:seed": "node backend/scripts/seed-data.cjs",
+    "pb:reset": "npm run backend:down && rm -rf backend/pb_data/data.db* && npm run backend",
+    "pb:init": "npm run pb:setup && npm run pb:seed",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "pocketbase": "^0.21.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.11.0"
@@ -20,6 +30,8 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10.4.23",
+    "concurrently": "^9.2.1",
+    "dotenv": "^16.6.1",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",

@@ -5,6 +5,7 @@ import NewsSection from '../components/sections/NewsSection';
 import InternationalExamsSection from '../components/sections/InternationalExamsSection';
 import PaymentMethodsSection from '../components/sections/PaymentMethodsSection';
 import TestimonialsSection from '../components/sections/TestimonialsSection';
+import { submitCorporateEnrollment } from '../api/forms';
 
 // --- Reused/Local Components ---
 
@@ -116,6 +117,17 @@ const CorporatePage = () => {
     const [currentAlumniIndex, setCurrentAlumniIndex] = useState(0); // Alumni Carousel
     const [openFAQ, setOpenFAQ] = useState(0);
 
+    // Form state
+    const [formData, setFormData] = useState({
+        fullName: '',
+        contactNo: '',
+        designation: '',
+        email: '',
+        companyName: '',
+        languageInterest: ''
+    });
+    const [loading, setLoading] = useState(false);
+
     // --- Data ---
     const howItWorksSteps = [
         { id: 1, description: "Connect with us to share your needs and preferences", image: "/images/hero/Rectangle 477.png" },
@@ -149,6 +161,33 @@ const CorporatePage = () => {
     ];
 
     // --- Handlers ---
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+
+        const result = await submitCorporateEnrollment(formData);
+
+        if (result.success) {
+            alert('Enrollment inquiry sent successfully! We will contact you soon.');
+            setFormData({
+                fullName: '',
+                contactNo: '',
+                designation: '',
+                email: '',
+                companyName: '',
+                languageInterest: ''
+            });
+        } else {
+            alert('Submission failed: ' + result.error);
+        }
+
+        setLoading(false);
+    };
+
     const getVisibleFacts = () => {
         const visibleInfo = [];
         const count = 3;
@@ -387,21 +426,79 @@ const CorporatePage = () => {
                         </div>
                         <div>
                             <p className="text-gray-600 mb-8">Fill out the form below to become part of our vibrant community.</p>
-                            <form className="space-y-4">
+                            <form onSubmit={handleSubmit} className="space-y-4">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="text" placeholder="Your Full Name" className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F9F90]" />
-                                    <input type="text" placeholder="Official Contact No." className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F9F90]" />
+                                    <input
+                                        type="text"
+                                        name="fullName"
+                                        value={formData.fullName}
+                                        onChange={handleChange}
+                                        placeholder="Your Full Name"
+                                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F9F90]"
+                                        required
+                                    />
+                                    <input
+                                        type="text"
+                                        name="contactNo"
+                                        value={formData.contactNo}
+                                        onChange={handleChange}
+                                        placeholder="Official Contact No."
+                                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F9F90]"
+                                        required
+                                    />
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="text" placeholder="Your Designation" className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F9F90]" />
-                                    <input type="email" placeholder="Official Email ID" className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F9F90]" />
+                                    <input
+                                        type="text"
+                                        name="designation"
+                                        value={formData.designation}
+                                        onChange={handleChange}
+                                        placeholder="Your Designation"
+                                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F9F90]"
+                                        required
+                                    />
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        placeholder="Official Email ID"
+                                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F9F90]"
+                                        required
+                                    />
                                 </div>
-                                <input type="text" placeholder="Company's Name" className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F9F90]" />
-                                <select className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F9F90] text-gray-500">
-                                    <option>Language You're Looking to Introduce</option>
-                                    <option>French</option><option>German</option><option>Spanish</option>
+                                <input
+                                    type="text"
+                                    name="companyName"
+                                    value={formData.companyName}
+                                    onChange={handleChange}
+                                    placeholder="Company's Name"
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F9F90]"
+                                    required
+                                />
+                                <select
+                                    name="languageInterest"
+                                    value={formData.languageInterest}
+                                    onChange={handleChange}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1F9F90] text-gray-500"
+                                    required
+                                >
+                                    <option value="">Language You're Looking to Introduce</option>
+                                    <option value="French">French</option>
+                                    <option value="German">German</option>
+                                    <option value="Spanish">Spanish</option>
+                                    <option value="English">English</option>
+                                    <option value="Japanese">Japanese</option>
+                                    <option value="Korean">Korean</option>
+                                    <option value="Mandarin">Mandarin</option>
                                 </select>
-                                <button className="bg-[#1F9F90] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#14A89A] transition-colors">Send enquiry</button>
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="bg-[#1F9F90] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#14A89A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {loading ? 'Sending...' : 'Send enquiry'}
+                                </button>
                             </form>
                         </div>
                     </div>

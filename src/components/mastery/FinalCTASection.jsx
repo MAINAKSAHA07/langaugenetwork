@@ -35,7 +35,7 @@ const FinalCTASection = () => {
                     <div className="text-center mt-[40px] mb-[32px]">
                         <p className="text-[20px] text-gray-500 line-through mb-2">Total Value: ₹1,20,500</p>
                         <p className="text-[18px] text-gray-700 mb-4">Get Everything For:</p>
-                        <p className="text-[56px] md:text-[64px] font-[800] text-[#17C3B2]">₹4,999</p> {/* Placeholder Price */}
+                        <p className="text-[56px] md:text-[64px] font-[800] text-[#17C3B2]">₹2,799</p> {/* Placeholder Price */}
                     </div>
 
                     <div className="text-center">

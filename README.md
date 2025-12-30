@@ -1,183 +1,305 @@
-# The Language Network - React Application
+# The Language Network
 
-A modern, responsive language learning platform built with React, Vite, and TailwindCSS.
+A modern language learning platform built with React, Vite, and PocketBase.
 
-## Features
-
-- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
-- **Modern UI**: Clean, professional design with smooth animations and transitions
-- **Multi-language Support**: Pages for French, German, Spanish, English, Japanese, Korean, and Mandarin
-- **Interactive Components**:
-  - Login form with authentication
-  - Demo booking modal
-  - Upcoming batches carousel
-  - Language selection dropdown
-  - Floating WhatsApp and phone CTAs
-- **Comprehensive Sections**:
-  - Hero section with login
-  - Statistics bar
-  - Why Learn With Us (8 feature cards)
-  - Courses offered
-  - Upcoming batches carousel
-  - Language-specific pages
-  - CEFR levels information
-
-## Tech Stack
-
-- **React 18**: Modern React with hooks
-- **Vite**: Fast build tool and development server
-- **React Router**: Client-side routing
-- **TailwindCSS**: Utility-first CSS framework
-- **Custom Components**: Reusable UI components
-
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-
-- Node.js (v14 or higher)
+- Node.js (v16 or higher)
 - npm or yarn
 
 ### Installation
 
-1. Navigate to the project directory:
+1. **Clone and install dependencies**:
    ```bash
    cd language-network
-   ```
-
-2. Install dependencies (if not already installed):
-   ```bash
    npm install
    ```
 
-3. Start the development server:
+2. **Start the application**:
    ```bash
-   npm run dev
+   npm run dev:all
    ```
+   This starts both frontend (port 5173) and backend (port 8098).
 
-4. Open your browser and visit:
-   ```
-   http://localhost:5173
-   ```
+3. **Access the application**:
+   - **Frontend**: http://localhost:5173
+   - **Admin Panel**: http://localhost:5173/admin/login
+   - **PocketBase Admin**: http://127.0.0.1:8098/_/
 
-### Build for Production
+---
 
-```bash
-npm run build
-```
-
-The production-ready files will be in the `dist` directory.
-
-### Preview Production Build
-
-```bash
-npm run preview
-```
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 language-network/
-├── src/
-│   ├── components/
-│   │   ├── common/          # Reusable UI components
-│   │   │   ├── Button.jsx
-│   │   │   ├── Card.jsx
-│   │   │   ├── Input.jsx
-│   │   │   ├── Modal.jsx
-│   │   │   ├── Header.jsx
-│   │   │   ├── Footer.jsx
-│   │   │   └── FloatingCTA.jsx
-│   │   └── sections/        # Page sections
-│   │       ├── HeroSection.jsx
-│   │       ├── StatisticsBar.jsx
-│   │       ├── WhyLearnWithUs.jsx
-│   │       ├── CoursesOffered.jsx
-│   │       ├── UpcomingBatches.jsx
-│   │       └── DemoForm.jsx
-│   ├── pages/              # Page components
-│   │   ├── HomePage.jsx
-│   │   └── LanguagePage.jsx
-│   ├── App.jsx            # Main app component
-│   ├── main.jsx           # Entry point
-│   └── index.css          # Global styles
-├── public/                # Static assets
-├── tailwind.config.js     # Tailwind configuration
-├── vite.config.js         # Vite configuration
-└── package.json          # Dependencies
-
+├── backend/                    # Backend (PocketBase)
+│   ├── api/services/          # Service layer for data operations
+│   ├── pb_data/               # PocketBase database
+│   └── scripts/               # Setup and seed scripts
+│
+├── src/                       # Frontend (React + Vite)
+│   ├── admin/                 # Admin section
+│   │   ├── pages/            # Admin pages
+│   │   ├── components/       # Admin components
+│   │   └── hooks/            # Admin hooks
+│   ├── api/                  # API client layer
+│   ├── components/           # Shared components
+│   ├── pages/                # Public pages
+│   └── App.jsx               # Main application
+│
+└── public/                    # Static assets
 ```
 
-## Available Routes
+---
 
-- `/` - Homepage
-- `/french` - French language page
-- `/german` - German language page
-- `/spanish` - Spanish language page
-- `/english` - English language page
-- `/japanese` - Japanese language page
-- `/korean` - Korean language page
-- `/mandarin` - Mandarin language page
+## 🔐 Admin Access
 
-## Customization
+### Login Credentials
+- **Email**: `mainaksaha0807@gmail.com`
+- **Password**: `8104760831`
 
-### Colors
+### Admin Routes
+- `/admin/login` - Admin login page
+- `/admin/dashboard` - Main dashboard
+- `/admin/batches` - Batch management
+- `/admin/blogs` - Blog management
+- `/admin/contacts` - Contact submissions
+- `/admin/demos` - Demo registrations
+- `/admin/newsletters` - Newsletter subscribers
 
-The primary brand colors are defined in `tailwind.config.js`:
+### Admin Features
+- ✅ Dashboard with statistics
+- ✅ Batch CRUD operations
+- ✅ Blog CRUD operations with image upload
+- ✅ Contact form submissions
+- ✅ Demo registration management
+- ✅ Newsletter subscriber management
 
-- Primary: `#17C3B2` (Teal)
-- Primary Dark: `#14A89A`
-- Primary Light: `#3DD0C1`
-- Secondary Mint: `#E8F9F7`
-- Secondary Yellow: `#FFD23F`
-- Secondary Navy: `#0F1B35`
+---
 
-### Components
+## 🗄️ Database (PocketBase)
 
-All components are modular and reusable. You can customize them by:
+### Collections
 
-1. Editing the component files in `src/components/`
-2. Passing different props to change appearance and behavior
-3. Extending with additional features as needed
+| Collection | Purpose | Public Access |
+|-----------|---------|---------------|
+| `batches` | Language batches/courses | Read only |
+| `blogs` | Blog posts | Published only |
+| `contact_submissions` | Contact form data | Create only |
+| `demo_registrations` | Demo requests | Create only |
+| `school_enrollments` | School inquiries | Create only |
+| `college_enrollments` | College inquiries | Create only |
+| `corporate_enrollments` | Corporate inquiries | Create only |
+| `newsletter_subscribers` | Email subscriptions | Create only |
 
-## Design System
+### Database Setup
 
-### Typography
+**First-time setup**:
+```bash
+npm run pb:setup    # Create collections
+npm run pb:seed     # Add sample data (optional)
+```
 
-- H1: 48-56px, bold
-- H2: 36-42px, bold
-- H3: 28-32px, semi-bold
-- Body: 16-18px, regular
-- Small: 14px
+**Reset database** (if needed):
+```bash
+npm run pb:reset    # Delete and recreate all collections
+```
 
-### Spacing
+---
 
-- Section padding: 64px (py-16)
-- Container max-width: 1440px
-- Grid gaps: 24-32px
+## 🛠️ Available Scripts
 
-### Components
+### Development
+```bash
+npm run dev          # Start frontend only (port 5173)
+npm run backend      # Start PocketBase only (port 8098)
+npm run dev:all      # Start both frontend and backend
+```
 
-- Border radius (cards): 12px
-- Border radius (buttons): 8px
-- Card shadow: 0px 2px 8px rgba(0, 0, 0, 0.1)
-- Hover shadow: 0px 4px 12px rgba(0, 0, 0, 0.15)
+### Database Management
+```bash
+npm run pb:setup     # Create PocketBase collections
+npm run pb:seed      # Seed sample data
+npm run pb:reset     # Reset database (delete all data)
+npm run pb:init      # Setup + seed (fresh start)
+```
 
-## Future Enhancements
+### Production
+```bash
+npm run build        # Build for production
+npm run preview      # Preview production build
+```
 
-- Add authentication backend integration
-- Implement course enrollment system
-- Add user dashboard
-- Create admin panel
-- Integrate payment gateway
-- Add live chat support
-- Implement search functionality
-- Add blog section
-- Create mobile app
+---
 
-## License
+## 🎨 Key Features
 
-All rights reserved - The Language Network
+### Public Features
+- 🌍 Multi-language course offerings (French, German, Spanish, etc.)
+- 📚 Blog with categories and tags
+- 📅 Upcoming batch listings (real-time from database)
+- 📝 Contact forms
+- 🎓 Demo class registration
+- 🏫 B2B enrollment (Schools, Colleges, Corporate)
+- 📧 Newsletter subscription
 
-## Contact
+### Admin Features
+- 📊 Dashboard with statistics
+- 📝 Batch management (CRUD)
+- ✍️ Blog management with rich text editor
+- 📬 View and manage submissions
+- 👥 User management (future)
 
-For questions or support, please contact The Language Network team.
+---
+
+## 🔧 Configuration
+
+### Environment Variables
+
+Create a `.env` file in the root directory:
+
+```bash
+# PocketBase Configuration
+VITE_POCKETBASE_URL=http://127.0.0.1:8098
+VITE_API_URL=http://127.0.0.1:8098/api
+
+# App Configuration
+VITE_APP_NAME=The Language Network
+VITE_APP_URL=http://localhost:5173
+
+# Admin Credentials (for reference only - do not commit!)
+pocketbase_admin=mainaksaha0807@gmail.com
+pocketbase_password=8104760831
+```
+
+⚠️ **Security**: Never commit `.env` to git. It's already in `.gitignore`.
+
+---
+
+## 🐛 Common Issues & Fixes
+
+### Issue: 405 Method Not Allowed
+
+**Cause**: PocketBase URL misconfigured or server needs restart
+
+**Solution**:
+1. Check `.env` has correct `VITE_POCKETBASE_URL=http://127.0.0.1:8098`
+2. Restart servers: `Ctrl+C` then `npm run dev:all`
+
+### Issue: Batches not showing on homepage
+
+**Cause**: No batches with status "upcoming" in database
+
+**Solution**:
+1. Go to admin panel: http://localhost:5173/admin/login
+2. Create a batch with `status = "upcoming"`
+3. Refresh homepage
+
+### Issue: Can't login to admin
+
+**Cause**: Wrong credentials or PocketBase not running
+
+**Solution**:
+1. Verify PocketBase is running: `npm run backend`
+2. Check credentials: `mainaksaha0807@gmail.com` / `8104760831`
+3. Create admin account at: http://127.0.0.1:8098/_/
+
+### Issue: Demo registration fails
+
+**Cause**: Collections not created
+
+**Solution**:
+```bash
+npm run pb:setup
+```
+
+---
+
+## 📚 Documentation
+
+### Backend Services
+
+Located in `backend/api/services/`:
+- `authService.js` - Authentication & authorization
+- `batchService.js` - Batch CRUD operations
+- `blogService.js` - Blog CRUD operations
+- `contactService.js` - Contact form submissions
+- `demoService.js` - Demo registrations
+- `newsletterService.js` - Newsletter subscriptions
+
+### Frontend Structure
+
+- **Admin Section** (`src/admin/`): Protected admin pages
+- **Public Section** (`src/pages/`): Public-facing pages
+- **Shared Components** (`src/components/`): Reusable components
+- **API Layer** (`src/api/`): PocketBase client and services
+
+---
+
+## 🔒 Security
+
+### Admin Access
+- ✅ Admin-only authentication enforced
+- ✅ Protected routes with auth checks
+- ✅ Token-based authentication (JWT)
+- ✅ Session persistence
+
+### Data Access
+- ✅ Public can only CREATE submissions (not read)
+- ✅ Public can READ published blogs and batches
+- ✅ Only admins can manage data
+- ✅ CORS configured for local development
+
+---
+
+## 🚢 Deployment
+
+### Frontend (Vercel/Netlify)
+1. Build: `npm run build`
+2. Deploy `dist/` folder
+3. Set environment variable: `VITE_POCKETBASE_URL=<your-pocketbase-url>`
+
+### Backend (PocketBase)
+1. Download PocketBase for your server OS
+2. Copy `pb_data/` folder
+3. Run: `./pocketbase serve --http=0.0.0.0:8098`
+4. Configure domain and SSL
+
+---
+
+## 🤝 Contributing
+
+1. Create a feature branch
+2. Make your changes
+3. Test thoroughly
+4. Submit a pull request
+
+---
+
+## 📞 Support
+
+- **Admin Panel**: http://127.0.0.1:8098/_/
+- **Frontend**: http://localhost:5173
+- **Issues**: Check browser console for errors
+
+---
+
+## 📝 License
+
+Private project - All rights reserved
+
+---
+
+## 🎉 Credits
+
+Built with:
+- [React](https://react.dev/) - UI framework
+- [Vite](https://vitejs.dev/) - Build tool
+- [PocketBase](https://pocketbase.io/) - Backend & database
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+
+---
+
+**Last Updated**: December 29, 2025
+**Version**: 1.0.0

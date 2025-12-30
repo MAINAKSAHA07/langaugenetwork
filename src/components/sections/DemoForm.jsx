@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from '../common/Modal';
 import Input from '../common/Input';
 import Button from '../common/Button';
+import { submitDemoRegistration } from '../../api/forms';
 
 const DemoForm = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const DemoForm = ({ isOpen, onClose }) => {
     phone: '',
     language: '',
   });
+  const [loading, setLoading] = useState(false);
 
   const languages = [
     'French',
@@ -28,17 +30,26 @@ const DemoForm = ({ isOpen, onClose }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Demo form submitted:', formData);
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      language: '',
-    });
-    onClose();
+    setLoading(true);
+
+    const result = await submitDemoRegistration(formData);
+
+    if (result.success) {
+      alert('Demo registration successful! We will contact you soon.');
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        language: '',
+      });
+      onClose();
+    } else {
+      alert('Registration failed: ' + result.error);
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -107,8 +118,8 @@ const DemoForm = ({ isOpen, onClose }) => {
           </select>
         </div>
 
-        <Button type="submit" className="w-full mt-6" size="large" icon style={{ backgroundColor: '#1F9F90' }}>
-          Submit
+        <Button type="submit" className="w-full mt-6" size="large" icon disabled={loading} style={{ backgroundColor: '#1F9F90' }}>
+          {loading ? 'Submitting...' : 'Submit'}
         </Button>
       </form>
     </Modal>

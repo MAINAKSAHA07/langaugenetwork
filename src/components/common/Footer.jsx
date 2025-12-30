@@ -63,11 +63,13 @@ const Footer = () => {
               <li><Link to="/french" className="hover:text-accent transition-colors">Online French Classes for Adults</Link></li>
               <li><Link to="/french-mastery-kit" className="hover:text-accent transition-colors">French Mastery Kit (A1-B2)</Link></li>
               <li><Link to="/german" className="hover:text-accent transition-colors">Online German Classes for Adults</Link></li>
+              <li><Link to="/german-a1-mastery-kit" className="hover:text-accent transition-colors">German A1 Mastery Kit</Link></li>
               <li><Link to="/spanish" className="hover:text-accent transition-colors">Online Spanish Classes for Adults</Link></li>
               <li><Link to="/korean" className="hover:text-accent transition-colors">Online Korean Classes for Adults</Link></li>
               <li><Link to="/japanese" className="hover:text-accent transition-colors">Online Japanese Classes for Adults</Link></li>
               <li><Link to="/mandarin" className="hover:text-accent transition-colors">Online Mandarin Classes for Adults</Link></li>
               <li><Link to="/english" className="hover:text-accent transition-colors">Online English Classes for Adults</Link></li>
+              <li><Link to="/english-mastery-kit" className="hover:text-accent transition-colors">English Mastery Kit (Vol 1-4)</Link></li>
             </ul>
           </div>
 
@@ -130,6 +132,7 @@ const Footer = () => {
               <Link to="/terms" className="text-xs md:text-sm text-accent hover:underline transition-all">Terms & Conditions</Link>
               <Link to="/privacy" className="text-xs md:text-sm text-accent hover:underline transition-all">Privacy Policy</Link>
               <Link to="/sitemap" className="text-xs md:text-sm text-accent hover:underline transition-all">Sitemap</Link>
+              <Link to="/admin/login" className="text-xs md:text-sm text-gray-400 hover:text-accent transition-all" title="Admin Access">·</Link>
             </div>
 
             {/* Social Media Icons */}

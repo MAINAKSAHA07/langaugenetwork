@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PaymentMethodsSection from '../components/sections/PaymentMethodsSection';
+import { submitContactForm } from '../api/forms';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -14,16 +15,21 @@ const ContactPage = () => {
   const [success, setSuccess] = useState(false);
   const [activeField, setActiveField] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
+
+    const result = await submitContactForm(formData);
+
+    if (result.success) {
       setSuccess(true);
       setFormData({ fullName: '', email: '', mobile: '', language: '', message: '' });
       setTimeout(() => setSuccess(false), 3000);
-    }, 1500);
+    } else {
+      alert('Submission failed: ' + result.error);
+    }
+
+    setLoading(false);
   };
 
   const handleChange = (e) => {

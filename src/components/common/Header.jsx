@@ -141,13 +141,6 @@ const Header = ({ onDemoClick }) => {
             >
               Get Started
             </Button>
-            <Button
-              variant="outline"
-              className="border-2 border-[#17C3B2] text-[#17C3B2] hover:bg-gray-50 !px-7 !py-3 rounded-md font-semibold text-[15px]"
-              style={{ borderColor: '#17C3B2', color: '#17C3B2' }}
-            >
-              Already Booked The Class
-            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -199,9 +192,6 @@ const Header = ({ onDemoClick }) => {
               <div className="pt-4 flex flex-col gap-3">
                 <Button onClick={() => { onDemoClick(); setMobileMenuOpen(false); }} className="w-full justify-center bg-[#17C3B2] text-white">
                   Get Started
-                </Button>
-                <Button onClick={() => { onDemoClick(); setMobileMenuOpen(false); }} variant="outline" className="w-full justify-center border-[#17C3B2] text-[#17C3B2]">
-                  Already Booked The Class
                 </Button>
               </div>
             </div>

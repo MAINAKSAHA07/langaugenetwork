@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Button from '../components/common/Button';
 import FeatureModal from '../components/common/FeatureModal';
+import { languageData } from '../data/languageData';
+import pb from '../api/pocketbase';
 
 const KidsLanguagePage = () => {
   const { language } = useParams();
   const [openFAQ, setOpenFAQ] = useState(null);
   const [showFullContent, setShowFullContent] = useState(false);
-  const [currentBatchMonth, setCurrentBatchMonth] = useState('January');
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState('');
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   // New Carousel States
   const [currentWhyLearnIndex, setCurrentWhyLearnIndex] = useState(0);
@@ -48,6 +51,29 @@ const KidsLanguagePage = () => {
       </button>
     </div>
   );
+
+  // Newsletter submit handler
+  const handleNewsletterSubmit = async () => {
+    if (!newsletterEmail || !newsletterEmail.includes('@')) {
+      setNewsletterStatus('error');
+      return;
+    }
+
+    setNewsletterStatus('loading');
+    try {
+      await pb.collection('newsletter_subscribers').create({
+        email: newsletterEmail,
+        active: true
+      });
+      setNewsletterStatus('success');
+      setNewsletterEmail('');
+      setTimeout(() => setNewsletterStatus(''), 3000);
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      setNewsletterStatus('error');
+      setTimeout(() => setNewsletterStatus(''), 3000);
+    }
+  };
 
   // Language-specific data
   const languageData = {
@@ -461,13 +487,6 @@ const KidsLanguagePage = () => {
                   style={{ backgroundColor: '#1F9F90' }}
                 >
                   Get started
-                </Button>
-                <Button
-                  size="large"
-                  className="border-2 px-8 py-4 text-lg font-semibold bg-white"
-                  style={{ borderColor: '#1F9F90', color: '#1F9F90' }}
-                >
-                  Already Booked Your Class
                 </Button>
               </div>
             </div>
@@ -1147,12 +1166,25 @@ const KidsLanguagePage = () => {
             <input
               type="email"
               placeholder="Enter your email"
+              value={newsletterEmail}
+              onChange={(e) => setNewsletterEmail(e.target.value)}
               className="flex-1 px-4 py-3 rounded-lg focus:ring-2 focus:ring-white outline-none"
             />
-            <button className="px-8 py-3 bg-white rounded-lg font-semibold hover:bg-gray-100 transition-colors" style={{ color: '#1F9F90' }}>
-              Subscribe
+            <button
+              onClick={handleNewsletterSubmit}
+              disabled={newsletterStatus === 'loading'}
+              className="px-8 py-3 bg-white rounded-lg font-semibold hover:bg-gray-100 transition-colors disabled:opacity-50"
+              style={{ color: '#1F9F90' }}
+            >
+              {newsletterStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
             </button>
           </div>
+          {newsletterStatus === 'success' && (
+            <p className="text-white mt-4">✓ Successfully subscribed!</p>
+          )}
+          {newsletterStatus === 'error' && (
+            <p className="text-white mt-4">✗ Something went wrong. Please try again.</p>
+          )}
         </div>
       </section>
 

@@ -29,7 +29,7 @@ const Footer = () => {
         </div>
 
         {/* Footer Links Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8 mb-8 md:mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8 mb-8 md:mb-10">
           {/* About Us */}
           <div>
             <h4 className="font-bold text-black text-sm mb-3">About Us</h4>
@@ -61,15 +61,22 @@ const Footer = () => {
             <h4 className="font-bold text-black text-sm mb-3">Languages for Adults</h4>
             <ul className="space-y-1.5 text-sm">
               <li><Link to="/french" className="hover:text-accent transition-colors">Online French Classes for Adults</Link></li>
-              <li><Link to="/french-mastery-kit" className="hover:text-accent transition-colors">French Mastery Kit (A1-B2)</Link></li>
               <li><Link to="/german" className="hover:text-accent transition-colors">Online German Classes for Adults</Link></li>
-              <li><Link to="/german-a1-mastery-kit" className="hover:text-accent transition-colors">German A1 Mastery Kit</Link></li>
               <li><Link to="/spanish" className="hover:text-accent transition-colors">Online Spanish Classes for Adults</Link></li>
               <li><Link to="/korean" className="hover:text-accent transition-colors">Online Korean Classes for Adults</Link></li>
               <li><Link to="/japanese" className="hover:text-accent transition-colors">Online Japanese Classes for Adults</Link></li>
               <li><Link to="/mandarin" className="hover:text-accent transition-colors">Online Mandarin Classes for Adults</Link></li>
               <li><Link to="/english" className="hover:text-accent transition-colors">Online English Classes for Adults</Link></li>
+            </ul>
+          </div>
+
+          {/* Mastery Kit */}
+          <div>
+            <h4 className="font-bold text-black text-sm mb-3">Mastery Kit</h4>
+            <ul className="space-y-1.5 text-sm">
+              <li><Link to="/french-mastery-kit" className="hover:text-accent transition-colors">French Mastery Kit (A1-B2)</Link></li>
               <li><Link to="/english-mastery-kit" className="hover:text-accent transition-colors">English Mastery Kit (Vol 1-4)</Link></li>
+              <li><Link to="/german-a1-mastery-kit" className="hover:text-accent transition-colors">German A1 Mastery Kit</Link></li>
             </ul>
           </div>
 

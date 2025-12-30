@@ -3,12 +3,17 @@ import { useParams } from 'react-router-dom';
 import Button from '../components/common/Button';
 import StatisticsBar from '../components/sections/StatisticsBar';
 import FAQSection from '../components/sections/FAQSection';
+import DemoForm from '../components/sections/DemoForm';
 import { languageData } from '../data/languageData';
+import pb from '../api/pocketbase';
 
 const LanguagePage = () => {
   const { language } = useParams();
   const data = languageData[language] || languageData.french;
-  const [onDemoClick] = useState(() => () => { });
+
+  // Demo form state
+  const [showDemo, setShowDemo] = useState(false);
+  const onDemoClick = () => setShowDemo(true);
 
   // State for mobile carousels
   const [currentClassIndex, setCurrentClassIndex] = useState(0);
@@ -16,6 +21,33 @@ const LanguagePage = () => {
   const [currentExamIndex, setCurrentExamIndex] = useState(0);
   const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
   const [currentReasonIndex, setCurrentReasonIndex] = useState(0);
+
+  // Newsletter State
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState('');
+
+  // Newsletter submit handler
+  const handleNewsletterSubmit = async () => {
+    if (!newsletterEmail || !newsletterEmail.includes('@')) {
+      setNewsletterStatus('error');
+      return;
+    }
+
+    setNewsletterStatus('loading');
+    try {
+      await pb.collection('newsletter_subscribers').create({
+        email: newsletterEmail,
+        active: true
+      });
+      setNewsletterStatus('success');
+      setNewsletterEmail('');
+      setTimeout(() => setNewsletterStatus(''), 3000);
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      setNewsletterStatus('error');
+      setTimeout(() => setNewsletterStatus(''), 3000);
+    }
+  };
 
   // Data Arrays
   const classesData = [
@@ -127,7 +159,7 @@ const LanguagePage = () => {
                 {data.description}
               </p>
               <Button
-                onClick={onDemoClick}
+                onClick={() => setShowDemo(true)}
                 size="large"
                 className="text-white px-8 md:px-10 py-3 md:py-4 text-base md:text-lg font-semibold hover:scale-100 hover:shadow-none"
                 style={{ backgroundColor: '#1F9F90' }}
@@ -419,7 +451,7 @@ const LanguagePage = () => {
       </section>
 
       {/* SECTION 9: Final CTA with Greeting */}
-      <section className="py-16 lg:py-20" style={{ backgroundColor: '#1F9F90' }}>
+      <section className="pt-16 lg:pt-20 pb-0" style={{ backgroundColor: '#1F9F90' }}>
         <div className="container-custom max-w-4xl text-center">
           <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 lg:mb-8">
             {data.greeting}!
@@ -428,16 +460,52 @@ const LanguagePage = () => {
             Ready to begin your {data.name} learning journey?
           </p>
           <Button
-            onClick={onDemoClick}
+            onClick={() => setShowDemo(true)}
             className="px-12 py-4 text-lg font-semibold hover:scale-100 hover:shadow-none"
             size="large"
-            style={{ backgroundColor: 'white', color: '#f4f4f4ff' }}
+            style={{ backgroundColor: 'white', color: '#1F9F90' }}
           >
             Get started today
           </Button>
         </div>
       </section>
-    </div>
+
+      {/* SECTION 10: NEWSLETTER */}
+      <section className="pt-12 pb-16 lg:pb-20" style={{ backgroundColor: '#1F9F90' }}>
+        <div className="container-custom max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">Subscribe to our newsletter</h3>
+            <p className="text-white/90 mb-8 text-lg">Get language learning tips and updates delivered to your inbox</p>
+            <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                className="flex-1 px-6 py-4 rounded-lg focus:ring-2 focus:ring-white outline-none text-gray-800"
+              />
+              <button
+                onClick={handleNewsletterSubmit}
+                disabled={newsletterStatus === 'loading'}
+                className="px-8 py-4 bg-white rounded-lg font-semibold hover:bg-gray-100 transition-colors disabled:opacity-50 whitespace-nowrap"
+                style={{ color: '#1F9F90' }}
+              >
+                {newsletterStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
+              </button>
+            </div>
+            {newsletterStatus === 'success' && (
+              <p className="text-white mt-6 text-lg font-medium">✓ Successfully subscribed!</p>
+            )}
+            {newsletterStatus === 'error' && (
+              <p className="text-white mt-6 text-lg font-medium">✗ Something went wrong. Please try again.</p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Demo Form Modal */}
+      <DemoForm isOpen={showDemo} onClose={() => setShowDemo(false)} />
+    </div >
   );
 };
 

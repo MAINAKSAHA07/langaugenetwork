@@ -61,6 +61,7 @@ const Footer = () => {
             <h4 className="font-bold text-black text-sm mb-3">Languages for Adults</h4>
             <ul className="space-y-1.5 text-sm">
               <li><Link to="/french" className="hover:text-accent transition-colors">Online French Classes for Adults</Link></li>
+              <li><Link to="/french-mastery-kit" className="hover:text-accent transition-colors">French Mastery Kit (A1-B2)</Link></li>
               <li><Link to="/german" className="hover:text-accent transition-colors">Online German Classes for Adults</Link></li>
               <li><Link to="/spanish" className="hover:text-accent transition-colors">Online Spanish Classes for Adults</Link></li>
               <li><Link to="/korean" className="hover:text-accent transition-colors">Online Korean Classes for Adults</Link></li>

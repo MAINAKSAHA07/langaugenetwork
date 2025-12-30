@@ -29,63 +29,73 @@ import ReferAndEarnPage from './pages/ReferAndEarnPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import SitemapPage from './pages/SitemapPage';
+import MasteryKitPage from './pages/MasteryKitPage';
 
 import ScrollToTop from './components/common/ScrollToTop';
 
-function App() {
+function AppContent() {
   const [isDemoFormOpen, setIsDemoFormOpen] = useState(false);
 
   return (
-    <Router>
+    <div className="min-h-screen flex flex-col">
       <ScrollToTop />
-      <div className="min-h-screen flex flex-col">
-        <Header onDemoClick={() => setIsDemoFormOpen(true)} />
+      <Header onDemoClick={() => setIsDemoFormOpen(true)} />
 
-        <main className="flex-grow">
-          <Routes>
-            {/* Main Pages */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="/exams" element={<ExamsPage />} />
-            <Route path="/levels" element={<LevelsPage />} />
+      <main className="flex-grow">
+        <Routes>
+          {/* Main Pages */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/exams" element={<ExamsPage />} />
+          <Route path="/levels" element={<LevelsPage />} />
 
-            {/* Education Pages */}
-            <Route path="/school" element={<SchoolPage />} />
-            <Route path="/college" element={<CollegePage />} />
-            <Route path="/study-abroad" element={<StudyAbroadPage />} />
-            <Route path="/corporate-training" element={<CorporatePage />} />
-            <Route path="/work-with-us" element={<WorkWithUsPage />} />
+          {/* Education Pages */}
+          <Route path="/school" element={<SchoolPage />} />
+          <Route path="/college" element={<CollegePage />} />
+          <Route path="/study-abroad" element={<StudyAbroadPage />} />
+          <Route path="/corporate-training" element={<CorporatePage />} />
+          <Route path="/work-with-us" element={<WorkWithUsPage />} />
 
-            {/* About Pages */}
-            <Route path="/who-are-we" element={<WhoAreWePage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/blogs" element={<BlogsPage />} />
-            <Route path="/press" element={<PressPage />} />
-            <Route path="/faq" element={<FAQPage />} />
+          {/* About Pages */}
+          <Route path="/who-are-we" element={<WhoAreWePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/blogs" element={<BlogsPage />} />
+          <Route path="/press" element={<PressPage />} />
+          <Route path="/faq" element={<FAQPage />} />
 
-            {/* Career Pages */}
-            <Route path="/careers/teach" element={<TeachPage />} />
-            <Route path="/careers/collaborate" element={<CollaboratePage />} />
-            <Route path="/careers/content-creators" element={<ContentCreatorsPage />} />
-            <Route path="/careers/refer" element={<ReferAndEarnPage />} />
+          {/* Career Pages */}
+          <Route path="/careers/teach" element={<TeachPage />} />
+          <Route path="/careers/collaborate" element={<CollaboratePage />} />
+          <Route path="/careers/content-creators" element={<ContentCreatorsPage />} />
+          <Route path="/careers/refer" element={<ReferAndEarnPage />} />
 
-            {/* Legal Pages */}
-            <Route path="/terms" element={<TermsPage />} />
-            <Route path="/privacy" element={<PrivacyPage />} />
-            <Route path="/sitemap" element={<SitemapPage />} />
+          {/* Legal Pages */}
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/sitemap" element={<SitemapPage />} />
 
-            {/* Language Pages - Must be last to avoid conflicts */}
-            <Route path="/:language" element={<LanguagePageWrapper />} />
-          </Routes>
-        </main>
+          {/* Special Pages */}
+          <Route path="/french-mastery-kit" element={<MasteryKitPage />} />
 
-        <Footer />
-        <FloatingCTA />
+          {/* Language Pages - Must be last to avoid conflicts */}
+          <Route path="/:language" element={<LanguagePageWrapper />} />
+        </Routes>
+      </main>
 
-        <DemoForm
-          isOpen={isDemoFormOpen}
-          onClose={() => setIsDemoFormOpen(false)}
-        />
-      </div>
+      <Footer />
+      <FloatingCTA />
+
+      <DemoForm
+        isOpen={isDemoFormOpen}
+        onClose={() => setIsDemoFormOpen(false)}
+      />
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }

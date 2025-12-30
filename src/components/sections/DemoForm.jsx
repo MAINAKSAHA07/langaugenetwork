@@ -4,7 +4,7 @@ import Input from '../common/Input';
 import Button from '../common/Button';
 import { submitDemoRegistration } from '../../api/forms';
 
-const DemoForm = ({ isOpen, onClose }) => {
+const DemoForm = ({ isOpen, onClose, brochureUrl }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -45,6 +45,11 @@ const DemoForm = ({ isOpen, onClose }) => {
         language: '',
       });
       onClose();
+
+      // Open brochure in new tab if URL is provided
+      if (brochureUrl) {
+        window.open(brochureUrl, '_blank', 'noopener,noreferrer');
+      }
     } else {
       alert('Registration failed: ' + result.error);
     }

@@ -39,9 +39,14 @@ const FinalCTASection = () => {
                     </div>
 
                     <div className="text-center">
-                        <button className="bg-gradient-to-r from-[#17C3B2] to-[#14A89A] text-white py-[20px] px-[60px] rounded-[12px] text-[20px] font-[700] shadow-[0_8px_32px_rgba(23,195,178,0.5)] hover:scale-105 transition-transform duration-300 w-full md:w-auto">
+                        <a
+                            href="https://rzp.io/rzp/french-a1-to-b2-mastery-kit"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block bg-gradient-to-r from-[#17C3B2] to-[#14A89A] text-white py-[20px] px-[60px] rounded-[12px] text-[20px] font-[700] shadow-[0_8px_32px_rgba(23,195,178,0.5)] hover:scale-105 transition-transform duration-300 w-full md:w-auto"
+                        >
                             Get Instant Access Now
-                        </button>
+                        </a>
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-[24px] mt-[24px] text-[14px] text-gray-500">
@@ -58,8 +63,8 @@ const FinalCTASection = () => {
                         <a href="mailto:team.language.network@gmail.com" className="text-[17px] hover:text-[#17C3B2] transition-colors flex items-center gap-2">
                             ✉️ team.language.network@gmail.com
                         </a>
-                        <a href="tel:8879328962" className="text-[17px] hover:text-[#17C3B2] transition-colors flex items-center gap-2">
-                            📞 8879328962
+                        <a href="tel:+918879328962" className="text-[17px] hover:text-[#17C3B2] transition-colors flex items-center gap-2">
+                            📞 +91 88793 28962
                         </a>
                     </div>
                 </div>

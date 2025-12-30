@@ -33,7 +33,7 @@ const EnglishMasteryKitPage = () => {
 
                     <div>
                         <a
-                            href="https://pages.razorpay.com/pl_PbVQJlxqVbGZGr/view"
+                            href="https://rzp.io/rzp/english-v1-to-v4-mastery"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-block bg-[#17C3B2] text-white py-[18px] px-[48px] rounded-[10px] text-[18px] font-[700] shadow-[0_6px_20px_rgba(23,195,178,0.4)] hover:scale-105 transition-transform duration-300"
@@ -341,7 +341,7 @@ const EnglishMasteryKitPage = () => {
                         </ul>
 
                         <a
-                            href="https://pages.razorpay.com/pl_PbVQJlxqVbGZGr/view"
+                            href="https://rzp.io/rzp/english-v1-to-v4-mastery"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-block bg-[#17C3B2] text-white py-[20px] px-[60px] rounded-[12px] text-[20px] font-[700] shadow-[0_8px_24px_rgba(23,195,178,0.4)] hover:scale-105 transition-transform duration-300"
@@ -370,9 +370,9 @@ const EnglishMasteryKitPage = () => {
                             <span>✉️</span>
                             <span>team.language.network@gmail.com</span>
                         </a>
-                        <a href="tel:8879328962" className="flex items-center justify-center gap-2 text-[#17C3B2] hover:underline">
+                        <a href="tel:+918879328962" className="flex items-center justify-center gap-2 text-[#17C3B2] hover:underline">
                             <span>📞</span>
-                            <span>8879328962</span>
+                            <span>+91 88793 28962</span>
                         </a>
                     </div>
                 </div>

@@ -10,6 +10,8 @@ const AdminDashboard = () => {
     blogs: 0,
     batches: 0,
     newsletters: 0,
+    schoolEnrollments: 0,
+    collegeEnrollments: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -26,12 +28,14 @@ const AdminDashboard = () => {
 
   const loadStats = async () => {
     try {
-      const [contacts, demos, blogs, batches, newsletters] = await Promise.all([
+      const [contacts, demos, blogs, batches, newsletters, schoolEnrollments, collegeEnrollments] = await Promise.all([
         pb.collection('contact_submissions').getList(1, 1),
         pb.collection('demo_registrations').getList(1, 1),
         pb.collection('blogs').getList(1, 1),
         pb.collection('batches').getList(1, 1),
         pb.collection('newsletter_subscribers').getList(1, 1),
+        pb.collection('school_enrollments').getList(1, 1),
+        pb.collection('college_enrollments').getList(1, 1),
       ]);
 
       setStats({
@@ -40,6 +44,8 @@ const AdminDashboard = () => {
         blogs: blogs.totalItems,
         batches: batches.totalItems,
         newsletters: newsletters.totalItems,
+        schoolEnrollments: schoolEnrollments.totalItems,
+        collegeEnrollments: collegeEnrollments.totalItems,
       });
     } catch (error) {
       console.error('Failed to load stats:', error);
@@ -128,6 +134,18 @@ const AdminDashboard = () => {
             icon="✉️"
             link="/admin/newsletters"
           />
+          <StatCard
+            title="School Enrollments"
+            value={stats.schoolEnrollments}
+            icon="🏫"
+            link="/admin/school-enrollments"
+          />
+          <StatCard
+            title="College Enrollments"
+            value={stats.collegeEnrollments}
+            icon="🎓"
+            link="/admin/college-enrollments"
+          />
         </div>
 
         {/* Quick Actions */}
@@ -198,6 +216,20 @@ const AdminDashboard = () => {
               className="w-full text-left px-6 py-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-between"
             >
               <span className="font-medium text-gray-900">Newsletter Subscribers</span>
+              <span className="text-[#FF6B35]">→</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin/school-enrollments')}
+              className="w-full text-left px-6 py-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-between"
+            >
+              <span className="font-medium text-gray-900">School Enrollments</span>
+              <span className="text-[#FF6B35]">→</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin/college-enrollments')}
+              className="w-full text-left px-6 py-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-between"
+            >
+              <span className="font-medium text-gray-900">College Enrollments</span>
               <span className="text-[#FF6B35]">→</span>
             </button>
           </div>

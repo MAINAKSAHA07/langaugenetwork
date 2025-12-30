@@ -43,6 +43,8 @@ import AdminBatchEditor from './admin/pages/batches/AdminBatchEditor';
 import AdminContacts from './admin/pages/AdminContacts';
 import AdminDemos from './admin/pages/AdminDemos';
 import AdminNewsletters from './admin/pages/AdminNewsletters';
+import AdminSchoolEnrollments from './admin/pages/AdminSchoolEnrollments';
+import AdminCollegeEnrollments from './admin/pages/AdminCollegeEnrollments';
 
 import ScrollToTop from './components/common/ScrollToTop';
 
@@ -104,6 +106,8 @@ function AppContent() {
           <Route path="/admin/contacts" element={<AdminContacts />} />
           <Route path="/admin/demos" element={<AdminDemos />} />
           <Route path="/admin/newsletters" element={<AdminNewsletters />} />
+          <Route path="/admin/school-enrollments" element={<AdminSchoolEnrollments />} />
+          <Route path="/admin/college-enrollments" element={<AdminCollegeEnrollments />} />
 
           {/* Language Pages - Must be last to avoid conflicts */}
           <Route path="/:language" element={<LanguagePageWrapper />} />

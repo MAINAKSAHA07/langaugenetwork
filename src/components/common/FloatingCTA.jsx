@@ -5,7 +5,7 @@ const FloatingCTA = () => {
     <div className="fixed right-5 top-1/2 -translate-y-1/2 z-[100] flex flex-col gap-4 hidden lg:flex">
       {/* WhatsApp */}
       <a
-        href="https://wa.me/918369123184"
+        href="https://wa.me/918879328962"
         target="_blank"
         rel="noopener noreferrer"
         className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg transform transition-all hover:scale-110 hover:shadow-xl group"
@@ -19,7 +19,7 @@ const FloatingCTA = () => {
 
       {/* Phone Call */}
       <a
-        href="tel:8369123184"
+        href="tel:+918879328962"
         className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg transform transition-all hover:scale-110 hover:shadow-xl"
         style={{ backgroundColor: '#4A4A8A', boxShadow: '0 4px 12px rgba(74, 74, 138, 0.4)' }}
         aria-label="Call Us"
@@ -31,7 +31,7 @@ const FloatingCTA = () => {
 
       {/* Instagram */}
       <a
-        href="https://instagram.com"
+        href="https://www.instagram.com/thelanguagenetwork/"
         target="_blank"
         rel="noopener noreferrer"
         className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg transform transition-all hover:scale-110 hover:shadow-xl"

@@ -33,3 +33,4 @@ backend/pb_migrations/
 
 # Docker
 .docker/
+*.pem

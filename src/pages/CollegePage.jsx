@@ -6,6 +6,7 @@ import InternationalExamsSection from '../components/sections/InternationalExams
 import AlumniNetworkSection from '../components/sections/AlumniNetworkSection';
 import PaymentMethodsSection from '../components/sections/PaymentMethodsSection';
 import { submitCollegeEnrollment } from '../api/forms';
+import EnrollmentFormPopup from '../components/common/EnrollmentFormPopup';
 
 // Sub-components defined first to avoid ReferenceError
 
@@ -36,7 +37,7 @@ const ChoiceCard = ({ image, title, description }) => (
   </div>
 );
 
-const PlanCard = ({ title, description, features }) => (
+const PlanCard = ({ title, description, features, onLearnMore }) => (
   <div className="border border-[#1F9F90] rounded-xl overflow-hidden flex flex-col h-full bg-white">
     <div className="bg-[#1F9F90] text-white text-center py-4">
       <h3 className="text-xl font-bold">{title}</h3>
@@ -58,7 +59,11 @@ const PlanCard = ({ title, description, features }) => (
         ))}
       </ul>
       <div className="text-center mt-auto">
-        <Button variant="outline" className="border-[#1F9F90] text-[#1F9F90] hover:bg-[#1F9F90] hover:text-white transition-colors px-6">
+        <Button
+          variant="outline"
+          className="border-[#1F9F90] text-[#1F9F90] hover:bg-[#1F9F90] hover:text-white transition-colors px-6"
+          onClick={onLearnMore}
+        >
           Learn more
         </Button>
       </div>
@@ -152,6 +157,7 @@ const CollegePage = () => {
     hearAboutUs: ''
   });
   const [loading, setLoading] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const howItWorksSteps = [
     {
@@ -198,6 +204,7 @@ const CollegePage = () => {
     }
 
     setLoading(false);
+    setIsPopupOpen(false);
   };
 
   return (
@@ -225,6 +232,7 @@ const CollegePage = () => {
                 size="large"
                 className="text-white px-8 py-3 text-lg font-medium rounded-md shadow-lg hover:shadow-xl transition-all"
                 style={{ backgroundColor: '#1F9F90' }}
+                onClick={() => setIsPopupOpen(true)}
               >
                 Book a meeting
               </Button>
@@ -451,6 +459,7 @@ const CollegePage = () => {
                 "Explore cultural aspects for better understanding and communication.",
                 "Assess participant progress and offer feedback for improvement."
               ]}
+              onLearnMore={() => setIsPopupOpen(true)}
             />
 
             <PlanCard
@@ -464,6 +473,7 @@ const CollegePage = () => {
                 "Engaging sessions and games enhance learning and curiosity.",
                 "Includes tracking and free study materials for improvement."
               ]}
+              onLearnMore={() => setIsPopupOpen(true)}
             />
 
             <PlanCard
@@ -477,6 +487,7 @@ const CollegePage = () => {
                 "Stellar instills confidence in verbal expression and proficiency in communication.",
                 "The program tracks progress, provides study materials, ensuring continual enhancement"
               ]}
+              onLearnMore={() => setIsPopupOpen(true)}
             />
           </div>
         </div>
@@ -619,6 +630,16 @@ const CollegePage = () => {
       {/* Payment Methods Section */}
       <PaymentMethodsSection />
 
+      {/* Enrollment Form Popup */}
+      <EnrollmentFormPopup
+        isOpen={isPopupOpen}
+        onClose={() => setIsPopupOpen(false)}
+        formData={formData}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        loading={loading}
+        institutionType="college"
+      />
     </div>
   );
 };

@@ -15,6 +15,20 @@ const LanguagePage = () => {
   const [showDemo, setShowDemo] = useState(false);
   const onDemoClick = () => setShowDemo(true);
 
+  // Brochure URL mapping for adults (kids would use different URLs)
+  const brochureUrls = {
+    french: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
+    german: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
+    spanish: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
+    english: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
+    japanese: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
+    korean: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
+    mandarin: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
+  };
+
+  // Get brochure URL for current language (adults only for now)
+  const brochureUrl = brochureUrls[language] || null;
+
   // State for mobile carousels
   const [currentClassIndex, setCurrentClassIndex] = useState(0);
   const [currentGoalIndex, setCurrentGoalIndex] = useState(0);
@@ -198,6 +212,7 @@ const LanguagePage = () => {
               image={classesData[currentClassIndex].image}
               title={classesData[currentClassIndex].title}
               description={classesData[currentClassIndex].description}
+              onLearnMore={onDemoClick}
             />
             <CarouselControls onPrev={classNav.prev} onNext={classNav.next} />
           </div>
@@ -210,6 +225,7 @@ const LanguagePage = () => {
                 image={item.image}
                 title={item.title}
                 description={item.description}
+                onLearnMore={onDemoClick}
               />
             ))}
           </div>
@@ -230,6 +246,7 @@ const LanguagePage = () => {
               title={goalsData[currentGoalIndex].title}
               description={goalsData[currentGoalIndex].description}
               trending={goalsData[currentGoalIndex].trending}
+              onLearnMore={onDemoClick}
             />
             <CarouselControls onPrev={goalNav.prev} onNext={goalNav.next} />
           </div>
@@ -243,6 +260,7 @@ const LanguagePage = () => {
                 title={item.title}
                 description={item.description}
                 trending={item.trending}
+                onLearnMore={onDemoClick}
               />
             ))}
           </div>
@@ -260,7 +278,7 @@ const LanguagePage = () => {
           <div className="md:hidden">
             {data.exams.length > 0 && (
               <>
-                <ExamCard exam={data.exams[currentExamIndex]} />
+                <ExamCard exam={data.exams[currentExamIndex]} onLearnMore={onDemoClick} />
                 <CarouselControls onPrev={examNav.prev} onNext={examNav.next} />
               </>
             )}
@@ -269,7 +287,7 @@ const LanguagePage = () => {
           {/* Desktop Grid */}
           <div className="hidden md:flex md:flex-wrap justify-center gap-6 lg:gap-8">
             {data.exams.map((exam, index) => (
-              <ExamCard key={index} exam={exam} />
+              <ExamCard key={index} exam={exam} onLearnMore={onDemoClick} />
             ))}
           </div>
         </div>
@@ -504,13 +522,17 @@ const LanguagePage = () => {
       </section>
 
       {/* Demo Form Modal */}
-      <DemoForm isOpen={showDemo} onClose={() => setShowDemo(false)} />
+      <DemoForm
+        isOpen={showDemo}
+        onClose={() => setShowDemo(false)}
+        brochureUrl={brochureUrl}
+      />
     </div >
   );
 };
 
 // Component: Class Card
-const ClassCard = ({ image, title, description }) => (
+const ClassCard = ({ image, title, description, onLearnMore }) => (
   <div className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 max-w-sm mx-auto md:max-w-none flex flex-col">
     <div className="h-48 md:h-52 overflow-hidden">
       <img
@@ -527,6 +549,7 @@ const ClassCard = ({ image, title, description }) => (
         {description}
       </p>
       <button
+        onClick={onLearnMore}
         className="w-full py-3 rounded-lg font-semibold transition-all duration-300 border-2"
         style={{ borderColor: '#1F9F90', color: '#1F9F90' }}
       >
@@ -537,7 +560,7 @@ const ClassCard = ({ image, title, description }) => (
 );
 
 // Component: Goal Card
-const GoalCard = ({ image, title, description, trending }) => (
+const GoalCard = ({ image, title, description, trending, onLearnMore }) => (
   <div className="bg-white rounded-xl border border-gray-200 p-6 md:p-8 text-center shadow-md transition-all duration-300 hover:shadow-xl max-w-sm mx-auto md:max-w-none relative flex flex-col">
     {trending && (
       <div className="absolute top-4 right-4 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
@@ -559,6 +582,7 @@ const GoalCard = ({ image, title, description, trending }) => (
       {description}
     </p>
     <button
+      onClick={onLearnMore}
       className="w-full py-3 rounded-lg font-semibold transition-all duration-300 border-2"
       style={{ borderColor: '#1F9F90', color: '#1F9F90' }}
     >
@@ -568,7 +592,7 @@ const GoalCard = ({ image, title, description, trending }) => (
 );
 
 // Component: Exam Card
-const ExamCard = ({ exam }) => (
+const ExamCard = ({ exam, onLearnMore }) => (
   <div className="bg-white rounded-xl border border-gray-200 p-8 md:p-10 text-center shadow-md transition-all duration-300 hover:shadow-xl min-w-[280px] max-w-[350px] mx-auto">
     <div className="mb-6 flex justify-center">
       <img
@@ -584,6 +608,7 @@ const ExamCard = ({ exam }) => (
       {exam.description}
     </p>
     <button
+      onClick={onLearnMore}
       className="px-6 py-2.5 border rounded-lg font-medium transition-all duration-300"
       style={{ borderColor: '#1F9F90', color: '#1F9F90' }}
     >

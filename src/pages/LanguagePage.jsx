@@ -18,12 +18,12 @@ const LanguagePage = () => {
   // Brochure URL mapping for adults (kids would use different URLs)
   const brochureUrls = {
     french: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
-    german: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
-    spanish: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
-    english: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
-    japanese: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
-    korean: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
-    mandarin: 'https://drive.google.com/file/d/1cvvxoUFuXQXLRHkxAIVQzmi0KjvbyA74/view?usp=share_link',
+    german: 'https://drive.google.com/file/d/1CKV25NP-fmMNFQ8vCUXpcFkr1HVWGHbL/view?usp=sharing',
+    spanish: 'https://drive.google.com/file/d/1pQcw_hu6qktbwlQ_mztT_yPJ5uAFZyps/view?usp=sharing',
+    english: 'https://drive.google.com/file/d/1Md1Sl0kCppcHR0R9oNxugUAtYJ4dueQZ/view?usp=sharing',
+    japanese: 'https://drive.google.com/file/d/1p0SAfGC71F2zYI_4ZfGg2TDDFE8hf3tL/view?usp=sharing',
+    korean: 'https://drive.google.com/file/d/1jilkAh5R4oFO_E_qmmukT2Ls_M8asOIb/view?usp=sharing',
+    mandarin: 'https://drive.google.com/file/d/19UUfWRAoNHdSXWuf0rYCTop_MnGUSaPj/view?usp=sharing',
   };
 
   // Get brochure URL for current language (adults only for now)

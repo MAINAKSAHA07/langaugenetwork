@@ -15,12 +15,12 @@ const AdminLogin = () => {
     setError('');
 
     try {
-      // Only allow admin authentication
-      await pb.admins.authWithPassword(email, password);
+      // Authenticate using users collection
+      await pb.collection('users').authWithPassword(email, password);
       navigate('/admin/dashboard');
     } catch (error) {
       console.error('Admin login failed:', error);
-      setError('Invalid admin credentials. Only administrators can access this area.');
+      setError('Invalid email or password. Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -55,7 +55,7 @@ const AdminLogin = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
-              placeholder="admin@thelanguagenetwork.co"
+              placeholder="your-email@example.com"
             />
           </div>
 
@@ -96,15 +96,7 @@ const AdminLogin = () => {
         {/* Additional Info */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            First time? Create an admin account at{' '}
-            <a
-              href="http://127.0.0.1:8098/_/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#FF6B35] hover:underline"
-            >
-              PocketBase Admin
-            </a>
+            Use your registered user account to login.
           </p>
         </div>
 

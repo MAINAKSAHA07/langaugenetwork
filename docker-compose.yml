@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.pocketbase
     container_name: tln-pocketbase
     ports:
-      - "8098:8098"
+      - "0.0.0.0:8098:8098"  # Expose on all interfaces for IP access
     volumes:
       - ./backend/pb_data:/pb/pb_data
     environment:

@@ -9,7 +9,7 @@ const HeroSection = ({ language = 'French' }) => {
             image: '/images/french_mastery_hero.png',
             imageAlt: 'French Mastery Kit Bundle',
             valueOriginal: '₹93,500',
-            price: '₹999',
+            price: '₹2,799',
             bonusCount: '17'
         },
         English: {

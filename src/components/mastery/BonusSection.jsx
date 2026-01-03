@@ -55,11 +55,11 @@ const BonusSection = () => {
 
                 {/* Total Value Summary Box */}
                 <div className="bg-white/10 backdrop-blur-sm border-[3px] border-white rounded-[16px] p-[32px] text-center max-w-[800px] mx-auto shadow-2xl">
-                    <p className="text-[20px] text-white/80 line-through mb-2">Core Kit Value: ₹52,000</p>
+                    <p className="text-[20px] text-white/80 line-through mb-2">Core Kit Value: ₹25,000</p>
                     <div className="text-[32px] font-[700] text-[#E8F7F5] my-2">+</div>
                     <p className="text-[20px] text-white/80 line-through mb-4">17 Bonus Resources: ₹68,500</p>
                     <div className="text-[32px] font-[700] text-[#E8F7F5] my-2">=</div>
-                    <p className="text-[36px] font-[800] text-white mb-[16px]">Total Value: ₹1,20,500</p>
+                    <p className="text-[36px] font-[800] text-white mb-[16px]">Total Value: ₹93,500</p>
 
                     <p className="text-[18px] text-[#333] hidden">Get Everything Today For:</p> {/* Actually keeping text white/dark as per background contrast need, keeping wrapper bg white for contrast? No wrapper is transparent white. Let's make text white */}
                     <p className="text-[18px] text-white/90 mb-2">Get Everything Today For:</p>

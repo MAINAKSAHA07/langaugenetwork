@@ -168,25 +168,23 @@ const BlogDetailPage = () => {
             </div>
           </div>
 
-              {/* Tags */}
-              {blog.tags && blog.tags.length > 0 && (
-                <div className="mt-12 pt-8 border-t border-gray-200">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-3">Tags:</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {blog.tags.map((tag, index) => (
-                      <Link
-                        key={index}
-                        to={`/blogs?tag=${tag.toLowerCase()}`}
-                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-[#1F9F90] hover:text-white transition-colors"
-                      >
-                        {tag}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
+          {/* Tags */}
+          {blog.tags && blog.tags.length > 0 && (
+            <div className="mt-12 pt-8 border-t border-gray-200">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Tags:</h3>
+              <div className="flex flex-wrap gap-2">
+                {blog.tags.map((tag, index) => (
+                  <Link
+                    key={index}
+                    to={`/blogs?tag=${tag.toLowerCase()}`}
+                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-[#1F9F90] hover:text-white transition-colors"
+                  >
+                    {tag}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </article>
 

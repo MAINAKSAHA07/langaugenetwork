@@ -4,6 +4,7 @@ import Button from '../components/common/Button';
 import StatisticsBar from '../components/sections/StatisticsBar';
 import FAQSection from '../components/sections/FAQSection';
 import DemoForm from '../components/sections/DemoForm';
+import UpcomingBatchesSection from '../components/sections/UpcomingBatchesSection';
 import { languageData } from '../data/languageData';
 import pb from '../api/pocketbase';
 
@@ -39,6 +40,20 @@ const LanguagePage = () => {
   // Newsletter State
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState('');
+
+  // Map language param to batch language value
+  const getBatchLanguage = () => {
+    const langMap = {
+      'french': 'French',
+      'german': 'German',
+      'spanish': 'Spanish',
+      'english': 'English',
+      'japanese': 'Japanese',
+      'korean': 'Korean',
+      'mandarin': 'Mandarin',
+    };
+    return langMap[language] || 'French';
+  };
 
   // Newsletter submit handler
   const handleNewsletterSubmit = async () => {
@@ -419,7 +434,14 @@ const LanguagePage = () => {
         </div>
       </section>
 
-      {/* SECTION 7: FAQs */}
+      {/* SECTION 7: Upcoming Batches */}
+      <UpcomingBatchesSection
+        language={getBatchLanguage()}
+        ageGroup="adults"
+        title={`Upcoming ${data.name} Batches`}
+      />
+
+      {/* SECTION 8: FAQs */}
       <FAQSection faqs={data.faqs} />
 
       {/* SECTION 8: Everything You Need to Know */}

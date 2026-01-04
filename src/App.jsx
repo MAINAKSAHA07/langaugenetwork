@@ -45,6 +45,9 @@ import AdminDemos from './admin/pages/AdminDemos';
 import AdminNewsletters from './admin/pages/AdminNewsletters';
 import AdminSchoolEnrollments from './admin/pages/AdminSchoolEnrollments';
 import AdminCollegeEnrollments from './admin/pages/AdminCollegeEnrollments';
+import AdminEnrollments from './admin/pages/AdminEnrollments';
+import AdminOrders from './admin/pages/AdminOrders';
+import AdminTeacherApplications from './admin/pages/AdminTeacherApplications';
 
 import ScrollToTop from './components/common/ScrollToTop';
 
@@ -108,6 +111,9 @@ function AppContent() {
           <Route path="/admin/newsletters" element={<AdminNewsletters />} />
           <Route path="/admin/school-enrollments" element={<AdminSchoolEnrollments />} />
           <Route path="/admin/college-enrollments" element={<AdminCollegeEnrollments />} />
+          <Route path="/admin/enrollments" element={<AdminEnrollments />} />
+          <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path="/admin/teacher-applications" element={<AdminTeacherApplications />} />
 
           {/* Language Pages - Must be last to avoid conflicts */}
           <Route path="/:language" element={<LanguagePageWrapper />} />

@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ScrollReveal from '../components/common/ScrollReveal';
+import MasteryKitEnrollmentModal from '../components/common/MasteryKitEnrollmentModal';
 
 const EnglishMasteryKitPage = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -32,14 +35,12 @@ const EnglishMasteryKitPage = () => {
                     </div>
 
                     <div>
-                        <a
-                            href="https://rzp.io/rzp/english-v1-to-v4-mastery"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <button
+                            onClick={() => setIsModalOpen(true)}
                             className="inline-block bg-[#17C3B2] text-white py-[18px] px-[48px] rounded-[10px] text-[18px] font-[700] shadow-[0_6px_20px_rgba(23,195,178,0.4)] hover:scale-105 transition-transform duration-300"
                         >
                             Get Complete Access Now →
-                        </a>
+                        </button>
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-[24px] mt-[16px] text-[#666] text-[14px]">
@@ -340,14 +341,12 @@ const EnglishMasteryKitPage = () => {
                             ))}
                         </ul>
 
-                        <a
-                            href="https://rzp.io/rzp/english-v1-to-v4-mastery"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <button
+                            onClick={() => setIsModalOpen(true)}
                             className="inline-block bg-[#17C3B2] text-white py-[20px] px-[60px] rounded-[12px] text-[20px] font-[700] shadow-[0_8px_24px_rgba(23,195,178,0.4)] hover:scale-105 transition-transform duration-300"
                         >
                             Get Instant Access →
-                        </a>
+                        </button>
 
                         <div className="flex items-center justify-center gap-2 mt-[24px] text-[14px] text-[#888]">
                             <span>🔒</span>
@@ -377,6 +376,12 @@ const EnglishMasteryKitPage = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Enrollment Modal */}
+            <MasteryKitEnrollmentModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
         </div>
     );
 };

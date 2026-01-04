@@ -9,9 +9,14 @@ const AdminDashboard = () => {
     demos: 0,
     blogs: 0,
     batches: 0,
+    adultBatches: 0,
+    kidsBatches: 0,
     newsletters: 0,
     schoolEnrollments: 0,
     collegeEnrollments: 0,
+    enrollments: 0,
+    orders: 0,
+    teacherApplications: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -28,24 +33,36 @@ const AdminDashboard = () => {
 
   const loadStats = async () => {
     try {
-      const [contacts, demos, blogs, batches, newsletters, schoolEnrollments, collegeEnrollments] = await Promise.all([
-        pb.collection('contact_submissions').getList(1, 1),
-        pb.collection('demo_registrations').getList(1, 1),
-        pb.collection('blogs').getList(1, 1),
-        pb.collection('batches').getList(1, 1),
-        pb.collection('newsletter_subscribers').getList(1, 1),
-        pb.collection('school_enrollments').getList(1, 1),
-        pb.collection('college_enrollments').getList(1, 1),
-      ]);
+      const promises = [
+        pb.collection('contact_submissions').getList(1, 1).catch(() => ({ totalItems: 0 })),
+        pb.collection('demo_registrations').getList(1, 1).catch(() => ({ totalItems: 0 })),
+        pb.collection('blogs').getList(1, 1).catch(() => ({ totalItems: 0 })),
+        pb.collection('batches').getList(1, 1).catch(() => ({ totalItems: 0 })),
+        pb.collection('batches').getList(1, 1, { filter: 'ageGroup = "adults"' }).catch(() => ({ totalItems: 0 })),
+        pb.collection('batches').getList(1, 1, { filter: 'ageGroup = "kids"' }).catch(() => ({ totalItems: 0 })),
+        pb.collection('newsletter_subscribers').getList(1, 1).catch(() => ({ totalItems: 0 })),
+        pb.collection('school_enrollments').getList(1, 1).catch(() => ({ totalItems: 0 })),
+        pb.collection('college_enrollments').getList(1, 1).catch(() => ({ totalItems: 0 })),
+        pb.collection('enrollments').getList(1, 1).catch(() => ({ totalItems: 0 })),
+        pb.collection('orders').getList(1, 1).catch(() => ({ totalItems: 0 })),
+        pb.collection('teacher_applications').getList(1, 1).catch(() => ({ totalItems: 0 })),
+      ];
+
+      const [contacts, demos, blogs, batches, adultBatches, kidsBatches, newsletters, schoolEnrollments, collegeEnrollments, enrollments, orders, teacherApplications] = await Promise.all(promises);
 
       setStats({
         contacts: contacts.totalItems,
         demos: demos.totalItems,
         blogs: blogs.totalItems,
         batches: batches.totalItems,
+        adultBatches: adultBatches.totalItems,
+        kidsBatches: kidsBatches.totalItems,
         newsletters: newsletters.totalItems,
         schoolEnrollments: schoolEnrollments.totalItems,
         collegeEnrollments: collegeEnrollments.totalItems,
+        enrollments: enrollments.totalItems,
+        orders: orders.totalItems,
+        teacherApplications: teacherApplications.totalItems,
       });
     } catch (error) {
       console.error('Failed to load stats:', error);
@@ -123,9 +140,21 @@ const AdminDashboard = () => {
             link="/admin/blogs"
           />
           <StatCard
-            title="Batches"
+            title="All Batches"
             value={stats.batches}
             icon="👥"
+            link="/admin/batches"
+          />
+          <StatCard
+            title="Adult Batches"
+            value={stats.adultBatches}
+            icon="👤"
+            link="/admin/batches"
+          />
+          <StatCard
+            title="Kids Batches"
+            value={stats.kidsBatches}
+            icon="👶"
             link="/admin/batches"
           />
           <StatCard
@@ -145,6 +174,24 @@ const AdminDashboard = () => {
             value={stats.collegeEnrollments}
             icon="🎓"
             link="/admin/college-enrollments"
+          />
+          <StatCard
+            title="Student Enrollments"
+            value={stats.enrollments}
+            icon="🎯"
+            link="/admin/enrollments"
+          />
+          <StatCard
+            title="Orders & Payments"
+            value={stats.orders}
+            icon="💳"
+            link="/admin/orders"
+          />
+          <StatCard
+            title="Teacher Applications"
+            value={stats.teacherApplications}
+            icon="👨‍🏫"
+            link="/admin/teacher-applications"
           />
         </div>
 
@@ -230,6 +277,27 @@ const AdminDashboard = () => {
               className="w-full text-left px-6 py-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-between"
             >
               <span className="font-medium text-gray-900">College Enrollments</span>
+              <span className="text-[#FF6B35]">→</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin/enrollments')}
+              className="w-full text-left px-6 py-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-between"
+            >
+              <span className="font-medium text-gray-900">Student Enrollments (Paid)</span>
+              <span className="text-[#FF6B35]">→</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin/orders')}
+              className="w-full text-left px-6 py-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-between"
+            >
+              <span className="font-medium text-gray-900">Orders & Payments</span>
+              <span className="text-[#FF6B35]">→</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin/teacher-applications')}
+              className="w-full text-left px-6 py-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-between"
+            >
+              <span className="font-medium text-gray-900">Teacher Applications</span>
               <span className="text-[#FF6B35]">→</span>
             </button>
           </div>

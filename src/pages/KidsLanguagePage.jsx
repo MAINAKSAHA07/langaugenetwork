@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Button from '../components/common/Button';
 import FeatureModal from '../components/common/FeatureModal';
+import UpcomingBatchesSection from '../components/sections/UpcomingBatchesSection';
 import { languageData } from '../data/languageData';
 import pb from '../api/pocketbase';
 
@@ -18,6 +19,21 @@ const KidsLanguagePage = () => {
   const [currentWhyLearnIndex, setCurrentWhyLearnIndex] = useState(0);
   const [currentExamIndex, setCurrentExamIndex] = useState(0);
   const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
+
+  // Map language param to batch language value
+  const getBatchLanguage = () => {
+    const lang = language?.replace('-kids', '') || language;
+    const langMap = {
+      'french': 'French',
+      'german': 'German',
+      'spanish': 'Spanish',
+      'english': 'English',
+      'japanese': 'Japanese',
+      'korean': 'Korean',
+      'mandarin': 'Mandarin',
+    };
+    return langMap[lang] || 'French';
+  };
 
   // Helper for Carousel Navigation
   const getNav = (currentIndex, setIndex, length) => ({
@@ -986,6 +1002,13 @@ const KidsLanguagePage = () => {
           </div>
         </div>
       </section>
+
+      {/* SECTION 9.5: Upcoming Batches */}
+      <UpcomingBatchesSection
+        language={getBatchLanguage()}
+        ageGroup="kids"
+        title={`Upcoming ${data.name} Batches for Kids`}
+      />
 
       {/* SECTION 10: FAQs */}
       <section className="bg-gray-50 py-16 lg:py-20">

@@ -9,11 +9,12 @@ const AdminBatches = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterLanguage, setFilterLanguage] = useState('all');
+  const [filterAgeGroup, setFilterAgeGroup] = useState('all');
 
   useEffect(() => {
     checkAuth();
     loadBatches();
-  }, [filterStatus, filterLanguage]);
+  }, [filterStatus, filterLanguage, filterAgeGroup]);
 
   const checkAuth = () => {
     if (!pb.authStore.isValid) {
@@ -29,6 +30,9 @@ const AdminBatches = () => {
       }
       if (filterLanguage !== 'all') {
         filters.push(`language = "${filterLanguage}"`);
+      }
+      if (filterAgeGroup !== 'all') {
+        filters.push(`ageGroup = "${filterAgeGroup}"`);
       }
 
       const records = await pb.collection('batches').getList(1, 50, {
@@ -109,7 +113,7 @@ const AdminBatches = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Filters and Search */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Search Batches
@@ -157,6 +161,20 @@ const AdminBatches = () => {
                 <option value="Mandarin">Mandarin</option>
               </select>
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Filter by Age Group
+              </label>
+              <select
+                value={filterAgeGroup}
+                onChange={(e) => setFilterAgeGroup(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6B35]"
+              >
+                <option value="all">All Age Groups</option>
+                <option value="adults">Adults</option>
+                <option value="kids">Kids</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -180,13 +198,22 @@ const AdminBatches = () => {
                     <h3 className="text-xl font-bold text-gray-900 mb-1">
                       {batch.language} - {batch.level}
                     </h3>
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
                       <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(batch.status)}`}>
                         {batch.status.charAt(0).toUpperCase() + batch.status.slice(1)}
                       </span>
                       <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
                         {batch.mode}
                       </span>
+                      {batch.ageGroup && (
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                          batch.ageGroup === 'kids' 
+                            ? 'bg-pink-100 text-pink-800' 
+                            : 'bg-blue-100 text-blue-800'
+                        }`}>
+                          {batch.ageGroup === 'kids' ? '👶 Kids' : '👤 Adults'}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>

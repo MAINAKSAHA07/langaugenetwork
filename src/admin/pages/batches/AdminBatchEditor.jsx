@@ -11,6 +11,7 @@ const AdminBatchEditor = () => {
     language: '',
     level: '',
     mode: 'Online',
+    ageGroup: 'adults', // New field: adults or kids
     startDate: '',
     endDate: '',
     schedule: '',
@@ -42,6 +43,7 @@ const AdminBatchEditor = () => {
         language: batch.language,
         level: batch.level,
         mode: batch.mode,
+        ageGroup: batch.ageGroup || 'adults',
         startDate: batch.startDate,
         endDate: batch.endDate,
         schedule: batch.schedule,
@@ -65,11 +67,97 @@ const AdminBatchEditor = () => {
     setSaveStatus('');
 
     try {
+      // Prepare data with correct types - ensure numbers are never NaN or undefined
+      const capacity = parseInt(formData.capacity, 10);
+      const enrolled = parseInt(formData.enrolled, 10);
+      const price = parseFloat(formData.price);
+
+      // Validate that numbers are valid
+      if (isNaN(capacity) || capacity < 1) {
+        setSaveStatus('Error: Capacity must be a valid number (minimum 1)');
+        setLoading(false);
+        return;
+      }
+      if (isNaN(enrolled) || enrolled < 0) {
+        setSaveStatus('Error: Enrolled must be a valid number (minimum 0)');
+        setLoading(false);
+        return;
+      }
+      if (isNaN(price) || price < 0) {
+        setSaveStatus('Error: Price must be a valid number (minimum 0)');
+        setLoading(false);
+        return;
+      }
+
+      // Dates from HTML date inputs are already in YYYY-MM-DD format
+      // PocketBase accepts this format for date fields
+      const batchData = {
+        language: formData.language.trim(),
+        level: formData.level.trim(),
+        mode: formData.mode.trim(),
+        ageGroup: formData.ageGroup, // Add ageGroup field
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+        schedule: formData.schedule.trim(),
+        capacity: capacity,
+        enrolled: enrolled,
+        price: price,
+        status: formData.status,
+      };
+
+      console.log('Submitting batch data:', JSON.stringify(batchData, null, 2));
+
+      // Only include optional fields if they have values
+      if (formData.instructor && formData.instructor.trim()) {
+        batchData.instructor = formData.instructor.trim();
+      }
+      if (formData.description && formData.description.trim()) {
+        batchData.description = formData.description.trim();
+      }
+
+      // Validate required fields
+      if (!batchData.language || !batchData.level || !batchData.startDate || !batchData.endDate || !batchData.schedule) {
+        setSaveStatus('Error: Please fill in all required fields');
+        setLoading(false);
+        return;
+      }
+
+      // Validate dates
+      const startDateObj = new Date(batchData.startDate);
+      const endDateObj = new Date(batchData.endDate);
+      if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
+        setSaveStatus('Error: Please enter valid dates');
+        setLoading(false);
+        return;
+      }
+      if (endDateObj < startDateObj) {
+        setSaveStatus('Error: End date must be after start date');
+        setLoading(false);
+        return;
+      }
+
+      // Validate numbers
+      if (batchData.capacity < 1 || batchData.capacity > 100) {
+        setSaveStatus('Error: Capacity must be between 1 and 100');
+        setLoading(false);
+        return;
+      }
+      if (batchData.enrolled < 0) {
+        setSaveStatus('Error: Enrolled count cannot be negative');
+        setLoading(false);
+        return;
+      }
+      if (batchData.price < 0) {
+        setSaveStatus('Error: Price cannot be negative');
+        setLoading(false);
+        return;
+      }
+
       if (isEditing) {
-        await pb.collection('batches').update(id, formData);
+        await pb.collection('batches').update(id, batchData);
         setSaveStatus('Batch updated successfully!');
       } else {
-        await pb.collection('batches').create(formData);
+        await pb.collection('batches').create(batchData);
         setSaveStatus('Batch created successfully!');
       }
 
@@ -78,7 +166,63 @@ const AdminBatchEditor = () => {
       }, 1500);
     } catch (error) {
       console.error('Failed to save batch:', error);
-      setSaveStatus('Error: ' + (error.message || 'Failed to save batch'));
+      console.error('Full error object:', JSON.stringify(error, null, 2));
+      console.error('Error response:', error.response);
+      console.error('Error data:', error.data);
+      
+      // Extract detailed error message
+      let errorMessage = 'Failed to save batch';
+      let detailedErrors = [];
+      
+      // Check error.data first (PocketBase structure)
+      if (error.data) {
+        if (error.data.data) {
+          // Field-specific validation errors
+          const fieldErrors = error.data.data;
+          detailedErrors = Object.entries(fieldErrors).map(([field, err]) => {
+            if (typeof err === 'object' && err.message) {
+              return `${field}: ${err.message}`;
+            } else if (typeof err === 'object' && err.code) {
+              return `${field}: ${err.code}`;
+            } else {
+              return `${field}: ${JSON.stringify(err)}`;
+            }
+          });
+          
+          if (detailedErrors.length > 0) {
+            errorMessage = `Validation Errors:\n${detailedErrors.join('\n')}`;
+          } else if (error.data.message) {
+            errorMessage = error.data.message;
+          }
+        } else if (error.data.message) {
+          errorMessage = error.data.message;
+        }
+      }
+      
+      // Fallback to error.response
+      if (!detailedErrors.length && error.response) {
+        const responseData = error.response;
+        if (responseData.data) {
+          const data = responseData.data;
+          if (data.data) {
+            const fieldErrors = Object.entries(data.data)
+              .map(([field, err]) => `${field}: ${err.message || JSON.stringify(err)}`)
+              .join(', ');
+            errorMessage = `Validation Error: ${fieldErrors}`;
+          } else if (data.message) {
+            errorMessage = data.message;
+          }
+        }
+      }
+      
+      // Final fallback
+      if (errorMessage === 'Failed to save batch' && error.message) {
+        errorMessage = error.message;
+      }
+      
+      // Show in alert for debugging
+      alert(`Error Details:\n${errorMessage}\n\nCheck console for full details.`);
+      setSaveStatus(`Error: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
@@ -179,6 +323,21 @@ const AdminBatchEditor = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Age Group *
+                </label>
+                <select
+                  value={formData.ageGroup}
+                  onChange={(e) => setFormData({ ...formData, ageGroup: e.target.value })}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6B35]"
+                >
+                  <option value="adults">Adults</option>
+                  <option value="kids">Kids</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Status *
                 </label>
                 <select
@@ -266,7 +425,10 @@ const AdminBatchEditor = () => {
                 <input
                   type="number"
                   value={formData.capacity}
-                  onChange={(e) => setFormData({ ...formData, capacity: parseInt(e.target.value) })}
+                  onChange={(e) => {
+                    const val = e.target.value === '' ? 15 : parseInt(e.target.value, 10);
+                    setFormData({ ...formData, capacity: isNaN(val) ? 15 : val });
+                  }}
                   required
                   min="1"
                   max="30"
@@ -281,7 +443,10 @@ const AdminBatchEditor = () => {
                 <input
                   type="number"
                   value={formData.enrolled}
-                  onChange={(e) => setFormData({ ...formData, enrolled: parseInt(e.target.value) })}
+                  onChange={(e) => {
+                    const val = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
+                    setFormData({ ...formData, enrolled: isNaN(val) ? 0 : val });
+                  }}
                   min="0"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6B35]"
                 />
@@ -294,9 +459,13 @@ const AdminBatchEditor = () => {
                 <input
                   type="number"
                   value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: parseInt(e.target.value) })}
+                  onChange={(e) => {
+                    const val = e.target.value === '' ? 0 : parseFloat(e.target.value);
+                    setFormData({ ...formData, price: isNaN(val) ? 0 : val });
+                  }}
                   required
                   min="0"
+                  step="0.01"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6B35]"
                 />
               </div>

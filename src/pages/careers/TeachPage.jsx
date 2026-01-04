@@ -1,12 +1,131 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Button from '../../components/common/Button';
 import StatisticsBar from '../../components/sections/StatisticsBar';
+import pb from '../../api/pocketbase';
 
 const TeachPage = () => {
   const formRef = useRef(null);
+  const fileInputRef = useRef(null);
+  
+  const [formData, setFormData] = useState({
+    fullName: '',
+    contactNo: '',
+    email: '',
+    preferredLanguage: '',
+    qualification: '',
+    teachingExperience: '',
+    aboutYourself: '',
+    howDidYouHear: '',
+    cv: null
+  });
+  
+  const [cvFileName, setCvFileName] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!allowedTypes.includes(file.type)) {
+      setError('Please upload a PDF or DOC file only');
+      e.target.value = '';
+      return;
+    }
+
+    // Validate file size (10MB = 10 * 1024 * 1024 bytes)
+    const maxSize = 10 * 1024 * 1024;
+    if (file.size > maxSize) {
+      setError('File size must be less than 10MB');
+      e.target.value = '';
+      return;
+    }
+
+    setError('');
+    setFormData(prev => ({
+      ...prev,
+      cv: file
+    }));
+    setCvFileName(file.name);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      // Validate required fields
+      if (!formData.fullName || !formData.email || !formData.contactNo) {
+        setError('Please fill in all required fields');
+        setLoading(false);
+        return;
+      }
+
+      if (!formData.cv) {
+        setError('Please attach your CV');
+        setLoading(false);
+        return;
+      }
+
+      // Create FormData for file upload
+      const data = new FormData();
+      data.append('fullName', formData.fullName);
+      data.append('contactNo', formData.contactNo);
+      data.append('email', formData.email);
+      data.append('preferredLanguage', formData.preferredLanguage);
+      data.append('qualification', formData.qualification);
+      data.append('teachingExperience', formData.teachingExperience);
+      data.append('aboutYourself', formData.aboutYourself);
+      data.append('howDidYouHear', formData.howDidYouHear);
+      data.append('cv', formData.cv);
+
+      // Submit to PocketBase
+      await pb.collection('teacher_applications').create(data);
+
+      // Success
+      setSuccess(true);
+      setFormData({
+        fullName: '',
+        contactNo: '',
+        email: '',
+        preferredLanguage: '',
+        qualification: '',
+        teachingExperience: '',
+        aboutYourself: '',
+        howDidYouHear: '',
+        cv: null
+      });
+      setCvFileName('');
+      
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+
+      setTimeout(() => setSuccess(false), 5000);
+    } catch (err) {
+      console.error('Submission error:', err);
+      setError('Failed to submit application. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -234,63 +353,138 @@ const TeachPage = () => {
 
             {/* Right Form */}
             <div className="w-full lg:w-7/12">
-              <form className="space-y-4">
+              {/* Success Message */}
+              {success && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-green-600 text-center font-medium">
+                    ✓ Application submitted successfully! We'll get back to you soon.
+                  </p>
+                </div>
+              )}
+
+              {/* Error Message */}
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-600 text-center">{error}</p>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <input
                     type="text"
-                    placeholder="Full Name"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
+                    placeholder="Full Name *"
+                    required
                     className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50 text-gray-700"
                   />
                   <input
                     type="tel"
-                    placeholder="Contact No."
+                    name="contactNo"
+                    value={formData.contactNo}
+                    onChange={handleInputChange}
+                    placeholder="Contact No. *"
+                    required
                     className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50 text-gray-700"
                   />
                 </div>
 
                 <input
                   type="email"
-                  placeholder="Email ID"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Email ID *"
+                  required
                   className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50 text-gray-700"
                 />
 
                 <input
                   type="text"
-                  placeholder="Prefered Language to teach"
+                  name="preferredLanguage"
+                  value={formData.preferredLanguage}
+                  onChange={handleInputChange}
+                  placeholder="Preferred Language to teach"
                   className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50 text-gray-700"
                 />
 
                 <input
                   type="text"
+                  name="qualification"
+                  value={formData.qualification}
+                  onChange={handleInputChange}
                   placeholder="Qualification"
                   className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50 text-gray-700"
                 />
 
                 <input
                   type="text"
+                  name="teachingExperience"
+                  value={formData.teachingExperience}
+                  onChange={handleInputChange}
                   placeholder="Teaching Experience (In Years)"
                   className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50 text-gray-700"
                 />
 
+                {/* File Upload for CV */}
                 <div className="relative">
                   <input
-                    type="text"
-                    readOnly
-                    placeholder="Attach CV"
-                    className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50 text-teal-600 cursor-pointer"
+                    type="file"
+                    ref={fileInputRef}
+                    accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    onChange={handleFileChange}
+                    className="hidden"
+                    id="cv-upload"
                   />
-                  {/* Using text input as placeholder for file input styling from design */}
+                  <label
+                    htmlFor="cv-upload"
+                    className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50 cursor-pointer flex items-center justify-between group hover:border-teal-500 transition-colors"
+                  >
+                    <span className={cvFileName ? 'text-gray-700' : 'text-gray-500'}>
+                      {cvFileName || 'Attach CV * (PDF/DOC, max 10MB)'}
+                    </span>
+                    <svg className="w-5 h-5 text-teal-600 group-hover:text-teal-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                    </svg>
+                  </label>
+                  {cvFileName && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFormData(prev => ({ ...prev, cv: null }));
+                        setCvFileName('');
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = '';
+                        }
+                      }}
+                      className="absolute right-12 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-700"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
                 </div>
 
                 <textarea
                   rows="4"
+                  name="aboutYourself"
+                  value={formData.aboutYourself}
+                  onChange={handleInputChange}
                   placeholder="Tell us something about yourself"
                   className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50 text-gray-700 resize-none"
                 ></textarea>
 
                 <div className="relative">
-                  <select className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50 text-gray-500 appearance-none">
-                    <option value="" disabled selected>How did you hear about us</option>
+                  <select
+                    name="howDidYouHear"
+                    value={formData.howDidYouHear}
+                    onChange={handleInputChange}
+                    className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-gray-50 text-gray-700 appearance-none"
+                  >
+                    <option value="">How did you hear about us</option>
                     <option value="website">Website</option>
                     <option value="instagram">Instagram</option>
                     <option value="linkedin">Linkedin</option>
@@ -307,10 +501,20 @@ const TeachPage = () => {
 
                 <div className="pt-4">
                   <Button
-                    className="text-white text-lg font-medium px-12 py-3 rounded-md transition-transform hover:scale-105"
+                    type="submit"
+                    disabled={loading}
+                    className="text-white text-lg font-medium px-12 py-3 rounded-md transition-transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                     style={{ backgroundColor: '#1F9F90' }}
                   >
-                    Submit
+                    {loading ? (
+                      <span className="flex items-center gap-2">
+                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Submitting...
+                      </span>
+                    ) : 'Submit'}
                   </Button>
                 </div>
               </form>

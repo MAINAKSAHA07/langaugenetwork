@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Button from '../components/common/Button';
 import FeatureModal from '../components/common/FeatureModal';
@@ -287,6 +287,9 @@ const KidsLanguagePage = () => {
   // Clean language parameter (remove -kids suffix if present)
   const cleanLanguage = language?.toLowerCase().replace('-kids', '');
   const data = languageData[cleanLanguage] || languageData.french;
+  
+  // Get base language for links (always use base language, not -kids version)
+  const baseLanguage = cleanLanguage;
 
   // Levels data
   const levelsData = [
@@ -1155,25 +1158,25 @@ const KidsLanguagePage = () => {
             <div>
               <h3 className="font-bold text-gray-800 mb-4">{data.name} by age group</h3>
               <ul className="space-y-2 text-sm">
-                <li><a href={`/${language}?age=6-10`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} for Kids Age 6-10</a></li>
-                <li><a href={`/${language}?age=11-14`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} for Kids Age 11-14</a></li>
-                <li><a href={`/${language}?age=15-17`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} for Teens Age 15-17</a></li>
+                <li><Link to={`/${baseLanguage}?age=6-10`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} for Kids Age 6-10</Link></li>
+                <li><Link to={`/${baseLanguage}?age=11-14`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} for Kids Age 11-14</Link></li>
+                <li><Link to={`/${baseLanguage}?age=15-17`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} for Teens Age 15-17</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="font-bold text-gray-800 mb-4">Courses by level</h3>
               <ul className="space-y-2 text-sm">
-                <li><a href={`/${language}?level=a1`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} Beginner A1 for Kids</a></li>
-                <li><a href={`/${language}?level=a2`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} Elementary A2 for Kids</a></li>
-                <li><a href={`/${language}?level=b1`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} Intermediate B1 for Kids</a></li>
+                <li><Link to={`/${baseLanguage}?level=a1`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} Beginner A1 for Kids</Link></li>
+                <li><Link to={`/${baseLanguage}?level=a2`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} Elementary A2 for Kids</Link></li>
+                <li><Link to={`/${baseLanguage}?level=b1`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} Intermediate B1 for Kids</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="font-bold text-gray-800 mb-4">Courses by goal</h3>
               <ul className="space-y-2 text-sm">
-                <li><a href={`/${language}?goal=travel`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} for Kids Travel</a></li>
-                <li><a href={`/${language}?goal=academic`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} for Academic Goals</a></li>
-                <li><a href={`/${language}?goal=fun`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} for Fun & Engagement</a></li>
+                <li><Link to={`/${baseLanguage}?goal=travel`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} for Kids Travel</Link></li>
+                <li><Link to={`/${baseLanguage}?goal=academic`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} for Academic Goals</Link></li>
+                <li><Link to={`/${baseLanguage}?goal=fun`} className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>{data.name} for Fun & Engagement</Link></li>
               </ul>
             </div>
           </div>

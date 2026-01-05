@@ -77,8 +77,8 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <div className="text-sm font-semibold text-gray-500 mb-1 uppercase tracking-wide">Contact No.</div>
-                    <a href="tel:8369123184" className="text-lg font-bold text-[#333] hover:text-[#17C3B2] transition-colors">
-                      8369123184
+                    <a href="tel:8879328962" className="text-lg font-bold text-[#333] hover:text-[#17C3B2] transition-colors">
+                      +91 88793 28962
                     </a>
                   </div>
                 </div>

@@ -61,9 +61,8 @@ const BonusSection = () => {
                     <div className="text-[32px] font-[700] text-[#E8F7F5] my-2">=</div>
                     <p className="text-[36px] font-[800] text-white mb-[16px]">Total Value: ₹93,500</p>
 
-                    <p className="text-[18px] text-[#333] hidden">Get Everything Today For:</p> {/* Actually keeping text white/dark as per background contrast need, keeping wrapper bg white for contrast? No wrapper is transparent white. Let's make text white */}
                     <p className="text-[18px] text-white/90 mb-2">Get Everything Today For:</p>
-                    <p className="text-[48px] font-[800] text-white mb-[24px]">₹[Special Price]</p>
+                    <p className="text-[48px] font-[800] text-white mb-[24px]">₹2,799</p>
 
                     <a href="#pricing" className="inline-block bg-[#1a1a2e] text-white py-[18px] px-[48px] rounded-[10px] text-[18px] font-[700] shadow-xl hover:scale-105 transition-transform">
                         Claim Your Bonuses Now →

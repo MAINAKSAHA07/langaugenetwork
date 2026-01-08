@@ -74,42 +74,42 @@ const StudyAbroadPage = () => {
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-xl font-bold text-gray-800 mb-3">France</h3>
               <p className="text-gray-600 mb-4">Learn French for studying in France's prestigious universities</p>
-              <Link to="/french" className="text-sm font-semibold" style={{ color: '#1F9F90' }}>
+              <Link to="/online-french-classes-to-study-abroad" className="text-sm font-semibold" style={{ color: '#1F9F90' }}>
                 Explore French Courses →
               </Link>
             </div>
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-xl font-bold text-gray-800 mb-3">Germany</h3>
               <p className="text-gray-600 mb-4">Master German for German universities and career opportunities</p>
-              <Link to="/german" className="text-sm font-semibold" style={{ color: '#1F9F90' }}>
+              <Link to="/online-german-classes-to-study-abroad" className="text-sm font-semibold" style={{ color: '#1F9F90' }}>
                 Explore German Courses →
               </Link>
             </div>
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-xl font-bold text-gray-800 mb-3">Spain & Latin America</h3>
               <p className="text-gray-600 mb-4">Learn Spanish for studying in Spain or Latin American countries</p>
-              <Link to="/spanish" className="text-sm font-semibold" style={{ color: '#1F9F90' }}>
+              <Link to="/online-spanish-classes-to-study-abroad" className="text-sm font-semibold" style={{ color: '#1F9F90' }}>
                 Explore Spanish Courses →
               </Link>
             </div>
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-xl font-bold text-gray-800 mb-3">Japan</h3>
               <p className="text-gray-600 mb-4">Prepare for JLPT and study in Japanese universities</p>
-              <Link to="/japanese" className="text-sm font-semibold" style={{ color: '#1F9F90' }}>
+              <Link to="/online-japanese-classes-to-study-abroad" className="text-sm font-semibold" style={{ color: '#1F9F90' }}>
                 Explore Japanese Courses →
               </Link>
             </div>
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-xl font-bold text-gray-800 mb-3">South Korea</h3>
               <p className="text-gray-600 mb-4">Master Korean for TOPIK and Korean university admission</p>
-              <Link to="/korean" className="text-sm font-semibold" style={{ color: '#1F9F90' }}>
+              <Link to="/online-korean-classes-to-study-abroad" className="text-sm font-semibold" style={{ color: '#1F9F90' }}>
                 Explore Korean Courses →
               </Link>
             </div>
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h3 className="text-xl font-bold text-gray-800 mb-3">China</h3>
               <p className="text-gray-600 mb-4">Learn Mandarin for Chinese universities and HSK exams</p>
-              <Link to="/mandarin" className="text-sm font-semibold" style={{ color: '#1F9F90' }}>
+              <Link to="/online-mandarin-classes-to-study-abroad" className="text-sm font-semibold" style={{ color: '#1F9F90' }}>
                 Explore Mandarin Courses →
               </Link>
             </div>

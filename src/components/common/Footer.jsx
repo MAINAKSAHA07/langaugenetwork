@@ -46,13 +46,13 @@ const Footer = () => {
           <div>
             <h4 className="font-bold text-black text-sm mb-3">Languages for Kids</h4>
             <ul className="space-y-1.5 text-sm">
-              <li><Link to="/french?age=kids" className="hover:text-accent transition-colors">Online French Classes for Kids</Link></li>
-              <li><Link to="/german?age=kids" className="hover:text-accent transition-colors">Online German Classes for Kids</Link></li>
-              <li><Link to="/spanish?age=kids" className="hover:text-accent transition-colors">Online Spanish Classes for Kids</Link></li>
-              <li><Link to="/korean?age=kids" className="hover:text-accent transition-colors">Online Korean Classes for Kids</Link></li>
-              <li><Link to="/japanese?age=kids" className="hover:text-accent transition-colors">Online Japanese Classes for Kids</Link></li>
-              <li><Link to="/mandarin?age=kids" className="hover:text-accent transition-colors">Online Mandarin Classes for Kids</Link></li>
-              <li><Link to="/english?age=kids" className="hover:text-accent transition-colors">Online English Classes for Kids</Link></li>
+              <li><Link to="/online-french-classes-for-kids" className="hover:text-accent transition-colors">Online French Classes for Kids</Link></li>
+              <li><Link to="/online-german-classes-for-kids" className="hover:text-accent transition-colors">Online German Classes for Kids</Link></li>
+              <li><Link to="/online-spanish-classes-for-kids" className="hover:text-accent transition-colors">Online Spanish Classes for Kids</Link></li>
+              <li><Link to="/online-korean-classes-for-kids" className="hover:text-accent transition-colors">Online Korean Classes for Kids</Link></li>
+              <li><Link to="/online-japanese-classes-for-kids" className="hover:text-accent transition-colors">Online Japanese Classes for Kids</Link></li>
+              <li><Link to="/online-mandarin-classes-for-kids" className="hover:text-accent transition-colors">Online Mandarin Classes for Kids</Link></li>
+              <li><Link to="/online-english-classes-for-kids" className="hover:text-accent transition-colors">Online English Classes for Kids</Link></li>
             </ul>
           </div>
 
@@ -60,13 +60,13 @@ const Footer = () => {
           <div>
             <h4 className="font-bold text-black text-sm mb-3">Languages for Adults</h4>
             <ul className="space-y-1.5 text-sm">
-              <li><Link to="/french" className="hover:text-accent transition-colors">Online French Classes for Adults</Link></li>
-              <li><Link to="/german" className="hover:text-accent transition-colors">Online German Classes for Adults</Link></li>
-              <li><Link to="/spanish" className="hover:text-accent transition-colors">Online Spanish Classes for Adults</Link></li>
-              <li><Link to="/korean" className="hover:text-accent transition-colors">Online Korean Classes for Adults</Link></li>
-              <li><Link to="/japanese" className="hover:text-accent transition-colors">Online Japanese Classes for Adults</Link></li>
-              <li><Link to="/mandarin" className="hover:text-accent transition-colors">Online Mandarin Classes for Adults</Link></li>
-              <li><Link to="/english" className="hover:text-accent transition-colors">Online English Classes for Adults</Link></li>
+              <li><Link to="/online-french-classes-for-adults" className="hover:text-accent transition-colors">Online French Classes for Adults</Link></li>
+              <li><Link to="/online-german-classes-for-adults" className="hover:text-accent transition-colors">Online German Classes for Adults</Link></li>
+              <li><Link to="/online-spanish-classes-for-adults" className="hover:text-accent transition-colors">Online Spanish Classes for Adults</Link></li>
+              <li><Link to="/online-korean-classes-for-adults" className="hover:text-accent transition-colors">Online Korean Classes for Adults</Link></li>
+              <li><Link to="/online-japanese-classes-for-adults" className="hover:text-accent transition-colors">Online Japanese Classes for Adults</Link></li>
+              <li><Link to="/online-mandarin-classes-for-adults" className="hover:text-accent transition-colors">Online Mandarin Classes for Adults</Link></li>
+              <li><Link to="/online-english-classes-for-adults" className="hover:text-accent transition-colors">Online English Classes for Adults</Link></li>
             </ul>
           </div>
 
@@ -85,12 +85,12 @@ const Footer = () => {
             <h4 className="font-bold text-black text-sm mb-3">Study Abroad</h4>
             <ul className="space-y-1.5 text-sm">
               <li><Link to="/study-abroad" className="hover:text-accent transition-colors">Study Abroad Programs</Link></li>
-              <li><Link to="/french" className="hover:text-accent transition-colors">French for Study Abroad</Link></li>
-              <li><Link to="/german" className="hover:text-accent transition-colors">German for Study Abroad</Link></li>
-              <li><Link to="/spanish" className="hover:text-accent transition-colors">Spanish for Study Abroad</Link></li>
-              <li><Link to="/korean" className="hover:text-accent transition-colors">Korean for Study Abroad</Link></li>
-              <li><Link to="/japanese" className="hover:text-accent transition-colors">Japanese for Study Abroad</Link></li>
-              <li><Link to="/mandarin" className="hover:text-accent transition-colors">Mandarin for Study Abroad</Link></li>
+              <li><Link to="/online-french-classes-to-study-abroad" className="hover:text-accent transition-colors">French for Study Abroad</Link></li>
+              <li><Link to="/online-german-classes-to-study-abroad" className="hover:text-accent transition-colors">German for Study Abroad</Link></li>
+              <li><Link to="/online-spanish-classes-to-study-abroad" className="hover:text-accent transition-colors">Spanish for Study Abroad</Link></li>
+              <li><Link to="/online-korean-classes-to-study-abroad" className="hover:text-accent transition-colors">Korean for Study Abroad</Link></li>
+              <li><Link to="/online-japanese-classes-to-study-abroad" className="hover:text-accent transition-colors">Japanese for Study Abroad</Link></li>
+              <li><Link to="/online-mandarin-classes-to-study-abroad" className="hover:text-accent transition-colors">Mandarin for Study Abroad</Link></li>
             </ul>
           </div>
 
@@ -106,13 +106,13 @@ const Footer = () => {
 
             <h4 className="font-bold text-black text-sm mb-3">Languages we offer</h4>
             <ul className="space-y-1.5 text-sm">
-              <li><Link to="/french" className="hover:text-accent transition-colors">Online French Classes</Link></li>
-              <li><Link to="/german" className="hover:text-accent transition-colors">Online German Classes</Link></li>
-              <li><Link to="/spanish" className="hover:text-accent transition-colors">Online Spanish Classes</Link></li>
-              <li><Link to="/korean" className="hover:text-accent transition-colors">Online Korean Classes</Link></li>
-              <li><Link to="/japanese" className="hover:text-accent transition-colors">Online Japanese Classes</Link></li>
-              <li><Link to="/mandarin" className="hover:text-accent transition-colors">Online Mandarin Classes</Link></li>
-              <li><Link to="/english" className="hover:text-accent transition-colors">Online English Classes</Link></li>
+              <li><Link to="/online-french-classes" className="hover:text-accent transition-colors">Online French Classes</Link></li>
+              <li><Link to="/online-german-classes" className="hover:text-accent transition-colors">Online German Classes</Link></li>
+              <li><Link to="/online-spanish-classes" className="hover:text-accent transition-colors">Online Spanish Classes</Link></li>
+              <li><Link to="/online-korean-classes" className="hover:text-accent transition-colors">Online Korean Classes</Link></li>
+              <li><Link to="/online-japanese-classes" className="hover:text-accent transition-colors">Online Japanese Classes</Link></li>
+              <li><Link to="/online-mandarin-classes" className="hover:text-accent transition-colors">Online Mandarin Classes</Link></li>
+              <li><Link to="/online-english-classes" className="hover:text-accent transition-colors">Online English Classes</Link></li>
             </ul>
           </div>
         </div>

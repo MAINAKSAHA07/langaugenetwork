@@ -22,13 +22,13 @@ const Header = ({ onDemoClick }) => {
   const [workDropdownOpen, setWorkDropdownOpen] = useState(false);
 
   const languages = [
-    { name: 'French', path: '/french' },
-    { name: 'German', path: '/german' },
-    { name: 'Spanish', path: '/spanish' },
-    { name: 'English', path: '/english' },
-    { name: 'Japanese', path: '/japanese' },
-    { name: 'Korean', path: '/korean' },
-    { name: 'Mandarin', path: '/mandarin' },
+    { name: 'French', path: '/online-french-classes' },
+    { name: 'German', path: '/online-german-classes' },
+    { name: 'Spanish', path: '/online-spanish-classes' },
+    { name: 'English', path: '/online-english-classes' },
+    { name: 'Japanese', path: '/online-japanese-classes' },
+    { name: 'Korean', path: '/online-korean-classes' },
+    { name: 'Mandarin', path: '/online-mandarin-classes' },
   ];
 
   const workOptions = [

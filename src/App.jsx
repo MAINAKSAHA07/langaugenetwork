@@ -115,7 +115,119 @@ function AppContent() {
           <Route path="/admin/orders" element={<AdminOrders />} />
           <Route path="/admin/teacher-applications" element={<AdminTeacherApplications />} />
 
-          {/* Language Pages - Must be last to avoid conflicts */}
+          {/* Language Pages - New SEO-friendly URLs */}
+          {/* Main language pages */}
+          <Route path="/online-french-classes" element={<LanguagePageWrapper />} />
+          <Route path="/online-german-classes" element={<LanguagePageWrapper />} />
+          <Route path="/online-spanish-classes" element={<LanguagePageWrapper />} />
+          <Route path="/online-english-classes" element={<LanguagePageWrapper />} />
+          <Route path="/online-japanese-classes" element={<LanguagePageWrapper />} />
+          <Route path="/online-korean-classes" element={<LanguagePageWrapper />} />
+          <Route path="/online-mandarin-classes" element={<LanguagePageWrapper />} />
+          
+          {/* Kids pages */}
+          <Route path="/online-french-classes-for-kids" element={<LanguagePageWrapper />} />
+          <Route path="/online-german-classes-for-kids" element={<LanguagePageWrapper />} />
+          <Route path="/online-spanish-classes-for-kids" element={<LanguagePageWrapper />} />
+          <Route path="/online-english-classes-for-kids" element={<LanguagePageWrapper />} />
+          <Route path="/online-japanese-classes-for-kids" element={<LanguagePageWrapper />} />
+          <Route path="/online-korean-classes-for-kids" element={<LanguagePageWrapper />} />
+          <Route path="/online-mandarin-classes-for-kids" element={<LanguagePageWrapper />} />
+          
+          {/* Adults pages */}
+          <Route path="/online-french-classes-for-adults" element={<LanguagePageWrapper />} />
+          <Route path="/online-german-classes-for-adults" element={<LanguagePageWrapper />} />
+          <Route path="/online-spanish-classes-for-adults" element={<LanguagePageWrapper />} />
+          <Route path="/online-english-classes-for-adults" element={<LanguagePageWrapper />} />
+          <Route path="/online-japanese-classes-for-adults" element={<LanguagePageWrapper />} />
+          <Route path="/online-korean-classes-for-adults" element={<LanguagePageWrapper />} />
+          <Route path="/online-mandarin-classes-for-adults" element={<LanguagePageWrapper />} />
+          
+          {/* Study abroad pages */}
+          <Route path="/online-french-classes-to-study-abroad" element={<LanguagePageWrapper />} />
+          <Route path="/online-german-classes-to-study-abroad" element={<LanguagePageWrapper />} />
+          <Route path="/online-spanish-classes-to-study-abroad" element={<LanguagePageWrapper />} />
+          <Route path="/online-english-classes-to-study-abroad" element={<LanguagePageWrapper />} />
+          <Route path="/online-japanese-classes-to-study-abroad" element={<LanguagePageWrapper />} />
+          <Route path="/online-korean-classes-to-study-abroad" element={<LanguagePageWrapper />} />
+          <Route path="/online-mandarin-classes-to-study-abroad" element={<LanguagePageWrapper />} />
+          
+          {/* Level pages - French */}
+          <Route path="/french-beginner-level-a1-a2" element={<LanguagePageWrapper />} />
+          <Route path="/french-intermediate-level-b1-b2" element={<LanguagePageWrapper />} />
+          <Route path="/french-advanced-level-c1-c2" element={<LanguagePageWrapper />} />
+          
+          {/* Level pages - German */}
+          <Route path="/german-beginner-level-a1-a2" element={<LanguagePageWrapper />} />
+          <Route path="/german-for-intermediate-level-b1-b2" element={<LanguagePageWrapper />} />
+          <Route path="/german-advanced-level-c1-c2" element={<LanguagePageWrapper />} />
+          
+          {/* Level pages - Spanish */}
+          <Route path="/spanish-beginner-level-a1-a2" element={<LanguagePageWrapper />} />
+          <Route path="/spanish-intermediate-level-b1-b2" element={<LanguagePageWrapper />} />
+          <Route path="/spanish-advanced-level-c1-c2" element={<LanguagePageWrapper />} />
+          
+          {/* Level pages - Korean */}
+          <Route path="/korean-beginner-topik1-level1-2" element={<LanguagePageWrapper />} />
+          <Route path="/korean-beginner-topik1-1-2" element={<LanguagePageWrapper />} />
+          <Route path="/korean-intermediate-level-topik2-3-4" element={<LanguagePageWrapper />} />
+          <Route path="/korean-intermediate-topik2-3-4" element={<LanguagePageWrapper />} />
+          <Route path="/korean-advanced-level-topik2-5-6" element={<LanguagePageWrapper />} />
+          <Route path="/korean-advanced-topik2-5-6" element={<LanguagePageWrapper />} />
+          
+          {/* Level pages - Mandarin */}
+          <Route path="/mandarin-beginner-level-hsk1-hsk2" element={<LanguagePageWrapper />} />
+          <Route path="/mandarin-beginner-hsk1-hsk2" element={<LanguagePageWrapper />} />
+          <Route path="/mandarin-intermediate-level-hsk3-hsk4" element={<LanguagePageWrapper />} />
+          <Route path="/mandarin-intermediate-hsk3-hsk4" element={<LanguagePageWrapper />} />
+          <Route path="/mandarin-advanced-level-hsk5-hsk6" element={<LanguagePageWrapper />} />
+          <Route path="/mandarin-advanced-hsk5-hsk6" element={<LanguagePageWrapper />} />
+          
+          {/* Level pages - Japanese */}
+          <Route path="/japanese-beginner-n5-level" element={<LanguagePageWrapper />} />
+          <Route path="/japanese-beginner-n5" element={<LanguagePageWrapper />} />
+          <Route path="/japanese-intermediate-level-n4-n3" element={<LanguagePageWrapper />} />
+          <Route path="/japanese-intermediate-n4-n3" element={<LanguagePageWrapper />} />
+          <Route path="/japanese-advanced-level-n2-n1" element={<LanguagePageWrapper />} />
+          <Route path="/japanese-advanced-n2-n1" element={<LanguagePageWrapper />} />
+          
+          {/* Level pages - English */}
+          <Route path="/english-beginner-level-a1-a2" element={<LanguagePageWrapper />} />
+          <Route path="/english-beginner-a1-a2" element={<LanguagePageWrapper />} />
+          <Route path="/english-intermediate-level-b1-b2" element={<LanguagePageWrapper />} />
+          <Route path="/english-intermediate-b1-b2" element={<LanguagePageWrapper />} />
+          <Route path="/english-advanced-level-c1-c2" element={<LanguagePageWrapper />} />
+          <Route path="/english-advanced-c1-c2" element={<LanguagePageWrapper />} />
+          
+          {/* Exam pages - French */}
+          <Route path="/delf-proficiency-exam" element={<LanguagePageWrapper />} />
+          <Route path="/dalf-proficiency-exam" element={<LanguagePageWrapper />} />
+          <Route path="/tef-proficiency-exam" element={<LanguagePageWrapper />} />
+          <Route path="/delf-preparation-classes" element={<LanguagePageWrapper />} />
+          <Route path="/dalf-preparation-classes" element={<LanguagePageWrapper />} />
+          <Route path="/tef-preparation-classes" element={<LanguagePageWrapper />} />
+          
+          {/* Exam pages - German */}
+          <Route path="/goethe-preparation-classes" element={<LanguagePageWrapper />} />
+          
+          {/* Exam pages - Spanish */}
+          <Route path="/siele-preparation-classes" element={<LanguagePageWrapper />} />
+          
+          {/* Exam pages - Korean */}
+          <Route path="/topik-preparation-classes" element={<LanguagePageWrapper />} />
+          <Route path="/dele-preparation-classes" element={<LanguagePageWrapper />} />
+          
+          {/* Exam pages - Mandarin */}
+          <Route path="/hsk-preparation-classes" element={<LanguagePageWrapper />} />
+          
+          {/* Exam pages - Japanese */}
+          <Route path="/jlpt-prepration-classes" element={<LanguagePageWrapper />} />
+          
+          {/* Exam pages - English */}
+          <Route path="/ielts-preparation-classes" element={<LanguagePageWrapper />} />
+          <Route path="/toefl-preparation-classes" element={<LanguagePageWrapper />} />
+
+          {/* Legacy Language Pages - Must be last to avoid conflicts */}
           <Route path="/:language" element={<LanguagePageWrapper />} />
         </Routes>
       </main>

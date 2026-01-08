@@ -17,13 +17,13 @@ const SitemapPage = () => {
     {
       category: 'Languages',
       links: [
-        { name: 'French Classes', path: '/french' },
-        { name: 'German Classes', path: '/german' },
-        { name: 'Spanish Classes', path: '/spanish' },
-        { name: 'English Classes', path: '/english' },
-        { name: 'Japanese Classes', path: '/japanese' },
-        { name: 'Korean Classes', path: '/korean' },
-        { name: 'Mandarin Classes', path: '/mandarin' }
+        { name: 'French Classes', path: '/online-french-classes' },
+        { name: 'German Classes', path: '/online-german-classes' },
+        { name: 'Spanish Classes', path: '/online-spanish-classes' },
+        { name: 'English Classes', path: '/online-english-classes' },
+        { name: 'Japanese Classes', path: '/online-japanese-classes' },
+        { name: 'Korean Classes', path: '/online-korean-classes' },
+        { name: 'Mandarin Classes', path: '/online-mandarin-classes' }
       ]
     },
     {

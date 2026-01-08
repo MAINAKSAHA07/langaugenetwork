@@ -288,13 +288,13 @@ const LevelsPage = () => {
 
                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
                         {[
-                            { name: 'French', path: '/french', flag: '🇫🇷' },
-                            { name: 'German', path: '/german', flag: '🇩🇪' },
-                            { name: 'Spanish', path: '/spanish', flag: '🇪🇸' },
-                            { name: 'English', path: '/english', flag: '🇬🇧' },
-                            { name: 'Japanese', path: '/japanese', flag: '🇯🇵' },
-                            { name: 'Korean', path: '/korean', flag: '🇰🇷' },
-                            { name: 'Mandarin', path: '/mandarin', flag: '🇨🇳' }
+                            { name: 'French', path: '/online-french-classes', flag: '🇫🇷' },
+                            { name: 'German', path: '/online-german-classes', flag: '🇩🇪' },
+                            { name: 'Spanish', path: '/online-spanish-classes', flag: '🇪🇸' },
+                            { name: 'English', path: '/online-english-classes', flag: '🇬🇧' },
+                            { name: 'Japanese', path: '/online-japanese-classes', flag: '🇯🇵' },
+                            { name: 'Korean', path: '/online-korean-classes', flag: '🇰🇷' },
+                            { name: 'Mandarin', path: '/online-mandarin-classes', flag: '🇨🇳' }
                         ].map((lang, index) => (
                             <Link
                                 key={index}

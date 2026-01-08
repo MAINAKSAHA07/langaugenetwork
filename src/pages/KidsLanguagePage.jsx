@@ -1149,10 +1149,10 @@ const KidsLanguagePage = () => {
             <div>
               <h3 className="font-bold text-gray-800 mb-4">Popular classes for kids</h3>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/french-kids" className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>Online French Classes for Kids</Link></li>
-                <li><Link to="/german-kids" className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>Online German Classes for Kids</Link></li>
-                <li><Link to="/spanish-kids" className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>Online Spanish Classes for Kids</Link></li>
-                <li><Link to="/japanese-kids" className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>Online Japanese Classes for Kids</Link></li>
+                <li><Link to="/online-french-classes-for-kids" className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>Online French Classes for Kids</Link></li>
+                <li><Link to="/online-german-classes-for-kids" className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>Online German Classes for Kids</Link></li>
+                <li><Link to="/online-spanish-classes-for-kids" className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>Online Spanish Classes for Kids</Link></li>
+                <li><Link to="/online-japanese-classes-for-kids" className="hover:text-accent transition-colors" style={{ color: '#1F9F90' }}>Online Japanese Classes for Kids</Link></li>
               </ul>
             </div>
             <div>

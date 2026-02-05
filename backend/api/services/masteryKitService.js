@@ -1,6 +1,22 @@
 import PocketBase from 'pocketbase';
 
+// Backend PocketBase client
+// NOTE:
+// - In production, always set POCKETBASE_URL to your HTTPS PocketBase instance
+// - This service is intended to be called from secured backend routes only
 const pb = new PocketBase(process.env.POCKETBASE_URL || 'http://127.0.0.1:8090');
+
+/**
+ * Ensure PocketBase is authenticated for the current request.
+ * Prefer passing a user or admin auth token rather than trusting userId alone.
+ */
+export function applyAuthToken(authToken) {
+    if (authToken) {
+        pb.authStore.save(authToken, null);
+    } else {
+        pb.authStore.clear();
+    }
+}
 
 /**
  * Check if user has purchased a specific mastery kit
@@ -28,14 +44,23 @@ export async function getUserMasteryKits(userId) {
             expand: 'mastery_kit',
         });
 
-        return purchases.map(purchase => ({
-            id: purchase.expand.mastery_kit.id,
-            title: purchase.expand.mastery_kit.title,
-            language: purchase.expand.mastery_kit.language,
-            description: purchase.expand.mastery_kit.description,
-            thumbnail: purchase.expand.mastery_kit.thumbnail,
-            purchaseDate: purchase.purchase_date,
-        }));
+        return purchases.map(purchase => {
+            const kit = purchase.expand?.mastery_kit;
+
+            if (!kit) return null;
+
+            return {
+                id: kit.id,
+                title: kit.title,
+                language: kit.language,
+                description: kit.description,
+                // Generate a full, secure URL for thumbnails (works with S3/private storage)
+                thumbnail: kit.thumbnail
+                    ? pb.files.getUrl(kit, kit.thumbnail)
+                    : '/images/default-mastery-kit.png',
+                purchaseDate: purchase.purchase_date,
+            };
+        }).filter(Boolean);
     } catch (error) {
         console.error('Error fetching user mastery kits:', error);
         throw error;
@@ -58,12 +83,13 @@ export async function getMasteryKitContent(userId, masteryKitId) {
         const masteryKit = await pb.collection('mastery_kits').getOne(masteryKitId);
 
         // Generate file URLs (PocketBase automatically handles S3 presigned URLs)
-        const fileUrls = masteryKit.files.map(filename => {
-            return pb.files.getUrl(masteryKit, filename, {
-                // Optional: Add token for additional security
+        const fileUrls = (masteryKit.files || []).map((filename) =>
+            pb.files.getUrl(masteryKit, filename, {
+                // Include auth token when present so PocketBase
+                // can enforce per-user access before issuing presigned URLs.
                 token: pb.authStore.token,
-            });
-        });
+            })
+        );
 
         return {
             id: masteryKit.id,
@@ -71,7 +97,9 @@ export async function getMasteryKitContent(userId, masteryKitId) {
             language: masteryKit.language,
             description: masteryKit.description,
             files: fileUrls,
-            thumbnail: pb.files.getUrl(masteryKit, masteryKit.thumbnail),
+            thumbnail: masteryKit.thumbnail
+                ? pb.files.getUrl(masteryKit, masteryKit.thumbnail)
+                : '/images/default-mastery-kit.png',
         };
     } catch (error) {
         console.error('Error fetching mastery kit content:', error);
@@ -157,6 +185,7 @@ export async function uploadMasteryKitFiles(masteryKitData, files) {
 }
 
 export default {
+    applyAuthToken,
     checkUserAccess,
     getUserMasteryKits,
     getMasteryKitContent,

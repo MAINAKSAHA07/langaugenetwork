@@ -21,7 +21,11 @@ const TermsSection = () => {
                         <p className="mb-4">Please read these Terms & Conditions carefully before purchasing the French Mastery Kit.</p>
 
                         <h4 className="font-bold text-[#1a1a2e] mt-4 mb-2">1. Digital Product Disclaimer</h4>
-                        <p className="mb-4">This is a fully digital product. No physical books will be shipped. Access is provided immediately via email upon successful payment.</p>
+                        <p className="mb-4">
+                            This is a fully digital product. No physical books will be shipped. Access is provided through your
+                            secure TLN account under the <strong>My Mastery Kits</strong> page once your payment is confirmed
+                            (you will also receive a confirmation email with next steps).
+                        </p>
 
                         <h4 className="font-bold text-[#1a1a2e] mt-4 mb-2">2. No Refunds Policy</h4>
                         <p className="mb-4">Due to the immediate digital nature of this product, all sales are final. We do not offer refunds once access has been granted.</p>

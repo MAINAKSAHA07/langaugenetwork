@@ -11,3 +11,4 @@ export { default as demoService } from './demoService.js';
 export { default as newsletterService } from './newsletterService.js';
 export { default as schoolEnrollmentService } from './schoolEnrollmentService.js';
 export { default as collegeEnrollmentService } from './collegeEnrollmentService.js';
+export { default as masteryKitService } from './masteryKitService.js';

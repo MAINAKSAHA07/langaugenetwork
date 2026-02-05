@@ -34,3 +34,14 @@ backend/pb_migrations/
 # Docker
 .docker/
 *.pem
+
+# AWS Credentials & Sensitive Files
+pocketbasetln_accessKeys.csv
+*accessKeys.csv
+*.csv
+.env
+.env.local
+.env.production
+upload-to-pocketbase.js
+upload-all-mastery-kits.js
+upload-remaining-kits.js

@@ -17,6 +17,8 @@ const AdminDashboard = () => {
     enrollments: 0,
     orders: 0,
     teacherApplications: 0,
+    masteryKits: 0,
+    masteryKitPurchases: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -46,9 +48,11 @@ const AdminDashboard = () => {
         pb.collection('enrollments').getList(1, 1).catch(() => ({ totalItems: 0 })),
         pb.collection('orders').getList(1, 1).catch(() => ({ totalItems: 0 })),
         pb.collection('teacher_applications').getList(1, 1).catch(() => ({ totalItems: 0 })),
+        pb.collection('mastery_kits').getList(1, 1).catch(() => ({ totalItems: 0 })),
+        pb.collection('mastery_kit_purchases').getList(1, 1).catch(() => ({ totalItems: 0 })),
       ];
 
-      const [contacts, demos, blogs, batches, adultBatches, kidsBatches, newsletters, schoolEnrollments, collegeEnrollments, enrollments, orders, teacherApplications] = await Promise.all(promises);
+      const [contacts, demos, blogs, batches, adultBatches, kidsBatches, newsletters, schoolEnrollments, collegeEnrollments, enrollments, orders, teacherApplications, masteryKits, masteryKitPurchases] = await Promise.all(promises);
 
       setStats({
         contacts: contacts.totalItems,
@@ -63,6 +67,8 @@ const AdminDashboard = () => {
         enrollments: enrollments.totalItems,
         orders: orders.totalItems,
         teacherApplications: teacherApplications.totalItems,
+        masteryKits: masteryKits.totalItems,
+        masteryKitPurchases: masteryKitPurchases.totalItems,
       });
     } catch (error) {
       console.error('Failed to load stats:', error);
@@ -193,6 +199,18 @@ const AdminDashboard = () => {
             icon="👨‍🏫"
             link="/admin/teacher-applications"
           />
+          <StatCard
+            title="Mastery Kits"
+            value={stats.masteryKits}
+            icon="📚"
+            link="/admin/mastery-kit-access"
+          />
+          <StatCard
+            title="Mastery Kit Access"
+            value={stats.masteryKitPurchases}
+            icon="🔑"
+            link="/admin/mastery-kit-access"
+          />
         </div>
 
         {/* Quick Actions */}
@@ -298,6 +316,13 @@ const AdminDashboard = () => {
               className="w-full text-left px-6 py-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-between"
             >
               <span className="font-medium text-gray-900">Teacher Applications</span>
+              <span className="text-[#FF6B35]">→</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin/mastery-kit-access')}
+              className="w-full text-left px-6 py-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-between"
+            >
+              <span className="font-medium text-gray-900">Mastery Kit Access Management</span>
               <span className="text-[#FF6B35]">→</span>
             </button>
           </div>

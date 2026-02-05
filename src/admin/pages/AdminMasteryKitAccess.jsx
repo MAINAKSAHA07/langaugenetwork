@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import pb from '../../config/pocketbase';
-import '../pages/AdminDashboard.css';
 
 const AdminMasteryKitAccess = () => {
     const [users, setUsers] = useState([]);
@@ -115,6 +114,39 @@ const AdminMasteryKitAccess = () => {
                     {message.text}
                 </div>
             )}
+
+            {/* Available Mastery Kits */}
+            <div className="admin-card">
+                <h2>Available Mastery Kits ({masteryKits.length})</h2>
+                <div className="kits-grid">
+                    {masteryKits.length === 0 ? (
+                        <p style={{ textAlign: 'center', color: '#666' }}>No mastery kits uploaded yet</p>
+                    ) : (
+                        masteryKits.map((kit) => (
+                            <div key={kit.id} className="kit-card">
+                                <div className="kit-header">
+                                    <h3>{kit.title}</h3>
+                                    <span className="price-badge">₹{kit.price}</span>
+                                </div>
+                                <p className="kit-description">{kit.description}</p>
+                                <div className="kit-stats">
+                                    <div className="stat">
+                                        <span className="stat-icon">📁</span>
+                                        <span className="stat-value">{kit.files?.length || 0} files</span>
+                                    </div>
+                                    <div className="stat">
+                                        <span className="stat-icon">🌐</span>
+                                        <span className="stat-value">{kit.language}</span>
+                                    </div>
+                                </div>
+                                <div className="kit-id">
+                                    <small>ID: {kit.id}</small>
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
+            </div>
 
             {/* Grant Access Form */}
             <div className="admin-card">
@@ -333,6 +365,90 @@ const AdminMasteryKitAccess = () => {
           font-weight: 700;
           color: #333;
           margin: 0;
+        }
+
+        .kits-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 20px;
+          margin-top: 20px;
+        }
+
+        .kit-card {
+          background: #f8f9fa;
+          border: 1px solid #e0e0e0;
+          border-radius: 8px;
+          padding: 20px;
+          transition: all 0.3s ease;
+        }
+
+        .kit-card:hover {
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          transform: translateY(-2px);
+        }
+
+        .kit-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 12px;
+        }
+
+        .kit-header h3 {
+          margin: 0;
+          font-size: 18px;
+          color: #333;
+          flex: 1;
+        }
+
+        .price-badge {
+          background: #FF6B35;
+          color: white;
+          padding: 4px 12px;
+          border-radius: 20px;
+          font-size: 14px;
+          font-weight: 600;
+          margin-left: 10px;
+        }
+
+        .kit-description {
+          color: #666;
+          font-size: 14px;
+          margin: 0 0 16px 0;
+          line-height: 1.5;
+        }
+
+        .kit-stats {
+          display: flex;
+          gap: 20px;
+          margin-bottom: 12px;
+        }
+
+        .stat {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .stat-icon {
+          font-size: 16px;
+        }
+
+        .stat-value {
+          font-size: 14px;
+          color: #555;
+          font-weight: 500;
+        }
+
+        .kit-id {
+          margin-top: 12px;
+          padding-top: 12px;
+          border-top: 1px solid #e0e0e0;
+        }
+
+        .kit-id small {
+          color: #999;
+          font-size: 12px;
         }
       `}</style>
         </div>

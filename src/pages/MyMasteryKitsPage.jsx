@@ -10,6 +10,7 @@ const MyMasteryKitsPage = () => {
     const [kitContent, setKitContent] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [activeFile, setActiveFile] = useState(null); // file currently shown in inline viewer
 
     useEffect(() => {
         if (user) {
@@ -36,6 +37,10 @@ const MyMasteryKitsPage = () => {
             const content = await getMasteryKitContent(user.id, kitId);
             setKitContent(content);
             setSelectedKit(kitId);
+            // Default to first file in the kit (if any) for inline viewing
+            if (content.files && content.files.length > 0) {
+                setActiveFile(content.files[0]);
+            }
         } catch (err) {
             setError('Failed to load mastery kit content');
             console.error(err);
@@ -47,6 +52,7 @@ const MyMasteryKitsPage = () => {
     const handleBackToList = () => {
         setSelectedKit(null);
         setKitContent(null);
+        setActiveFile(null);
     };
 
     if (!user) {
@@ -139,40 +145,39 @@ const MyMasteryKitsPage = () => {
                                         {kitContent.files.map((fileUrl, index) => {
                                             const fileName = fileUrl.split('/').pop().split('?')[0];
                                             const fileExtension = fileName.split('.').pop().toLowerCase();
+                                            const isPdf = fileExtension === 'pdf';
+                                            const isVideo = fileExtension === 'mp4';
+                                            const isAudio = fileExtension === 'mp3';
+                                            const isZip = fileExtension === 'zip';
 
                                             return (
-                                                <div key={index} className="file-item">
+                                                <div
+                                                    key={index}
+                                                    className={`file-item ${activeFile === fileUrl ? 'file-item-active' : ''}`}
+                                                    onClick={() => setActiveFile(fileUrl)}
+                                                >
                                                     <div className="file-icon">
-                                                        {fileExtension === 'pdf' && '📄'}
-                                                        {fileExtension === 'mp4' && '🎥'}
-                                                        {fileExtension === 'mp3' && '🎵'}
-                                                        {!['pdf', 'mp4', 'mp3'].includes(fileExtension) && '📎'}
+                                                        {isPdf && '📄'}
+                                                        {isVideo && '🎥'}
+                                                        {isAudio && '🎵'}
+                                                        {isZip && '🗂️'}
+                                                        {!isPdf && !isVideo && !isAudio && !isZip && '📎'}
                                                     </div>
                                                     <div className="file-info">
                                                         <p className="file-name">{fileName}</p>
                                                         <p className="file-type">{fileExtension.toUpperCase()}</p>
                                                     </div>
-                                                    <div className="file-actions">
-                                                        {fileExtension === 'pdf' && (
-                                                            <a
-                                                                href={fileUrl}
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
+                                                    <div className="file-actions" onClick={(e) => e.stopPropagation()}>
+                                                        {(isPdf || isVideo || isAudio) && (
+                                                            <button
+                                                                type="button"
                                                                 className="btn-secondary"
+                                                                onClick={() => setActiveFile(fileUrl)}
                                                             >
-                                                                View
-                                                            </a>
+                                                                {isPdf ? 'Open' : 'Play'}
+                                                            </button>
                                                         )}
-                                                        {(fileExtension === 'mp4' || fileExtension === 'mp3') && (
-                                                            <a
-                                                                href={fileUrl}
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
-                                                                className="btn-secondary"
-                                                            >
-                                                                Play
-                                                            </a>
-                                                        )}
+                                                        {/* Always allow direct download (PDFs, ZIPs, any file) */}
                                                         <a
                                                             href={fileUrl}
                                                             download
@@ -187,18 +192,18 @@ const MyMasteryKitsPage = () => {
                                     </div>
                                 </div>
 
-                                {/* Embedded viewer for PDFs and videos */}
+                                {/* Embedded viewer for the currently selected file */}
                                 <div className="content-preview">
-                                    {kitContent.files.map((fileUrl, index) => {
-                                        const fileExtension = fileUrl.split('.').pop().split('?')[0].toLowerCase();
+                                    {activeFile && (() => {
+                                        const ext = activeFile.split('.').pop().split('?')[0].toLowerCase();
 
-                                        if (fileExtension === 'pdf') {
+                                        if (ext === 'pdf') {
                                             return (
-                                                <div key={index} className="pdf-viewer">
+                                                <div className="pdf-viewer">
                                                     <h3>PDF Viewer</h3>
                                                     <iframe
-                                                        src={fileUrl}
-                                                        title={`PDF ${index + 1}`}
+                                                        src={activeFile}
+                                                        title="PDF Viewer"
                                                         width="100%"
                                                         height="800px"
                                                     />
@@ -206,20 +211,41 @@ const MyMasteryKitsPage = () => {
                                             );
                                         }
 
-                                        if (fileExtension === 'mp4') {
+                                        if (ext === 'mp4') {
                                             return (
-                                                <div key={index} className="video-player">
+                                                <div className="video-player">
                                                     <h3>Video Player</h3>
                                                     <video controls width="100%">
-                                                        <source src={fileUrl} type="video/mp4" />
+                                                        <source src={activeFile} type="video/mp4" />
                                                         Your browser does not support the video tag.
                                                     </video>
                                                 </div>
                                             );
                                         }
 
-                                        return null;
-                                    })}
+                                        if (ext === 'mp3') {
+                                            return (
+                                                <div className="audio-player">
+                                                    <h3>Audio Player</h3>
+                                                    <audio controls>
+                                                        <source src={activeFile} type="audio/mpeg" />
+                                                        Your browser does not support the audio element.
+                                                    </audio>
+                                                </div>
+                                            );
+                                        }
+
+                                        // For ZIP and other formats we only support downloading (no inline preview)
+                                        return (
+                                            <div className="download-only">
+                                                <h3>Download File</h3>
+                                                <p>This file type can be downloaded to your device.</p>
+                                                <a href={activeFile} download className="btn-primary">
+                                                    Download
+                                                </a>
+                                            </div>
+                                        );
+                                    })()}
                                 </div>
                             </>
                         )}

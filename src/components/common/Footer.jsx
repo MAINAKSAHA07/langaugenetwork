@@ -78,6 +78,22 @@ const Footer = () => {
               <li><Link to="/english-mastery-kit" className="hover:text-accent transition-colors">English Mastery Kit (Vol 1-4)</Link></li>
               <li><Link to="/german-a1-mastery-kit" className="hover:text-accent transition-colors">German A1 Mastery Kit</Link></li>
             </ul>
+
+            {/* Access Mastery Kits CTA */}
+            <div className="mt-4">
+              <Link
+                to="/my-mastery-kits"
+                className="inline-block w-full text-center text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg hover:brightness-110 transition-all"
+                style={{ backgroundColor: '#1F9F90' }}
+              >
+                Access My Mastery Kits
+              </Link>
+              <p className="mt-2 text-[11px] text-gray-600 leading-snug">
+                If you purchased a Mastery Kit but don&apos;t have an account yet, create your TLN account
+                using the <span className="font-semibold">same email ID</span> you used to buy. All your PDFs,
+                books and resources will be available and downloadable under <span className="font-semibold">My Mastery Kits</span>.
+              </p>
+            </div>
           </div>
 
           {/* Study Abroad */}

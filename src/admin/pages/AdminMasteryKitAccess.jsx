@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import pb from '../../config/pocketbase';
 
 const AdminMasteryKitAccess = () => {
+    const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const [masteryKits, setMasteryKits] = useState([]);
     const [purchases, setPurchases] = useState([]);
@@ -11,8 +13,15 @@ const AdminMasteryKitAccess = () => {
     const [message, setMessage] = useState({ type: '', text: '' });
 
     useEffect(() => {
+        checkAuth();
         fetchData();
     }, []);
+
+    const checkAuth = () => {
+        if (!pb.authStore.isValid) {
+            navigate('/admin/login');
+        }
+    };
 
     const fetchData = async () => {
         try {

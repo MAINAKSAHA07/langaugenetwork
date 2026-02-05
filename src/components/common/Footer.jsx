@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Footer = () => {
+  const { user } = useAuth();
   return (
     <footer className="bg-gray-50 text-gray-700 py-8 md:py-12 relative">
       <div className="container-custom max-w-7xl px-4">
@@ -86,12 +88,13 @@ const Footer = () => {
                 className="inline-block w-full text-center text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg hover:brightness-110 transition-all"
                 style={{ backgroundColor: '#1F9F90' }}
               >
-                Access My Mastery Kits
+                {user ? 'Access My Mastery Kits' : 'Login to Access My Mastery Kits'}
               </Link>
               <p className="mt-2 text-[11px] text-gray-600 leading-snug">
-                If you purchased a Mastery Kit but don&apos;t have an account yet, create your TLN account
-                using the <span className="font-semibold">same email ID</span> you used to buy. All your PDFs,
-                books and resources will be available and downloadable under <span className="font-semibold">My Mastery Kits</span>.
+                Mastery Kit content is <span className="font-semibold">login based</span>. If you purchased a kit,
+                please log in or create your TLN account using the <span className="font-semibold">same email ID</span>{' '}
+                you used to buy. All your PDFs, books and resources will then be available and downloadable under{' '}
+                <span className="font-semibold">My Mastery Kits</span>.
               </p>
             </div>
           </div>

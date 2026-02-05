@@ -333,6 +333,113 @@ const collectionSchemas = [
     updateRule: '@request.auth.id != ""',
     deleteRule: '@request.auth.id != ""',
   },
+
+  // 9. Mastery Kits (digital products stored in S3 via PocketBase files)
+  {
+    name: 'mastery_kits',
+    type: 'base',
+    schema: [
+      { name: 'title', type: 'text', required: true, options: { min: 3, max: 200 } },
+      {
+        name: 'language',
+        type: 'text',
+        required: false,
+        options: { max: 50 },
+      },
+      { name: 'description', type: 'text', required: false, options: { max: 1000 } },
+      {
+        name: 'price',
+        type: 'number',
+        required: false,
+        options: { min: 0 },
+      },
+      {
+        name: 'files',
+        type: 'file',
+        required: false,
+        options: {
+          maxSelect: 200, // allow many PDFs/ZIPs per kit
+          maxSize: 524288000, // 500MB per file (backend/S3 will enforce real limits)
+          mimeTypes: [
+            'application/pdf',
+            'application/zip',
+            'application/x-zip-compressed',
+            'audio/mpeg',
+            'audio/x-wav',
+            'video/mp4',
+          ],
+        },
+      },
+      {
+        name: 'thumbnail',
+        type: 'file',
+        required: false,
+        options: {
+          maxSelect: 1,
+          maxSize: 5242880,
+          mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+        },
+      },
+    ],
+    listRule: '', // public browse (content is still protected via purchases + file URLs)
+    viewRule: '',
+    createRule: '@request.auth.id != ""',
+    updateRule: '@request.auth.id != ""',
+    deleteRule: '@request.auth.id != ""',
+  },
+
+  // 10. Mastery Kit Purchases (link users to kits for access control)
+  {
+    name: 'mastery_kit_purchases',
+    type: 'base',
+    schema: [
+      {
+        name: 'user',
+        type: 'relation',
+        required: true,
+        options: {
+          collectionId: '_pb_users_auth_', // built-in users collection
+          cascadeDelete: false,
+          maxSelect: 1,
+        },
+      },
+      {
+        name: 'mastery_kit',
+        type: 'relation',
+        required: true,
+        options: {
+          collectionId: null, // will be resolved by name = 'mastery_kits' in PB admin, or adjusted by scripts
+          cascadeDelete: false,
+          maxSelect: 1,
+        },
+      },
+      {
+        name: 'purchase_date',
+        type: 'date',
+        required: true,
+      },
+      {
+        name: 'payment_status',
+        type: 'select',
+        required: true,
+        options: {
+          maxSelect: 1,
+          values: ['pending', 'completed', 'failed', 'refunded'],
+        },
+      },
+      {
+        name: 'transaction_id',
+        type: 'text',
+        required: false,
+        options: { max: 200 },
+      },
+    ],
+    listRule: '@request.auth.id != "" && user = @request.auth.id',
+    viewRule: '@request.auth.id != "" && user = @request.auth.id',
+    createRule: '@request.auth.id != ""',
+    updateRule: '@request.auth.id != ""',
+    deleteRule: '@request.auth.id != ""',
+  },
 ];
 
 module.exports = { LANGUAGE_OPTIONS, collectionSchemas };

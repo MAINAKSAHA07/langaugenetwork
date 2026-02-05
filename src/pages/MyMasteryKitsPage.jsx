@@ -4,19 +4,57 @@ import { getUserMasteryKits, getMasteryKitContent } from '../api/masteryKits';
 import './MyMasteryKitsPage.css';
 
 const MyMasteryKitsPage = () => {
-    const { user } = useAuth();
+    const { user, login, register, loading: authLoading } = useAuth();
     const [masteryKits, setMasteryKits] = useState([]);
     const [selectedKit, setSelectedKit] = useState(null);
     const [kitContent, setKitContent] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [activeFile, setActiveFile] = useState(null); // file currently shown in inline viewer
+    const [authMode, setAuthMode] = useState('login'); // 'login' | 'register'
+    const [authForm, setAuthForm] = useState({ name: '', email: '', password: '' });
+    const [authError, setAuthError] = useState(null);
 
     useEffect(() => {
         if (user) {
             fetchUserMasteryKits();
+        } else {
+            // Not logged in, stop loading state for list
+            setLoading(false);
         }
     }, [user]);
+
+    const handleAuthInputChange = (e) => {
+        const { name, value } = e.target;
+        setAuthForm((prev) => ({ ...prev, [name]: value }));
+        setAuthError(null);
+    };
+
+    const handleAuthSubmit = async (e) => {
+        e.preventDefault();
+        setAuthError(null);
+
+        try {
+            if (authMode === 'login') {
+                const res = await login(authForm.email, authForm.password);
+                if (!res.success) {
+                    setAuthError(res.error || 'Login failed. Please check your details.');
+                }
+            } else {
+                if (!authForm.name) {
+                    setAuthError('Please enter your name.');
+                    return;
+                }
+                const res = await register(authForm.email, authForm.password, authForm.name);
+                if (!res.success) {
+                    setAuthError(res.error || 'Registration failed. Please try again.');
+                }
+            }
+        } catch (err) {
+            console.error('Auth error:', err);
+            setAuthError('Something went wrong. Please try again.');
+        }
+    };
 
     const fetchUserMasteryKits = async () => {
         try {
@@ -59,8 +97,83 @@ const MyMasteryKitsPage = () => {
         return (
             <div className="my-mastery-kits-page">
                 <div className="auth-required">
-                    <h2>Please Login</h2>
-                    <p>You need to be logged in to view your mastery kits.</p>
+                    <h1>Access Your Mastery Kits</h1>
+                    <p className="auth-subtitle">
+                        Mastery Kit content is protected. Please {authMode === 'login' ? 'log in' : 'create an account'} using
+                        the <strong>same email ID</strong> you used to purchase.
+                    </p>
+
+                    <div className="auth-toggle">
+                        <button
+                            className={authMode === 'login' ? 'auth-tab active' : 'auth-tab'}
+                            onClick={() => setAuthMode('login')}
+                        >
+                            Login
+                        </button>
+                        <button
+                            className={authMode === 'register' ? 'auth-tab active' : 'auth-tab'}
+                            onClick={() => setAuthMode('register')}
+                        >
+                            Create Account
+                        </button>
+                    </div>
+
+                    <form className="auth-form" onSubmit={handleAuthSubmit}>
+                        {authMode === 'register' && (
+                            <div className="form-group">
+                                <label htmlFor="name">Full Name</label>
+                                <input
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    value={authForm.name}
+                                    onChange={handleAuthInputChange}
+                                    placeholder="Your name"
+                                    required
+                                />
+                            </div>
+                        )}
+
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                value={authForm.email}
+                                onChange={handleAuthInputChange}
+                                placeholder="Email used to buy the Mastery Kit"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                value={authForm.password}
+                                onChange={handleAuthInputChange}
+                                placeholder="Enter your password"
+                                required
+                            />
+                        </div>
+
+                        {authError && <div className="auth-error">{authError}</div>}
+
+                        <button
+                            type="submit"
+                            className="btn-primary auth-submit"
+                            disabled={authLoading}
+                        >
+                            {authLoading
+                                ? 'Please wait...'
+                                : authMode === 'login'
+                                ? 'Login & View My Kits'
+                                : 'Create Account & View My Kits'}
+                        </button>
+                    </form>
                 </div>
             </div>
         );

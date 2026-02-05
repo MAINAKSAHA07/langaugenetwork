@@ -88,13 +88,20 @@ const Footer = () => {
                 className="inline-block w-full text-center text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg hover:brightness-110 transition-all"
                 style={{ backgroundColor: '#1F9F90' }}
               >
-                {user ? 'Access My Mastery Kits' : 'Login to Access My Mastery Kits'}
+                {user ? 'Access My Mastery Kits' : 'View My Mastery Kits'}
               </Link>
               <p className="mt-2 text-[11px] text-gray-600 leading-snug">
-                Mastery Kit content is <span className="font-semibold">login based</span>. If you purchased a kit,
-                please log in or create your TLN account using the <span className="font-semibold">same email ID</span>{' '}
-                you used to buy. All your PDFs, books and resources will then be available and downloadable under{' '}
-                <span className="font-semibold">My Mastery Kits</span>.
+                {user ? (
+                  <>
+                    Click above to access all your purchased mastery kits. All PDFs, books, and resources are available for download.
+                  </>
+                ) : (
+                  <>
+                    Mastery Kit content is <span className="font-semibold">login protected</span>. After purchasing, click above and{' '}
+                    <span className="font-semibold">login or create an account</span> using the{' '}
+                    <span className="font-semibold">same email ID</span> you used to buy. Your content will then be accessible.
+                  </>
+                )}
               </p>
             </div>
           </div>

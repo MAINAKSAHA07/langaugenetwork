@@ -45,13 +45,11 @@ export async function getMasteryKitContent(userId, masteryKitId) {
         // Fetch the mastery kit details
         const masteryKit = await pb.collection('mastery_kits').getOne(masteryKitId);
 
-        // Generate secure file URLs
-        // PocketBase automatically generates presigned URLs for S3 files
+        // Generate file URLs
+        // PocketBase automatically generates the correct URLs for S3 files
         const fileUrls = masteryKit.files?.map(filename => {
-            return pb.files.getUrl(masteryKit, filename, {
-                // The token ensures only authenticated users can access
-                token: pb.authStore.token,
-            });
+            // This generates the full URL to the file (either local or S3)
+            return pb.files.getUrl(masteryKit, filename);
         }) || [];
 
         return {

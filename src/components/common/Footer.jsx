@@ -84,12 +84,21 @@ const Footer = () => {
             {/* Access Mastery Kits CTA */}
             <div className="mt-4">
               <Link
-                to="/my-mastery-kits"
+                to={user ? '/my-mastery-kits' : '/my-mastery-kits?mode=login'}
                 className="inline-block w-full text-center text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg hover:brightness-110 transition-all"
                 style={{ backgroundColor: '#1F9F90' }}
               >
-                {user ? 'Access My Mastery Kits' : 'View My Mastery Kits'}
+                {user ? 'Access My Mastery Kits' : 'Login to Access My Mastery Kits'}
               </Link>
+
+              {!user && (
+                <Link
+                  to="/my-mastery-kits?mode=register"
+                  className="mt-2 inline-block w-full text-center px-4 py-2 rounded-lg text-sm font-semibold border border-[#1F9F90] text-[#1F9F90] hover:bg-[#1F9F90] hover:text-white transition-all"
+                >
+                  Create Account
+                </Link>
+              )}
               <p className="mt-2 text-[11px] text-gray-600 leading-snug">
                 {user ? (
                   <>

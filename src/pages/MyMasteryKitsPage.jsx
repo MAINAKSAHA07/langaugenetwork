@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { getUserMasteryKits, getMasteryKitContent } from '../api/masteryKits';
 import './MyMasteryKitsPage.css';
 
 const MyMasteryKitsPage = () => {
+    const location = useLocation();
     const { user, login, register, loading: authLoading } = useAuth();
     const [masteryKits, setMasteryKits] = useState([]);
     const [selectedKit, setSelectedKit] = useState(null);
@@ -23,6 +25,14 @@ const MyMasteryKitsPage = () => {
             setLoading(false);
         }
     }, [user]);
+
+    // Allow deep-linking into login/register from footer
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const mode = params.get('mode');
+        if (mode === 'register') setAuthMode('register');
+        if (mode === 'login') setAuthMode('login');
+    }, [location.search]);
 
     const handleAuthInputChange = (e) => {
         const { name, value } = e.target;

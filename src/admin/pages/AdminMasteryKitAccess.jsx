@@ -11,6 +11,7 @@ const AdminMasteryKitAccess = () => {
     const [selectedUser, setSelectedUser] = useState('');
     const [selectedKit, setSelectedKit] = useState('');
     const [message, setMessage] = useState({ type: '', text: '' });
+    const [grantingAll, setGrantingAll] = useState(false);
 
     useEffect(() => {
         checkAuth();
@@ -110,6 +111,46 @@ const AdminMasteryKitAccess = () => {
         }
     };
 
+    /** Grant the selected user access to ALL mastery kits (so they see every kit / all books on S3) */
+    const grantAllKitsToUser = async () => {
+        if (!selectedUser) {
+            setMessage({ type: 'error', text: 'Please select a user first' });
+            return;
+        }
+        setGrantingAll(true);
+        setMessage({ type: '', text: '' });
+        try {
+            const existing = await pb.collection('mastery_kit_purchases').getFullList({
+                filter: `user="${selectedUser}" && payment_status="completed"`,
+            });
+            const existingKitIds = new Set(existing.map((p) => p.mastery_kit));
+            let granted = 0;
+            for (const kit of masteryKits) {
+                if (existingKitIds.has(kit.id)) continue;
+                await pb.collection('mastery_kit_purchases').create({
+                    user: selectedUser,
+                    mastery_kit: kit.id,
+                    purchase_date: new Date().toISOString(),
+                    payment_status: 'completed',
+                    transaction_id: `ADMIN-ALL-KITS-${Date.now()}-${granted}`,
+                });
+                granted++;
+            }
+            setMessage({
+                type: 'success',
+                text: granted > 0
+                    ? `Granted access to ${granted} kit(s). User now sees all ${existingKitIds.size + granted} kit(s).`
+                    : 'User already has access to all kits.',
+            });
+            fetchData();
+        } catch (error) {
+            console.error('Error granting all kits:', error);
+            setMessage({ type: 'error', text: 'Failed to grant all kits' });
+        } finally {
+            setGrantingAll(false);
+        }
+    };
+
     if (loading) {
         return <div className="admin-container">Loading...</div>;
     }
@@ -195,9 +236,21 @@ const AdminMasteryKitAccess = () => {
                         </select>
                     </div>
 
-                    <button type="submit" className="btn-primary">
-                        Grant Access
-                    </button>
+                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+                        <button type="submit" className="btn-primary">
+                            Grant Access (one kit)
+                        </button>
+                        <button
+                            type="button"
+                            onClick={grantAllKitsToUser}
+                            disabled={!selectedUser || grantingAll}
+                            className="btn-primary"
+                            style={{ background: '#0d9488' }}
+                            title="Grant this user access to every mastery kit so they see all books on S3"
+                        >
+                            {grantingAll ? 'Granting…' : 'Grant this user ALL kits'}
+                        </button>
+                    </div>
                 </form>
             </div>
 

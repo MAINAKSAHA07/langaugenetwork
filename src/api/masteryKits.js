@@ -11,17 +11,23 @@ export async function getUserMasteryKits(userId) {
             sort: '-purchase_date',
         });
 
-        return purchases.map(purchase => ({
-            id: purchase.expand?.mastery_kit?.id,
-            title: purchase.expand?.mastery_kit?.title,
-            language: purchase.expand?.mastery_kit?.language,
-            description: purchase.expand?.mastery_kit?.description,
-            thumbnail: purchase.expand?.mastery_kit?.thumbnail
-                ? pb.files.getUrl(purchase.expand.mastery_kit, purchase.expand.mastery_kit.thumbnail)
-                : '/images/default-mastery-kit.png',
-            purchaseDate: purchase.purchase_date,
-            purchaseId: purchase.id,
-        }));
+        return purchases
+            .map(purchase => {
+                const kit = purchase.expand?.mastery_kit;
+                if (!kit) return null;
+                return {
+                    id: kit.id,
+                    title: kit.title,
+                    language: kit.language,
+                    description: kit.description,
+                    thumbnail: kit.thumbnail
+                        ? pb.files.getUrl(kit, kit.thumbnail)
+                        : '/images/default-mastery-kit.png',
+                    purchaseDate: purchase.purchase_date,
+                    purchaseId: purchase.id,
+                };
+            })
+            .filter(Boolean);
     } catch (error) {
         console.error('Error fetching user mastery kits:', error);
         throw new Error('Failed to load your mastery kits. Please try again.');

@@ -44,25 +44,28 @@ const MyMasteryKitsPage = () => {
         e.preventDefault();
         setAuthError(null);
 
+        if (authMode === 'register') {
+            if (!authForm.name?.trim()) {
+                setAuthError('Please enter your name.');
+                return;
+            }
+            if (authForm.password.length < 8) {
+                setAuthError('Password must be at least 8 characters.');
+                return;
+            }
+        }
+
         try {
             if (authMode === 'login') {
                 const res = await login(authForm.email, authForm.password);
-                if (!res.success) {
-                    setAuthError(res.error || 'Login failed. Please check your details.');
-                }
+                if (!res.success) setAuthError(res.error || 'Login failed. Please check your details.');
             } else {
-                if (!authForm.name) {
-                    setAuthError('Please enter your name.');
-                    return;
-                }
-                const res = await register(authForm.email, authForm.password, authForm.name);
-                if (!res.success) {
-                    setAuthError(res.error || 'Registration failed. Please try again.');
-                }
+                const res = await register(authForm.email, authForm.password, authForm.name?.trim());
+                if (!res.success) setAuthError(res.error || 'Registration failed. Please try again.');
             }
         } catch (err) {
             console.error('Auth error:', err);
-            setAuthError('Something went wrong. Please try again.');
+            setAuthError(err?.message || 'Something went wrong. Please try again.');
         }
     };
 
@@ -158,19 +161,24 @@ const MyMasteryKitsPage = () => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="password">Password {authMode === 'register' && '(min 8 characters)'}</label>
                             <input
                                 id="password"
                                 name="password"
                                 type="password"
                                 value={authForm.password}
                                 onChange={handleAuthInputChange}
-                                placeholder="Enter your password"
+                                placeholder={authMode === 'register' ? 'At least 8 characters' : 'Your password'}
                                 required
+                                minLength={authMode === 'register' ? 8 : undefined}
                             />
                         </div>
 
-                        {authError && <div className="auth-error">{authError}</div>}
+                        {authError && (
+                            <div className="auth-error" role="alert">
+                                {authError}
+                            </div>
+                        )}
 
                         <button
                             type="submit"

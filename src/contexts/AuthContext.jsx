@@ -1,6 +1,21 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import pb from '../config/pocketbase';
 
+/** Parse PocketBase ClientResponseError into a user-friendly message */
+function parsePocketBaseError(error) {
+    const data = error?.data;
+    if (data?.message) return data.message;
+    if (data?.data && typeof data.data === 'object') {
+        const parts = [];
+        for (const [field, messages] of Object.entries(data.data)) {
+            if (Array.isArray(messages) && messages[0]) parts.push(`${field}: ${messages[0]}`);
+            else if (typeof messages === 'string') parts.push(`${field}: ${messages}`);
+        }
+        if (parts.length) return parts.join('. ');
+    }
+    return error?.message || 'Something went wrong. Please try again.';
+}
+
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -39,18 +54,19 @@ export const AuthProvider = ({ children }) => {
             return { success: true, user: authData.record };
         } catch (error) {
             console.error('Login error:', error);
-            return { success: false, error: error.message };
+            return { success: false, error: parsePocketBaseError(error) };
         }
     };
 
     const register = async (email, password, name) => {
         try {
-            // Create user
+            // PocketBase users (auth) collection: email, password, passwordConfirm, name, emailVisibility
             const userData = {
-                email,
+                email: email.trim().toLowerCase(),
                 password,
                 passwordConfirm: password,
-                name,
+                name: (name || '').trim() || email.split('@')[0],
+                emailVisibility: true,
             };
 
             const record = await pb.collection('users').create(userData);
@@ -61,7 +77,8 @@ export const AuthProvider = ({ children }) => {
             return { success: true, user: record };
         } catch (error) {
             console.error('Registration error:', error);
-            return { success: false, error: error.message };
+            const msg = parsePocketBaseError(error);
+            return { success: false, error: msg };
         }
     };
 

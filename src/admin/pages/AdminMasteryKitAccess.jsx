@@ -9,9 +9,12 @@ const AdminMasteryKitAccess = () => {
     const [purchases, setPurchases] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedUser, setSelectedUser] = useState('');
-    const [selectedKit, setSelectedKit] = useState('');
+    const [selectedLanguage, setSelectedLanguage] = useState('');
     const [message, setMessage] = useState({ type: '', text: '' });
-    const [grantingAll, setGrantingAll] = useState(false);
+    const [grantingAccess, setGrantingAccess] = useState(false);
+
+    // Get unique languages from kits
+    const languages = [...new Set(masteryKits.map(kit => kit.language))].sort();
 
     useEffect(() => {
         checkAuth();
@@ -36,7 +39,7 @@ const AdminMasteryKitAccess = () => {
 
             // Fetch all mastery kits
             const kitsData = await pb.collection('mastery_kits').getFullList({
-                sort: '-created',
+                sort: 'language,title',
             });
             setMasteryKits(kitsData);
 
@@ -55,44 +58,66 @@ const AdminMasteryKitAccess = () => {
         }
     };
 
-    const grantAccess = async (e) => {
+    const grantLanguageAccess = async (e) => {
         e.preventDefault();
 
-        if (!selectedUser || !selectedKit) {
-            setMessage({ type: 'error', text: 'Please select both user and mastery kit' });
+        if (!selectedUser || !selectedLanguage) {
+            setMessage({ type: 'error', text: 'Please select both user and language' });
             return;
         }
 
-        try {
-            // Check if access already exists
-            const existing = await pb.collection('mastery_kit_purchases').getFullList({
-                filter: `user="${selectedUser}" && mastery_kit="${selectedKit}"`,
-            });
+        setGrantingAccess(true);
+        setMessage({ type: '', text: '' });
 
-            if (existing.length > 0) {
-                setMessage({ type: 'error', text: 'User already has access to this kit' });
+        try {
+            // Get all kits for the selected language
+            const languageKits = masteryKits.filter(kit => kit.language === selectedLanguage);
+
+            if (languageKits.length === 0) {
+                setMessage({ type: 'error', text: 'No kits found for this language' });
+                setGrantingAccess(false);
                 return;
             }
 
-            // Create purchase record
-            await pb.collection('mastery_kit_purchases').create({
-                user: selectedUser,
-                mastery_kit: selectedKit,
-                purchase_date: new Date().toISOString(),
-                payment_status: 'completed',
-                transaction_id: `ADMIN-${Date.now()}`,
+            // Check existing access
+            const existing = await pb.collection('mastery_kit_purchases').getFullList({
+                filter: `user="${selectedUser}" && payment_status="completed"`,
+            });
+            const existingKitIds = new Set(existing.map(p => p.mastery_kit));
+
+            // Grant access to all kits in this language
+            let granted = 0;
+            for (const kit of languageKits) {
+                if (existingKitIds.has(kit.id)) continue;
+
+                await pb.collection('mastery_kit_purchases').create({
+                    user: selectedUser,
+                    mastery_kit: kit.id,
+                    purchase_date: new Date().toISOString(),
+                    payment_status: 'completed',
+                    transaction_id: `ADMIN-${selectedLanguage.toUpperCase()}-${Date.now()}-${granted}`,
+                    amount: kit.price || 0,
+                });
+                granted++;
+            }
+
+            const userName = users.find(u => u.id === selectedUser)?.email || 'User';
+            setMessage({
+                type: 'success',
+                text: granted > 0
+                    ? `✅ Granted ${userName} access to ${granted} ${selectedLanguage.toUpperCase()} kit(s)!`
+                    : `User already has access to all ${selectedLanguage.toUpperCase()} kits.`,
             });
 
-            setMessage({ type: 'success', text: 'Access granted successfully!' });
             setSelectedUser('');
-            setSelectedKit('');
-
-            // Refresh purchases
+            setSelectedLanguage('');
             fetchData();
 
         } catch (error) {
             console.error('Error granting access:', error);
             setMessage({ type: 'error', text: 'Failed to grant access' });
+        } finally {
+            setGrantingAccess(false);
         }
     };
 
@@ -111,44 +136,62 @@ const AdminMasteryKitAccess = () => {
         }
     };
 
-    /** Grant the selected user access to ALL mastery kits (so they see every kit / all books on S3) */
-    const grantAllKitsToUser = async () => {
-        if (!selectedUser) {
-            setMessage({ type: 'error', text: 'Please select a user first' });
+    const revokeLanguageAccess = async (userId, language) => {
+        if (!confirm(`Are you sure you want to revoke ALL ${language.toUpperCase()} access for this user?`)) {
             return;
         }
-        setGrantingAll(true);
-        setMessage({ type: '', text: '' });
+
         try {
-            const existing = await pb.collection('mastery_kit_purchases').getFullList({
-                filter: `user="${selectedUser}" && payment_status="completed"`,
-            });
-            const existingKitIds = new Set(existing.map((p) => p.mastery_kit));
-            let granted = 0;
-            for (const kit of masteryKits) {
-                if (existingKitIds.has(kit.id)) continue;
-                await pb.collection('mastery_kit_purchases').create({
-                    user: selectedUser,
-                    mastery_kit: kit.id,
-                    purchase_date: new Date().toISOString(),
-                    payment_status: 'completed',
-                    transaction_id: `ADMIN-ALL-KITS-${Date.now()}-${granted}`,
-                });
-                granted++;
+            // Get all kits for this language
+            const languageKits = masteryKits.filter(kit => kit.language === language);
+            const kitIds = languageKits.map(kit => kit.id);
+
+            // Find and delete all purchases for these kits
+            const userPurchases = purchases.filter(
+                p => p.user === userId && kitIds.includes(p.mastery_kit)
+            );
+
+            for (const purchase of userPurchases) {
+                await pb.collection('mastery_kit_purchases').delete(purchase.id);
             }
+
             setMessage({
                 type: 'success',
-                text: granted > 0
-                    ? `Granted access to ${granted} kit(s). User now sees all ${existingKitIds.size + granted} kit(s).`
-                    : 'User already has access to all kits.',
+                text: `Revoked ${language.toUpperCase()} access (${userPurchases.length} kit(s))`
             });
             fetchData();
         } catch (error) {
-            console.error('Error granting all kits:', error);
-            setMessage({ type: 'error', text: 'Failed to grant all kits' });
-        } finally {
-            setGrantingAll(false);
+            console.error('Error revoking language access:', error);
+            setMessage({ type: 'error', text: 'Failed to revoke language access' });
         }
+    };
+
+    // Group kits by language for display
+    const kitsByLanguage = languages.reduce((acc, lang) => {
+        acc[lang] = masteryKits.filter(kit => kit.language === lang);
+        return acc;
+    }, {});
+
+    // Group user access by language
+    const getUserAccessByLanguage = (userId) => {
+        const userPurchases = purchases.filter(p => p.user === userId);
+        const accessByLang = {};
+
+        languages.forEach(lang => {
+            const langKits = masteryKits.filter(kit => kit.language === lang);
+            const langKitIds = langKits.map(kit => kit.id);
+            const hasAccess = userPurchases.filter(p => langKitIds.includes(p.mastery_kit));
+
+            if (hasAccess.length > 0) {
+                accessByLang[lang] = {
+                    count: hasAccess.length,
+                    total: langKits.length,
+                    complete: hasAccess.length === langKits.length
+                };
+            }
+        });
+
+        return accessByLang;
     };
 
     if (loading) {
@@ -158,6 +201,9 @@ const AdminMasteryKitAccess = () => {
     return (
         <div className="admin-container">
             <h1>Mastery Kit Access Management</h1>
+            <p style={{ color: '#666', marginBottom: '30px' }}>
+                Grant users access to all kits in a specific language (French, English, German, etc.)
+            </p>
 
             {message.text && (
                 <div className={`message ${message.type}`}>
@@ -165,144 +211,206 @@ const AdminMasteryKitAccess = () => {
                 </div>
             )}
 
-            {/* Available Mastery Kits */}
+            {/* Available Languages & Kits */}
             <div className="admin-card">
-                <h2>Available Mastery Kits ({masteryKits.length})</h2>
-                <div className="kits-grid">
-                    {masteryKits.length === 0 ? (
-                        <p style={{ textAlign: 'center', color: '#666' }}>No mastery kits uploaded yet</p>
-                    ) : (
-                        masteryKits.map((kit) => (
-                            <div key={kit.id} className="kit-card">
-                                <div className="kit-header">
-                                    <h3>{kit.title}</h3>
-                                    <span className="price-badge">₹{kit.price}</span>
+                <h2>Available Languages & Kits</h2>
+                <div className="languages-grid">
+                    {languages.map(lang => {
+                        const kits = kitsByLanguage[lang] || [];
+                        const totalFiles = kits.reduce((sum, kit) => sum + (kit.files?.length || 0), 0);
+                        const totalValue = kits.reduce((sum, kit) => sum + (kit.price || 0), 0);
+
+                        return (
+                            <div key={lang} className="language-card">
+                                <div className="language-header">
+                                    <h3>
+                                        {lang === 'french' && '🇫🇷'}
+                                        {lang === 'english' && '🇬🇧'}
+                                        {lang === 'german' && '🇩🇪'}
+                                        {' '}{lang.toUpperCase()}
+                                    </h3>
+                                    <span className="kit-count">{kits.length} kits</span>
                                 </div>
-                                <p className="kit-description">{kit.description}</p>
-                                <div className="kit-stats">
+                                <div className="language-stats">
                                     <div className="stat">
                                         <span className="stat-icon">📁</span>
-                                        <span className="stat-value">{kit.files?.length || 0} files</span>
+                                        <span>{totalFiles} files</span>
                                     </div>
                                     <div className="stat">
-                                        <span className="stat-icon">🌐</span>
-                                        <span className="stat-value">{kit.language}</span>
+                                        <span className="stat-icon">💰</span>
+                                        <span>₹{totalValue}</span>
                                     </div>
                                 </div>
-                                <div className="kit-id">
-                                    <small>ID: {kit.id}</small>
+                                <div className="kit-list">
+                                    {kits.map(kit => (
+                                        <div key={kit.id} className="kit-item">
+                                            <span className="kit-name">{kit.title}</span>
+                                            <span className="kit-files">{kit.files?.length || 0} files</span>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
-                        ))
-                    )}
+                        );
+                    })}
                 </div>
             </div>
 
             {/* Grant Access Form */}
             <div className="admin-card">
-                <h2>Grant Access to User</h2>
-                <form onSubmit={grantAccess} className="grant-access-form">
-                    <div className="form-group">
-                        <label htmlFor="user">Select User:</label>
-                        <select
-                            id="user"
-                            value={selectedUser}
-                            onChange={(e) => setSelectedUser(e.target.value)}
-                            required
-                        >
-                            <option value="">-- Select User --</option>
-                            {users.map((user) => (
-                                <option key={user.id} value={user.id}>
-                                    {user.email} ({user.name || 'No name'})
-                                </option>
-                            ))}
-                        </select>
+                <h2>Grant Language Access to User</h2>
+                <form onSubmit={grantLanguageAccess} className="grant-access-form">
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label htmlFor="user">Select User:</label>
+                            <select
+                                id="user"
+                                value={selectedUser}
+                                onChange={(e) => setSelectedUser(e.target.value)}
+                                required
+                            >
+                                <option value="">-- Select User --</option>
+                                {users.map((user) => (
+                                    <option key={user.id} value={user.id}>
+                                        {user.email} ({user.name || 'No name'})
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="language">Select Language:</label>
+                            <select
+                                id="language"
+                                value={selectedLanguage}
+                                onChange={(e) => setSelectedLanguage(e.target.value)}
+                                required
+                            >
+                                <option value="">-- Select Language --</option>
+                                {languages.map((lang) => {
+                                    const kits = kitsByLanguage[lang] || [];
+                                    return (
+                                        <option key={lang} value={lang}>
+                                            {lang.toUpperCase()} ({kits.length} kits)
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                        </div>
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="kit">Select Mastery Kit:</label>
-                        <select
-                            id="kit"
-                            value={selectedKit}
-                            onChange={(e) => setSelectedKit(e.target.value)}
-                            required
-                        >
-                            <option value="">-- Select Mastery Kit --</option>
-                            {masteryKits.map((kit) => (
-                                <option key={kit.id} value={kit.id}>
-                                    {kit.title} - ₹{kit.price}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                    <button
+                        type="submit"
+                        className="btn-primary"
+                        disabled={grantingAccess}
+                    >
+                        {grantingAccess ? 'Granting Access...' : 'Grant Language Access'}
+                    </button>
 
-                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-                        <button type="submit" className="btn-primary">
-                            Grant Access (one kit)
-                        </button>
-                        <button
-                            type="button"
-                            onClick={grantAllKitsToUser}
-                            disabled={!selectedUser || grantingAll}
-                            className="btn-primary"
-                            style={{ background: '#0d9488' }}
-                            title="Grant this user access to every mastery kit so they see all books on S3"
-                        >
-                            {grantingAll ? 'Granting…' : 'Grant this user ALL kits'}
-                        </button>
-                    </div>
+                    {selectedLanguage && (
+                        <div className="info-box">
+                            <strong>ℹ️ This will grant access to:</strong>
+                            <ul>
+                                {(kitsByLanguage[selectedLanguage] || []).map(kit => (
+                                    <li key={kit.id}>{kit.title} ({kit.files?.length || 0} files)</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </form>
             </div>
 
-            {/* Current Access List */}
+            {/* User Access Overview */}
             <div className="admin-card">
-                <h2>Current Access ({purchases.length})</h2>
+                <h2>User Access Overview ({users.length} users)</h2>
                 <div className="table-container">
                     <table className="admin-table">
                         <thead>
                             <tr>
                                 <th>User</th>
-                                <th>Mastery Kit</th>
-                                <th>Purchase Date</th>
-                                <th>Status</th>
-                                <th>Transaction ID</th>
+                                <th>French Access</th>
+                                <th>English Access</th>
+                                <th>German Access</th>
+                                <th>Total Kits</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {purchases.length === 0 ? (
-                                <tr>
-                                    <td colSpan="6" style={{ textAlign: 'center' }}>
-                                        No access granted yet
-                                    </td>
-                                </tr>
-                            ) : (
-                                purchases.map((purchase) => (
-                                    <tr key={purchase.id}>
+                            {users.map(user => {
+                                const accessByLang = getUserAccessByLanguage(user.id);
+                                const totalAccess = Object.values(accessByLang).reduce((sum, a) => sum + a.count, 0);
+
+                                return (
+                                    <tr key={user.id}>
                                         <td>
-                                            {purchase.expand?.user?.email || 'Unknown'}
+                                            <strong>{user.email}</strong>
                                             <br />
-                                            <small>{purchase.expand?.user?.name || ''}</small>
+                                            <small>{user.name || 'No name'}</small>
                                         </td>
-                                        <td>{purchase.expand?.mastery_kit?.title || 'Unknown'}</td>
-                                        <td>{new Date(purchase.purchase_date).toLocaleDateString()}</td>
                                         <td>
-                                            <span className={`status-badge ${purchase.payment_status}`}>
-                                                {purchase.payment_status}
-                                            </span>
+                                            {accessByLang.french ? (
+                                                <div className="access-cell">
+                                                    <span className={`access-badge ${accessByLang.french.complete ? 'complete' : 'partial'}`}>
+                                                        {accessByLang.french.count}/{accessByLang.french.total} kits
+                                                    </span>
+                                                    <button
+                                                        onClick={() => revokeLanguageAccess(user.id, 'french')}
+                                                        className="btn-revoke-small"
+                                                        title="Revoke all French access"
+                                                    >
+                                                        ✕
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <span className="no-access">No access</span>
+                                            )}
                                         </td>
-                                        <td><small>{purchase.transaction_id}</small></td>
                                         <td>
-                                            <button
-                                                onClick={() => revokeAccess(purchase.id)}
-                                                className="btn-danger btn-small"
-                                            >
-                                                Revoke
-                                            </button>
+                                            {accessByLang.english ? (
+                                                <div className="access-cell">
+                                                    <span className={`access-badge ${accessByLang.english.complete ? 'complete' : 'partial'}`}>
+                                                        {accessByLang.english.count}/{accessByLang.english.total} kits
+                                                    </span>
+                                                    <button
+                                                        onClick={() => revokeLanguageAccess(user.id, 'english')}
+                                                        className="btn-revoke-small"
+                                                        title="Revoke all English access"
+                                                    >
+                                                        ✕
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <span className="no-access">No access</span>
+                                            )}
+                                        </td>
+                                        <td>
+                                            {accessByLang.german ? (
+                                                <div className="access-cell">
+                                                    <span className={`access-badge ${accessByLang.german.complete ? 'complete' : 'partial'}`}>
+                                                        {accessByLang.german.count}/{accessByLang.german.total} kits
+                                                    </span>
+                                                    <button
+                                                        onClick={() => revokeLanguageAccess(user.id, 'german')}
+                                                        className="btn-revoke-small"
+                                                        title="Revoke all German access"
+                                                    >
+                                                        ✕
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <span className="no-access">No access</span>
+                                            )}
+                                        </td>
+                                        <td>
+                                            <strong>{totalAccess}</strong> / {masteryKits.length}
+                                        </td>
+                                        <td>
+                                            <small style={{ color: '#666' }}>
+                                                Use language columns →
+                                            </small>
                                         </td>
                                     </tr>
-                                ))
-                            )}
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -315,11 +423,15 @@ const AdminMasteryKitAccess = () => {
                     <p className="stat-number">{users.length}</p>
                 </div>
                 <div className="stat-card">
-                    <h3>Total Mastery Kits</h3>
+                    <h3>Total Languages</h3>
+                    <p className="stat-number">{languages.length}</p>
+                </div>
+                <div className="stat-card">
+                    <h3>Total Kits</h3>
                     <p className="stat-number">{masteryKits.length}</p>
                 </div>
                 <div className="stat-card">
-                    <h3>Total Access Granted</h3>
+                    <h3>Total Access Grants</h3>
                     <p className="stat-number">{purchases.length}</p>
                 </div>
             </div>
@@ -329,6 +441,18 @@ const AdminMasteryKitAccess = () => {
           display: flex;
           flex-direction: column;
           gap: 20px;
+        }
+
+        .form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+          .form-row {
+            grid-template-columns: 1fr;
+          }
         }
 
         .form-group {
@@ -349,6 +473,29 @@ const AdminMasteryKitAccess = () => {
           font-size: 14px;
         }
 
+        .info-box {
+          background: #e3f2fd;
+          border: 1px solid #90caf9;
+          border-radius: 8px;
+          padding: 16px;
+          margin-top: 12px;
+        }
+
+        .info-box strong {
+          display: block;
+          margin-bottom: 8px;
+          color: #1976d2;
+        }
+
+        .info-box ul {
+          margin: 8px 0 0 20px;
+          color: #555;
+        }
+
+        .info-box li {
+          margin: 4px 0;
+        }
+
         .message {
           padding: 12px;
           border-radius: 4px;
@@ -367,37 +514,134 @@ const AdminMasteryKitAccess = () => {
           border: 1px solid #f5c6cb;
         }
 
-        .status-badge {
-          padding: 4px 8px;
-          border-radius: 4px;
+        .languages-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 20px;
+          margin-top: 20px;
+        }
+
+        .language-card {
+          background: #f8f9fa;
+          border: 2px solid #e0e0e0;
+          border-radius: 12px;
+          padding: 20px;
+          transition: all 0.3s ease;
+        }
+
+        .language-card:hover {
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          transform: translateY(-2px);
+        }
+
+        .language-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 16px;
+          padding-bottom: 12px;
+          border-bottom: 2px solid #e0e0e0;
+        }
+
+        .language-header h3 {
+          margin: 0;
+          font-size: 20px;
+          color: #333;
+        }
+
+        .kit-count {
+          background: #1F9F90;
+          color: white;
+          padding: 4px 12px;
+          border-radius: 20px;
           font-size: 12px;
           font-weight: 600;
         }
 
-        .status-badge.completed {
+        .language-stats {
+          display: flex;
+          gap: 20px;
+          margin-bottom: 16px;
+        }
+
+        .stat {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 14px;
+          color: #666;
+        }
+
+        .stat-icon {
+          font-size: 16px;
+        }
+
+        .kit-list {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .kit-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 8px 12px;
+          background: white;
+          border-radius: 6px;
+          font-size: 13px;
+        }
+
+        .kit-name {
+          color: #333;
+          flex: 1;
+        }
+
+        .kit-files {
+          color: #666;
+          font-size: 12px;
+        }
+
+        .access-cell {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .access-badge {
+          padding: 4px 10px;
+          border-radius: 12px;
+          font-size: 12px;
+          font-weight: 600;
+        }
+
+        .access-badge.complete {
           background: #d4edda;
           color: #155724;
         }
 
-        .status-badge.pending {
+        .access-badge.partial {
           background: #fff3cd;
           color: #856404;
         }
 
-        .btn-small {
-          padding: 6px 12px;
-          font-size: 12px;
+        .no-access {
+          color: #999;
+          font-size: 13px;
         }
 
-        .btn-danger {
+        .btn-revoke-small {
           background: #dc3545;
           color: white;
           border: none;
           border-radius: 4px;
+          padding: 2px 8px;
           cursor: pointer;
+          font-size: 12px;
+          transition: background 0.2s;
         }
 
-        .btn-danger:hover {
+        .btn-revoke-small:hover {
           background: #c82333;
         }
 
@@ -427,90 +671,6 @@ const AdminMasteryKitAccess = () => {
           font-weight: 700;
           color: #333;
           margin: 0;
-        }
-
-        .kits-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          gap: 20px;
-          margin-top: 20px;
-        }
-
-        .kit-card {
-          background: #f8f9fa;
-          border: 1px solid #e0e0e0;
-          border-radius: 8px;
-          padding: 20px;
-          transition: all 0.3s ease;
-        }
-
-        .kit-card:hover {
-          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-          transform: translateY(-2px);
-        }
-
-        .kit-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          margin-bottom: 12px;
-        }
-
-        .kit-header h3 {
-          margin: 0;
-          font-size: 18px;
-          color: #333;
-          flex: 1;
-        }
-
-        .price-badge {
-          background: #FF6B35;
-          color: white;
-          padding: 4px 12px;
-          border-radius: 20px;
-          font-size: 14px;
-          font-weight: 600;
-          margin-left: 10px;
-        }
-
-        .kit-description {
-          color: #666;
-          font-size: 14px;
-          margin: 0 0 16px 0;
-          line-height: 1.5;
-        }
-
-        .kit-stats {
-          display: flex;
-          gap: 20px;
-          margin-bottom: 12px;
-        }
-
-        .stat {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
-
-        .stat-icon {
-          font-size: 16px;
-        }
-
-        .stat-value {
-          font-size: 14px;
-          color: #555;
-          font-weight: 500;
-        }
-
-        .kit-id {
-          margin-top: 12px;
-          padding-top: 12px;
-          border-top: 1px solid #e0e0e0;
-        }
-
-        .kit-id small {
-          color: #999;
-          font-size: 12px;
         }
       `}</style>
         </div>

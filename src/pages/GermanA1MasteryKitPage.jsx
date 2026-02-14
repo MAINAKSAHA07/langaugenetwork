@@ -1,7 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ScrollReveal from '../components/common/ScrollReveal';
+import MasteryKitEnrollmentModal from '../components/common/MasteryKitEnrollmentModal';
 
 const GermanA1MasteryKitPage = () => {
+    const [showEnrollModal, setShowEnrollModal] = useState(false);
+
+    const kitDetails = {
+        title: 'German Mastery Kit - A1 Level',
+        language: 'german',
+        price: 699,
+        description: 'Complete German A1 learning kit with classwork, exercises, answer key, and Goethe exam strategy',
+        features: [
+            '4 comprehensive books (Classwork, Exercise, Answer Key, Exam Strategy)',
+            'Fully aligned with Goethe-Zertifikat A1',
+            'Lifetime access',
+            'Printable and digital formats',
+            'Instant digital download'
+        ]
+    };
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -32,14 +49,12 @@ const GermanA1MasteryKitPage = () => {
                     </div>
 
                     <div>
-                        <a
-                            href="https://rzp.io/rzp/german-a1-mastery"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block bg-[#17C3B2] text-white py-[18px] px-[48px] rounded-[10px] text-[18px] font-[700] shadow-[0_6px_20px_rgba(23,195,178,0.4)] hover:scale-105 transition-transform duration-300"
+                        <button
+                            onClick={() => setShowEnrollModal(true)}
+                            className="inline-block bg-[#17C3B2] text-white py-[18px] px-[48px] rounded-[10px] text-[18px] font-[700] shadow-[0_6px_20px_rgba(23,195,178,0.4)] hover:scale-105 transition-transform duration-300 cursor-pointer"
                         >
                             Get Complete Access Now →
-                        </a>
+                        </button>
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-[24px] mt-[16px] text-[#666] text-[14px]">
@@ -372,14 +387,12 @@ const GermanA1MasteryKitPage = () => {
                             ))}
                         </ul>
 
-                        <a
-                            href="https://rzp.io/rzp/german-a1-mastery"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block bg-[#17C3B2] text-white py-[20px] px-[60px] rounded-[12px] text-[20px] font-[700] shadow-[0_8px_24px_rgba(23,195,178,0.4)] hover:scale-105 transition-transform duration-300"
+                        <button
+                            onClick={() => setShowEnrollModal(true)}
+                            className="inline-block bg-[#17C3B2] text-white py-[20px] px-[60px] rounded-[12px] text-[20px] font-[700] shadow-[0_8px_24px_rgba(23,195,178,0.4)] hover:scale-105 transition-transform duration-300 cursor-pointer"
                         >
                             Get Instant Access →
-                        </a>
+                        </button>
 
                         <div className="flex items-center justify-center gap-2 mt-[24px] text-[14px] text-[#888]">
                             <span>🔒</span>
@@ -409,6 +422,14 @@ const GermanA1MasteryKitPage = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Enrollment Modal */}
+            {showEnrollModal && (
+                <MasteryKitEnrollmentModal
+                    kitDetails={kitDetails}
+                    onClose={() => setShowEnrollModal(false)}
+                />
+            )}
         </div>
     );
 };

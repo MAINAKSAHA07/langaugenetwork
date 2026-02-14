@@ -1,6 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
+import MasteryKitEnrollmentModal from '../common/MasteryKitEnrollmentModal';
 
 const FinalCTASection = () => {
+    const [showEnrollModal, setShowEnrollModal] = useState(false);
+
+    const kitDetails = {
+        title: 'French Mastery Kit - Complete Bundle (A1 to B2)',
+        language: 'french',
+        price: 2799,
+        description: 'Complete French learning bundle from A1 to B2 with practice materials, novels, audiobooks, and exclusive bonuses',
+        features: [
+            'All levels (A1–B2)',
+            'Practice audios for each level',
+            'Novels + audiobooks + songs',
+            '17 exclusive freebies worth ₹68,500+'
+        ]
+    };
+
     return (
         <section id="pricing" className="bg-[#1a1a2e] py-[120px] px-6 text-white text-center">
             <div className="max-w-[800px] mx-auto">
@@ -19,12 +35,7 @@ const FinalCTASection = () => {
                 <div className="bg-white text-[#333] rounded-[16px] p-[40px] shadow-2xl mb-[48px] text-left">
                     <h3 className="text-[24px] font-[700] text-[#1a1a2e] text-center mb-[24px]">Buy today to unlock:</h3>
                     <ul className="space-y-[16px] mb-[32px]">
-                        {[
-                            "all levels (A1–B2)",
-                            "practice audios",
-                            "novels + audiobooks + songs",
-                            "and 17 exclusive freebies worth ₹68,500+ included when you purchase today."
-                        ].map((item, idx) => (
+                        {kitDetails.features.map((item, idx) => (
                             <li key={idx} className="flex gap-3 text-[18px] leading-[1.6]">
                                 <span className="text-[#17C3B2] font-bold">✓</span> {item}
                             </li>
@@ -35,22 +46,20 @@ const FinalCTASection = () => {
                     <div className="text-center mt-[40px] mb-[32px]">
                         <p className="text-[20px] text-gray-500 line-through mb-2">Total Value: ₹93,500</p>
                         <p className="text-[18px] text-gray-700 mb-4">Get Everything For:</p>
-                        <p className="text-[56px] md:text-[64px] font-[800] text-[#17C3B2]">₹2,799</p> {/* Placeholder Price */}
+                        <p className="text-[56px] md:text-[64px] font-[800] text-[#17C3B2]">₹{kitDetails.price.toLocaleString()}</p>
                     </div>
 
                     <div className="text-center">
-                        <a
-                            href="https://rzp.io/rzp/french-a1-to-b2-mastery-kit"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block bg-gradient-to-r from-[#17C3B2] to-[#14A89A] text-white py-[20px] px-[60px] rounded-[12px] text-[20px] font-[700] shadow-[0_8px_32px_rgba(23,195,178,0.5)] hover:scale-105 transition-transform duration-300 w-full md:w-auto"
+                        <button
+                            onClick={() => setShowEnrollModal(true)}
+                            className="inline-block bg-gradient-to-r from-[#17C3B2] to-[#14A89A] text-white py-[20px] px-[60px] rounded-[12px] text-[20px] font-[700] shadow-[0_8px_32px_rgba(23,195,178,0.5)] hover:scale-105 transition-transform duration-300 w-full md:w-auto cursor-pointer"
                         >
                             Get Instant Access Now
-                        </a>
+                        </button>
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-[24px] mt-[24px] text-[14px] text-gray-500">
-                        <span className="flex items-center gap-2">🔒 Secure Payment</span>
+                        <span className="flex items-center gap-2">🔒 Secure Payment via Razorpay</span>
                         <span className="flex items-center gap-2">⚡ Instant Access</span>
                         <span className="flex items-center gap-2">✓ All Bonuses Included</span>
                     </div>
@@ -69,6 +78,14 @@ const FinalCTASection = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Enrollment Modal */}
+            {showEnrollModal && (
+                <MasteryKitEnrollmentModal
+                    kitDetails={kitDetails}
+                    onClose={() => setShowEnrollModal(false)}
+                />
+            )}
         </section>
     );
 };

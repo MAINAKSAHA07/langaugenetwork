@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createRazorpayOrder, initiateRazorpayPayment } from '../../api/razorpay';
 
-const MasteryKitEnrollmentModal = ({ isOpen, onClose }) => {
+const MasteryKitEnrollmentModal = ({ kitDetails, onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -10,10 +10,14 @@ const MasteryKitEnrollmentModal = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const MASTERY_KIT_PRICE = 999;
-  const MASTERY_KIT_NAME = 'English Mastery Kit (Volume 1-4)';
+  // Use passed kitDetails or fallback to defaults
+  const MASTERY_KIT_PRICE = kitDetails?.price || 999;
+  const MASTERY_KIT_NAME = kitDetails?.title || 'English Mastery Kit (Volume 1-4)';
+  const MASTERY_KIT_LANGUAGE = kitDetails?.language || 'english';
+  const MASTERY_KIT_DESCRIPTION = kitDetails?.description || 'Complete English learning bundle';
+  const MASTERY_KIT_FEATURES = kitDetails?.features || ['16 books', '45+ bonus resources'];
 
-  if (!isOpen) return null;
+  if (!kitDetails) return null;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -88,11 +92,11 @@ const MasteryKitEnrollmentModal = ({ isOpen, onClose }) => {
           // Payment successful
           alert('🎉 Payment successful! You will receive access details via email shortly.');
           console.log('Payment response:', response);
-          
+
           // Reset form
           setFormData({ name: '', email: '', phone: '' });
           onClose();
-          
+
           // Optionally redirect to success/download page
           // window.location.href = '/mastery-kit-success';
         },
@@ -119,7 +123,7 @@ const MasteryKitEnrollmentModal = ({ isOpen, onClose }) => {
             <div>
               <h2 className="text-2xl font-bold mb-2">Purchase Mastery Kit</h2>
               <p className="text-white/90 text-sm">
-                English Mastery Kit (Vol 1-4)
+                {MASTERY_KIT_NAME}
               </p>
             </div>
             <button
@@ -143,7 +147,7 @@ const MasteryKitEnrollmentModal = ({ isOpen, onClose }) => {
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Includes:</span>
-              <span className="font-semibold text-gray-900 text-right">16 Books + 45+ Bonuses</span>
+              <span className="font-semibold text-gray-900 text-right">{MASTERY_KIT_FEATURES.join(', ')}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Access:</span>

@@ -69,8 +69,8 @@ const MasteryKitEnrollmentModal = ({ kitDetails, onClose }) => {
         batchDetails: {
           courseName: MASTERY_KIT_NAME,
           type: 'mastery-kit',
-          volumes: '1-4',
-          includes: '16 books + 45+ bonus resources',
+          language: MASTERY_KIT_LANGUAGE,
+          description: MASTERY_KIT_DESCRIPTION,
         },
       });
 
@@ -88,17 +88,71 @@ const MasteryKitEnrollmentModal = ({ kitDetails, onClose }) => {
         email: formData.email,
         phone: formData.phone,
         description: MASTERY_KIT_NAME,
-        onSuccess: (response) => {
-          // Payment successful
-          alert('🎉 Payment successful! You will receive access details via email shortly.');
-          console.log('Payment response:', response);
+        onSuccess: async (response) => {
+          // Payment successful - Grant access automatically
+          try {
+            // Import PocketBase
+            const pb = (await import('../../config/pocketbase')).default;
+
+            // Find or create user
+            let user;
+            try {
+              const users = await pb.collection('users').getFullList({
+                filter: `email="${formData.email}"`
+              });
+              user = users[0];
+            } catch (err) {
+              console.log('User not found, will need to create account');
+            }
+
+            if (user) {
+              // User exists - grant access to all kits in this language
+              const kits = await pb.collection('mastery_kits').getFullList({
+                filter: `language="${MASTERY_KIT_LANGUAGE}"`
+              });
+
+              // Check existing purchases
+              const existingPurchases = await pb.collection('mastery_kit_purchases').getFullList({
+                filter: `user="${user.id}"`
+              });
+              const existingKitIds = new Set(existingPurchases.map(p => p.mastery_kit));
+
+              // Grant access to all kits in this language
+              for (const kit of kits) {
+                if (!existingKitIds.has(kit.id)) {
+                  await pb.collection('mastery_kit_purchases').create({
+                    user: user.id,
+                    mastery_kit: kit.id,
+                    purchase_date: new Date().toISOString(),
+                    payment_status: 'completed',
+                    transaction_id: response.razorpayPaymentId || `RAZORPAY_${Date.now()}`,
+                    amount: MASTERY_KIT_PRICE,
+                  });
+                }
+              }
+
+              alert(`🎉 Payment successful! Access granted to ${kits.length} ${MASTERY_KIT_LANGUAGE.toUpperCase()} kit(s). Redirecting to your kits...`);
+
+              // Redirect to my mastery kits page
+              setTimeout(() => {
+                window.location.href = '/my-mastery-kits';
+              }, 2000);
+            } else {
+              // User doesn't exist - show message to create account
+              alert('🎉 Payment successful! Please create an account with this email (' + formData.email + ') to access your kits. Redirecting to login page...');
+
+              setTimeout(() => {
+                window.location.href = '/my-mastery-kits?mode=register';
+              }, 2000);
+            }
+          } catch (accessError) {
+            console.error('Error granting access:', accessError);
+            alert('🎉 Payment successful! Please contact support to activate your access.');
+          }
 
           // Reset form
           setFormData({ name: '', email: '', phone: '' });
           onClose();
-
-          // Optionally redirect to success/download page
-          // window.location.href = '/mastery-kit-success';
         },
         onFailure: (error) => {
           // Payment failed

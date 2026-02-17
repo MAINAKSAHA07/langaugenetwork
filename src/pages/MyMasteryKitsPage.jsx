@@ -130,8 +130,13 @@ const MyMasteryKitsPage = () => {
                             <div className="access-step">
                                 <div className="step-number">2</div>
                                 <div className="step-content">
-                                    <h4>{authMode === 'login' ? 'Login' : 'Create Account'}</h4>
-                                    <p>Use the <strong>same email</strong> you used during purchase</p>
+                                    <h4>{authMode === 'login' ? 'Login to Your Account' : 'Create Your Account'}</h4>
+                                    <p>
+                                        {authMode === 'login'
+                                            ? 'Use the same email you used during purchase to login'
+                                            : 'New user? Create your account first with the same email used during purchase, then login'
+                                        }
+                                    </p>
                                 </div>
                             </div>
                             <div className="access-step">

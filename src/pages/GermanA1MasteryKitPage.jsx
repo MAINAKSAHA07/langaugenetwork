@@ -6,15 +6,17 @@ const GermanA1MasteryKitPage = () => {
     const [showEnrollModal, setShowEnrollModal] = useState(false);
 
     const kitDetails = {
-        title: 'German Mastery Kit - A1 Level',
+        title: 'German Mastery Kit - A1 + A2 Complete Bundle',
         language: 'german',
-        price: 699,
-        description: 'Complete German A1 learning kit with classwork, exercises, answer key, and Goethe exam strategy',
+        price: 1499,
+        description: 'Complete German learning kit from absolute beginner to confident A2 speaker with classwork, exercises, answer keys, and Goethe exam strategies',
         features: [
-            '4 comprehensive books (Classwork, Exercise, Answer Key, Exam Strategy)',
-            'Fully aligned with Goethe-Zertifikat A1',
+            '7 comprehensive books (A1 + A2 levels)',
+            'Classwork, Exercises, Answer Keys for both levels',
+            'Speaking & Writing Playbook',
+            'Goethe A1 & A2 Exam Strategy',
+            'Fully aligned with Goethe-Zertifikat A1 & A2',
             'Lifetime access',
-            'Printable and digital formats',
             'Instant digital download'
         ]
     };
@@ -29,23 +31,25 @@ const GermanA1MasteryKitPage = () => {
             <section className="bg-gradient-to-b from-[#E8F7F5] to-white py-[100px] px-[20px] md:px-[60px] text-center">
                 <div className="max-w-[900px] mx-auto">
                     <div className="inline-block bg-[#E8F7F5] text-[#17C3B2] px-[20px] py-[8px] rounded-[20px] text-[12px] font-[700] tracking-[1px] mb-[24px]">
-                        GOETHE-ZERTIFIKAT A1 READY
+                        GOETHE-ZERTIFIKAT A1 + A2 READY
                     </div>
 
                     <h1 className="text-[42px] md:text-[56px] lg:text-[64px] font-[800] text-[#1a1a2e] leading-[1.1] tracking-[-1px] mb-[20px]">
-                        German A1 Mastery Kit
+                        German A1 + A2 Complete Mastery Kit
                     </h1>
 
                     <p className="text-[20px] md:text-[24px] font-[400] text-[#555] leading-[1.5] max-w-[700px] mx-auto mb-[20px]">
-                        German A1 Complete Mastery Kit
+                        Your Structured Path from Absolute Beginner to Confident A2 Speaker
                     </p>
 
                     <p className="text-[18px] text-[#666] mb-[40px]">
-                        Classwork, Grammar, Writing, Exam Strategy | Goethe-Zertifikat A1 Ready
+                        Complete A1 + A2 Curriculum | Goethe-Zertifikat Ready | Self-Study Friendly
                     </p>
 
                     <div className="inline-block bg-white border-2 border-[#17C3B2] px-[32px] py-[16px] rounded-[12px] text-[18px] font-[700] shadow-[0_4px_16px_rgba(23,195,178,0.2)] mb-[32px]">
-                        <span className="text-[#1a1a2e]">Complete Kit: ₹699</span>
+                        <span className="text-gray-500 line-through text-[14px] mr-2">₹1,698</span>
+                        <span className="text-[#1a1a2e]">Complete Bundle: ₹1,499</span>
+                        <span className="text-[#17C3B2] text-[14px] ml-2">(Save ₹199)</span>
                     </div>
 
                     <div>
@@ -69,26 +73,32 @@ const GermanA1MasteryKitPage = () => {
             <section className="bg-white py-[100px] px-6">
                 <div className="max-w-[900px] mx-auto">
                     <h2 className="text-[42px] md:text-[48px] font-[700] text-[#1a1a2e] text-center mb-[32px]">
-                        The problem most German A1 learners face
+                        You decide to learn German
                     </h2>
 
                     <div className="max-w-[800px] mx-auto mb-[40px]">
-                        <p className="text-[22px] font-[600] text-[#17C3B2] mb-[24px]">
-                            German usually does not fail learners. Unstructured learning does.
-                        </p>
                         <p className="text-[18px] leading-[1.8] text-[#444] mb-6">
-                            Most beginners start German with excitement. Then confusion slowly sets in.
+                            Maybe it is for the Goethe exam.<br />
+                            Maybe it is for studies in Germany.<br />
+                            Maybe it is for work, migration, or personal growth.
+                        </p>
+
+                        <p className="text-[18px] leading-[1.8] text-[#444] mb-6">
+                            You open random YouTube videos.<br />
+                            You download scattered PDFs.<br />
+                            You try grammar apps.
+                        </p>
+
+                        <p className="text-[22px] font-[600] text-[#17C3B2] mb-[24px]">
+                            But something feels incomplete.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-[40px]">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-[40px]">
                         {[
-                            "Grammar feels heavy and mechanical.",
-                            "Word order does not make sense.",
-                            "Vocabulary is memorised but sentences do not form naturally.",
-                            "Practice feels random and exam readiness remains unclear.",
-                            "Am I actually prepared the right way?",
-                            "Resources are fragmented and explanations are unclear."
+                            "You learn rules, but you cannot speak.",
+                            "You understand words, but you cannot form sentences.",
+                            "You memorise vocabulary, but you forget it in conversations."
                         ].map((quote, idx) => (
                             <ScrollReveal key={idx} delay={`${(idx % 3) * 100}ms`}>
                                 <div className="bg-[#F0FAF8] border border-[#ddd] rounded-[12px] p-[24px] shadow-[0_2px_8px_rgba(0,0,0,0.06)] relative h-full">
@@ -100,50 +110,27 @@ const GermanA1MasteryKitPage = () => {
                     </div>
 
                     <div className="bg-gradient-to-r from-[#17C3B2] to-[#14A89A] text-white p-[32px] rounded-[12px] text-center shadow-lg">
-                        <p className="text-[24px] font-[700]">This program was created to remove that doubt entirely.</p>
+                        <p className="text-[24px] font-[700]">That is exactly why this German A1 + A2 Complete Mastery Kit was created.</p>
+                        <p className="text-[18px] mt-4 opacity-95">This is not just a collection of grammar notes. It is a structured language system designed to build your confidence step by step, from zero to A2 level.</p>
                     </div>
                 </div>
             </section>
 
-            {/* Story Section */}
+            {/* What This Kit Gives You Section */}
             <section className="bg-gray-50 py-[100px] px-6">
                 <div className="max-w-[900px] mx-auto">
                     <h2 className="text-[42px] md:text-[48px] font-[700] text-[#1a1a2e] text-center mb-[32px]">
-                        Why this German A1 program was created
+                        What This Kit Gives You
                     </h2>
 
                     <div className="max-w-[800px] mx-auto mb-[40px]">
-                        <p className="text-[18px] leading-[1.8] text-[#444] mb-6">
-                            At The Language Network, we did not build this program in isolation. We curated it with insights gathered from 200+ German mentors, exam trainers, and active learners.
+                        <p className="text-[20px] leading-[1.8] text-[#444] mb-6 font-[600] text-center">
+                            You receive a complete beginner-to-elementary German curriculum designed to make you think and communicate in German naturally.
                         </p>
 
-                        <div className="bg-[#E8F7F5] px-[28px] py-[20px] rounded-[8px] font-[600] text-[#1a1a2e] mb-[24px]">
-                            Learners were not struggling because German was difficult.<br />
-                            They were struggling because resources were fragmented, explanations were unclear, and exam strategy was missing.
-                        </div>
-
-                        <p className="text-[18px] leading-[1.8] text-[#444] mb-6">
-                            Most A1 books teach information, but they do not explain:
-                        </p>
-
-                        <ul className="space-y-3 mb-[24px]">
-                            {[
-                                'how to apply grammar in real situations',
-                                'how Goethe evaluates answers',
-                                'how to practise in the exact exam format',
-                                'how to progress from zero to exam-ready without confusion'
-                            ].map((item, idx) => (
-                                <li key={idx} className="flex items-start gap-3 text-[16px] text-[#555]">
-                                    <span className="text-[#17C3B2] text-xl">•</span>
-                                    <span>{item}</span>
-                                </li>
-                            ))}
-                        </ul>
-
-                        <div className="bg-white border-2 border-[#17C3B2] p-[24px] rounded-[12px] text-center">
+                        <div className="bg-white border-2 border-[#17C3B2] p-[24px] rounded-[12px] text-center mb-[24px]">
                             <p className="text-[18px] font-[600] text-[#1a1a2e]">
-                                This kit was designed to solve those exact gaps.<br />
-                                It is not just a book. It is a complete German A1 learning, practice, and exam-prep system.
+                                From introducing yourself to handling appointments, shopping, housing, travel, and basic professional interactions — every topic is covered with clarity.
                             </p>
                         </div>
                     </div>
@@ -154,68 +141,92 @@ const GermanA1MasteryKitPage = () => {
             <section className="bg-white py-[100px] px-6">
                 <div className="max-w-[1000px] mx-auto">
                     <h2 className="text-[42px] md:text-[48px] font-[700] text-[#1a1a2e] text-center mb-[16px]">
-                        What you get inside this complete resource set
+                        Complete A1 + A2 Resource Set
                     </h2>
 
                     <p className="text-[16px] text-[#666] text-center mb-[48px]">
-                        4 comprehensive books designed for complete A1 mastery
+                        7 comprehensive books designed for complete A1 to A2 mastery
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-[48px]">
                         {[
                             {
                                 number: 1,
-                                title: 'Classwork and Vocabulary Book',
+                                title: 'Classwork and Vocabulary Books (A1 + A2)',
                                 subtitle: 'Your core learning foundation',
                                 features: [
-                                    'Clear A1-level grammar explanations',
-                                    'Exhaustive vocabulary lists for every A1 topic',
-                                    'Everyday sentence structures',
-                                    'Step-by-step modules covering basics, family, city, food, media',
-                                    'All essential A1 grammar including cases, verbs, word order'
+                                    'Clear explanations for both A1 and A2 grammar',
+                                    'Structured grammar progression',
+                                    'Topic-based vocabulary for everyday situations',
+                                    'Real-life sentence patterns',
+                                    'From basics to professional interactions'
                                 ]
                             },
                             {
                                 number: 2,
-                                title: 'Exercise Book',
+                                title: 'Exercise Books (A1 + A2)',
                                 subtitle: 'Structured Practice',
                                 features: [
-                                    'Topic-wise exercises aligned with every lesson',
-                                    'Grammar drills and sentence-building tasks',
-                                    'Vocabulary application exercises',
-                                    'Reading-style tasks and guided writing prompts',
-                                    'Exercises designed to mirror real Goethe A1 task logic'
+                                    'Grammar drills for both levels',
+                                    'Sentence building exercises',
+                                    'Reading-style tasks',
+                                    'Guided writing prompts',
+                                    'Exercises mirror Goethe exam logic'
                                 ]
                             },
                             {
                                 number: 3,
-                                title: 'Answer Key',
+                                title: 'Answer Keys (A1 + A2)',
                                 subtitle: 'Self-Correction and Accuracy',
                                 features: [
                                     'Complete solutions for every exercise',
                                     'Model sentences you can study and reuse',
-                                    'Clear correction guidance for independent learners',
-                                    'Explanations that show why an answer is correct',
-                                    'Confident self-study without constant external support'
+                                    'Clear correction guidance',
+                                    'Explanations of why answers are correct',
+                                    'Confident self-study without external support'
                                 ]
                             },
                             {
                                 number: 4,
-                                title: 'Goethe A1 Exam Strategy and Tips',
+                                title: 'Speaking and Writing Playbook',
+                                subtitle: 'Where hesitation disappears',
+                                features: [
+                                    'Ready-made dialogues and phrase banks',
+                                    'Introductions, daily routines, transport',
+                                    'Shopping, invitations, services',
+                                    'Forms and short messages',
+                                    'Memorise and use directly in conversations'
+                                ]
+                            },
+                            {
+                                number: 5,
+                                title: 'Goethe A1 Exam Strategy',
                                 subtitle: 'Converts preparation into certainty',
                                 features: [
-                                    'Complete breakdown of exam pattern and marking system',
-                                    'Skill-wise strategies for Reading, Writing, Listening, Speaking',
+                                    'Complete breakdown of exam pattern',
+                                    'Marking system explained',
+                                    'Skill-wise strategies (Reading, Writing, Listening, Speaking)',
                                     'Common mistakes and how to avoid them',
-                                    'Exam-focused practice guidance',
-                                    'Prepare intelligently and with clarity'
+                                    'Prepare with awareness, not anxiety'
+                                ]
+                            },
+                            {
+                                number: 6,
+                                title: 'Goethe A2 Exam Strategy',
+                                subtitle: 'Master the A2 examination',
+                                features: [
+                                    'A2 exam pattern and structure',
+                                    'Listening traps and number tricks',
+                                    'Writing scoring logic',
+                                    'Speaking performance strategies',
+                                    'Reading techniques for short texts'
                                 ]
                             }
                         ].map((module, idx) => (
                             <ScrollReveal key={module.number} delay={`${(idx % 2) * 150}ms`} className="h-full">
                                 <div className="bg-white border-2 border-gray-200 rounded-[16px] p-[32px] hover:border-[#17C3B2] hover:shadow-xl transition-all duration-300 h-full flex flex-col">
                                     <div className="inline-block bg-[#17C3B2] text-white px-[16px] py-[6px] rounded-[20px] text-[12px] font-[700] mb-[16px] w-fit">
-                                        BOOK {module.number}
+                                        MODULE {module.number}
                                     </div>
 
                                     <h3 className="text-[24px] font-[700] text-[#1a1a2e] mb-[8px]">
@@ -240,27 +251,58 @@ const GermanA1MasteryKitPage = () => {
                     </div>
 
                     <div className="bg-[#1a1a2e] text-white p-[24px] rounded-[12px] text-center">
-                        <p className="text-[20px] font-[700]">Complete German A1 learning, practice, and exam-prep system</p>
+                        <p className="text-[20px] font-[700]">Complete German A1 + A2 learning, practice, and exam-prep system</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* What Changes Section */}
+            <section className="bg-gray-50 py-[100px] px-6">
+                <div className="max-w-[900px] mx-auto">
+                    <h2 className="text-[42px] md:text-[48px] font-[700] text-[#1a1a2e] text-center mb-[48px]">
+                        What Changes After You Finish This Kit
+                    </h2>
+
+                    <div className="space-y-6 mb-[48px]">
+                        {[
+                            'You can introduce yourself with confidence',
+                            'You can ask and answer questions naturally',
+                            'You can write short emails and messages correctly',
+                            'You can understand announcements and everyday conversations',
+                            'You can walk into the Goethe A1 or A2 exam knowing what to expect'
+                        ].map((benefit, idx) => (
+                            <div key={idx} className="flex items-start gap-4">
+                                <span className="text-[#17C3B2] text-[28px] flex-shrink-0">✓</span>
+                                <p className="text-[20px] text-[#333] font-[500] pt-1">{benefit}</p>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="bg-[#E8F7F5] p-[32px] rounded-[12px] text-center">
+                        <h3 className="text-[24px] font-[700] text-[#1a1a2e] mb-[16px]">Most importantly</h3>
+                        <p className="text-[20px] font-[600] text-[#17C3B2] mb-[8px]">You stop translating in your head.</p>
+                        <p className="text-[20px] font-[600] text-[#17C3B2]">You begin thinking in German.</p>
                     </div>
                 </div>
             </section>
 
             {/* Who Is This For Section */}
-            <section className="bg-gray-50 py-[100px] px-6">
+            <section className="bg-white py-[100px] px-6">
                 <div className="max-w-[900px] mx-auto">
                     <h2 className="text-[42px] md:text-[48px] font-[700] text-[#1a1a2e] text-center mb-[32px]">
-                        Who this program is for
+                        Who This Kit Is For
                     </h2>
 
                     <div className="bg-[#F0FAF8] p-[28px] rounded-[12px]">
-                        <p className="text-[16px] text-[#666] mb-[20px]">This program is ideal if you are:</p>
                         <ul className="space-y-3">
                             {[
-                                'A complete beginner starting German from zero',
-                                'Preparing for the Goethe-Zertifikat A1 or Start Deutsch 1',
-                                'A student, professional, or migrant needing A1 certification',
-                                'A self-learner who wants structured material without live classes',
-                                'A teacher or institute looking for ready-made A1 content'
+                                'Complete beginners starting from zero',
+                                'A1 learners moving to A2',
+                                'Goethe A1 or A2 aspirants',
+                                'Professionals relocating to German-speaking countries',
+                                'Students preparing for study abroad',
+                                'Self-learners who want structure, not scattered resources',
+                                'Teachers who need ready-made, organised material'
                             ].map((audience, idx) => (
                                 <li key={idx} className="flex items-start gap-3 text-[16px] text-[#333]">
                                     <span className="text-[#17C3B2]">→</span>
@@ -275,83 +317,38 @@ const GermanA1MasteryKitPage = () => {
                 </div>
             </section>
 
-            {/* How This Helps Section */}
-            <section className="bg-white py-[100px] px-6">
-                <div className="max-w-[900px] mx-auto">
-                    <h2 className="text-[42px] md:text-[48px] font-[700] text-[#1a1a2e] text-center mb-[48px]">
-                        How this program helps you succeed
-                    </h2>
-
-                    <div className="space-y-6 mb-[48px]">
-                        {[
-                            'Clear progression from basics to exam readiness',
-                            'Fully aligned with real Goethe A1 exam formats',
-                            'Builds accuracy, fluency, and confidence together',
-                            'Suitable for self-study, classroom use, and revision',
-                            'Saves months of confusion, random resources, and trial and error'
-                        ].map((benefit, idx) => (
-                            <div key={idx} className="flex items-start gap-4">
-                                <span className="text-[#17C3B2] text-[28px] flex-shrink-0">✓</span>
-                                <p className="text-[20px] text-[#333] font-[500] pt-1">{benefit}</p>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="bg-[#E8F7F5] p-[32px] rounded-[12px] text-center">
-                        <h3 className="text-[24px] font-[700] text-[#1a1a2e] mb-[16px]">Recommended study outcome</h3>
-                        <p className="text-[18px] text-[#555] mb-[12px]">With consistent use:</p>
-                        <p className="text-[20px] font-[600] text-[#17C3B2] mb-[8px]">Reach A1 readiness in 8 to 12 weeks</p>
-                        <p className="text-[16px] text-[#666]">Daily study time required: 30 to 60 minutes</p>
-                    </div>
-                </div>
-            </section>
-
-            {/* Outcomes Section */}
+            {/* Why Different Section */}
             <section className="bg-gray-50 py-[100px] px-6">
                 <div className="max-w-[900px] mx-auto">
-                    <h2 className="text-[42px] md:text-[48px] font-[700] text-[#1a1a2e] text-center mb-[48px]">
-                        By the end, you will
-                    </h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {[
-                            'Understand basic German clearly',
-                            'Speak without panic',
-                            'Write exam-appropriate answers',
-                            'Enter the Goethe A1 exam knowing exactly what to expect'
-                        ].map((outcome, idx) => (
-                            <div key={idx} className="bg-white p-[24px] rounded-[12px] shadow-sm border-l-4 border-[#17C3B2]">
-                                <p className="text-[18px] text-[#333] font-[500]">{outcome}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Why Different Section */}
-            <section className="bg-white py-[100px] px-6">
-                <div className="max-w-[900px] mx-auto">
                     <h2 className="text-[42px] md:text-[48px] font-[700] text-[#1a1a2e] text-center mb-[32px]">
-                        Why this program is different
+                        Why This Is Different
                     </h2>
 
                     <div className="max-w-[700px] mx-auto text-center mb-[40px]">
                         <p className="text-[20px] text-[#555] mb-[24px]">
-                            Most A1 resources only teach content.
+                            Many courses teach grammar.
                         </p>
                         <p className="text-[22px] font-[600] text-[#17C3B2] mb-[24px]">
-                            This program teaches content, application, and exam intelligence together.
+                            This kit builds structure, fluency, and confidence together.
                         </p>
-                        <p className="text-[18px] text-[#444]">
-                            You do not just learn German. You learn how to use German where it truly matters.
-                        </p>
+                        <ul className="text-left space-y-3 mb-[24px]">
+                            {[
+                                'It moves progressively from A1 foundations to A2 independence',
+                                'It balances explanation with application',
+                                'It prepares you for real communication, not just textbook exercises'
+                            ].map((item, idx) => (
+                                <li key={idx} className="flex items-start gap-3 text-[18px] text-[#444]">
+                                    <span className="text-[#17C3B2] text-xl">•</span>
+                                    <span>{item}</span>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
 
                     <div className="bg-gradient-to-r from-[#17C3B2] to-[#14A89A] text-white p-[40px] rounded-[12px] text-center">
-                        <p className="text-[24px] font-[700] mb-[16px]">What comes next</p>
+                        <p className="text-[24px] font-[700] mb-[16px]">You are not just buying PDFs.</p>
                         <p className="text-[18px] opacity-95">
-                            This is the first level in a structured German mastery roadmap by The Language Network.<br />
-                            Further levels including A2, B1, and B2 are already being developed and will be launched soon.
+                            You are investing in a complete German foundation that supports exams, migration, career growth, and real-life communication.
                         </p>
                     </div>
                 </div>
@@ -361,23 +358,28 @@ const GermanA1MasteryKitPage = () => {
             <section id="pricing" className="bg-gradient-to-r from-[#17C3B2] to-[#14A89A] py-[100px] px-6">
                 <div className="max-w-[800px] mx-auto text-center">
                     <h2 className="text-[42px] md:text-[56px] font-[800] text-white mb-[24px]">
-                        Start your German A1 journey with clarity and confidence
+                        Start your German A1 + A2 journey with clarity and confidence
                     </h2>
 
                     <p className="text-[20px] text-white opacity-95 mb-[40px]">
-                        If your goal is not just to study German, but to clear Goethe A1 with certainty, this program gives you everything you need in one place.
+                        Study consistently. Practice daily. Build confidence step by step. And watch yourself go from "Ich verstehe ein bisschen" to speaking clearly and confidently at A2 level.
                     </p>
 
                     <div className="bg-white rounded-[16px] p-[40px] mb-[32px]">
-                        <p className="text-[18px] text-[#666] mb-[16px]">German A1 Complete Kit</p>
-                        <p className="text-[56px] font-[800] text-[#1a1a2e] mb-[24px]">₹699</p>
+                        <p className="text-[18px] text-[#666] mb-[16px]">German A1 + A2 Complete Bundle</p>
+                        <div className="mb-[24px]">
+                            <span className="text-gray-500 line-through text-[20px] mr-2">₹1,698</span>
+                            <span className="text-[56px] font-[800] text-[#1a1a2e]">₹1,499</span>
+                            <span className="text-[#17C3B2] text-[18px] ml-2 font-[600]">(Save ₹199)</span>
+                        </div>
 
                         <ul className="text-left space-y-3 mb-[32px]">
                             {[
-                                '4 comprehensive books (Classwork, Exercise, Answer Key, Exam Strategy)',
-                                'Fully aligned with Goethe-Zertifikat A1',
+                                '7 comprehensive books (A1 + A2 Complete)',
+                                'Classwork, Exercises, Answer Keys',
+                                'Speaking & Writing Playbook',
+                                'Goethe A1 & A2 Exam Strategies',
                                 'Lifetime access',
-                                'Printable and digital formats',
                                 'Instant digital download'
                             ].map((item, idx) => (
                                 <li key={idx} className="flex items-center gap-3 text-[16px] text-[#333]">

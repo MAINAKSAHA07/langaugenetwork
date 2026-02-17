@@ -116,6 +116,41 @@ const MyMasteryKitsPage = () => {
                         the <strong>same email ID</strong> you used to purchase.
                     </p>
 
+                    {/* How to Access Steps */}
+                    <div className="access-steps-container">
+                        <h3 className="access-steps-title">📚 How to Access Your Kits</h3>
+                        <div className="access-steps">
+                            <div className="access-step">
+                                <div className="step-number">1</div>
+                                <div className="step-content">
+                                    <h4>Purchase a Mastery Kit</h4>
+                                    <p>Complete your payment using Razorpay on any mastery kit page</p>
+                                </div>
+                            </div>
+                            <div className="access-step">
+                                <div className="step-number">2</div>
+                                <div className="step-content">
+                                    <h4>{authMode === 'login' ? 'Login' : 'Create Account'}</h4>
+                                    <p>Use the <strong>same email</strong> you used during purchase</p>
+                                </div>
+                            </div>
+                            <div className="access-step">
+                                <div className="step-number">3</div>
+                                <div className="step-content">
+                                    <h4>Access Granted Automatically</h4>
+                                    <p>Your kits will appear here instantly after login</p>
+                                </div>
+                            </div>
+                            <div className="access-step">
+                                <div className="step-number">4</div>
+                                <div className="step-content">
+                                    <h4>Download & Learn</h4>
+                                    <p>Click on any kit to view and download all materials</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="auth-toggle">
                         <button
                             className={authMode === 'login' ? 'auth-tab active' : 'auth-tab'}

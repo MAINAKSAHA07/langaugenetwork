@@ -37,7 +37,7 @@
   padding: 60px 40px;
   text-align: center;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  max-width: 440px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -53,6 +53,77 @@
   margin-bottom: 28px;
   line-height: 1.5;
 }
+
+/* Access Steps */
+.access-steps-container {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 32px;
+  border: 2px solid #e0e0e0;
+}
+
+.access-steps-title {
+  font-size: 1.25rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.access-steps {
+  display: grid;
+  gap: 16px;
+}
+
+.access-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.access-step:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content h4 {
+  font-size: 1rem;
+  color: #333;
+  margin: 0 0 4px 0;
+  font-weight: 600;
+}
+
+.step-content p {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
 
 .auth-toggle {
   display: flex;

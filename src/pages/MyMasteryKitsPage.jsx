@@ -188,8 +188,8 @@ const MyMasteryKitsPage = () => {
                             {authLoading
                                 ? 'Please wait...'
                                 : authMode === 'login'
-                                ? 'Login & View My Kits'
-                                : 'Create Account & View My Kits'}
+                                    ? 'Login & View My Kits'
+                                    : 'Create Account & View My Kits'}
                         </button>
                     </form>
                 </div>
@@ -233,27 +233,43 @@ const MyMasteryKitsPage = () => {
                             </div>
                         ) : (
                             <div className="mastery-kits-grid">
-                                {masteryKits.map((kit) => (
-                                    <div key={kit.id} className="mastery-kit-card">
-                                        <div className="kit-thumbnail">
-                                            <img src={kit.thumbnail} alt={kit.title} />
+                                {masteryKits.map((kit) => {
+                                    // Map language to image
+                                    const getKitImage = (language) => {
+                                        const languageLower = language?.toLowerCase() || '';
+                                        if (languageLower.includes('french')) {
+                                            return '/images/masterykit/frenchmasterykit.png';
+                                        } else if (languageLower.includes('german')) {
+                                            return '/images/masterykit/germanmasterylit.png';
+                                        } else if (languageLower.includes('english')) {
+                                            return '/images/masterykit/englishmasterykit.png';
+                                        }
+                                        // Fallback to thumbnail if available
+                                        return kit.thumbnail || '/images/masterykit/frenchmasterykit.png';
+                                    };
+
+                                    return (
+                                        <div key={kit.id} className="mastery-kit-card">
+                                            <div className="kit-thumbnail">
+                                                <img src={getKitImage(kit.language)} alt={kit.title} />
+                                            </div>
+                                            <div className="kit-info">
+                                                <h3>{kit.title}</h3>
+                                                <p className="kit-language">{kit.language}</p>
+                                                <p className="kit-description">{kit.description}</p>
+                                                <p className="purchase-date">
+                                                    Purchased: {new Date(kit.purchaseDate).toLocaleDateString()}
+                                                </p>
+                                                <button
+                                                    className="btn-primary"
+                                                    onClick={() => handleViewContent(kit.id)}
+                                                >
+                                                    Access Content
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div className="kit-info">
-                                            <h3>{kit.title}</h3>
-                                            <p className="kit-language">{kit.language}</p>
-                                            <p className="kit-description">{kit.description}</p>
-                                            <p className="purchase-date">
-                                                Purchased: {new Date(kit.purchaseDate).toLocaleDateString()}
-                                            </p>
-                                            <button
-                                                className="btn-primary"
-                                                onClick={() => handleViewContent(kit.id)}
-                                            >
-                                                Access Content
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         )}
                     </>

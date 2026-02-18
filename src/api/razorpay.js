@@ -18,21 +18,27 @@ export const loadRazorpayScript = () => {
  */
 export const createRazorpayOrder = async (orderData) => {
   try {
-    // Extract language from batchDetails or orderData
-    let language = '';
-    if (orderData.batchDetails && orderData.batchDetails.language) {
-      language = orderData.batchDetails.language;
-    } else if (orderData.language) {
-      language = orderData.language;
-    }
-    
-    // Create order record in PocketBase
+    // Normalize language to match PocketBase select enum (must be capitalized)
+    const VALID_LANGUAGES = ['French', 'German', 'Spanish', 'English', 'Japanese', 'Korean', 'Mandarin'];
+    const rawLanguage = (orderData.batchDetails?.language || orderData.language || '').trim();
+    const normalizedLanguage = rawLanguage
+      ? rawLanguage.charAt(0).toUpperCase() + rawLanguage.slice(1).toLowerCase()
+      : null;
+    const language = VALID_LANGUAGES.includes(normalizedLanguage) ? normalizedLanguage : null;
+
+    // Only send fields that exist in the PocketBase orders schema
     const order = await pb.collection('orders').create({
-      ...orderData,
-      language: language || null, // Add language field
+      customerName: orderData.customerName,
+      customerEmail: orderData.customerEmail,
+      customerPhone: orderData.customerPhone,
+      amount: orderData.amount,
+      currency: orderData.currency || 'INR',
       status: 'pending',
       paymentGateway: 'razorpay',
-      createdAt: new Date().toISOString(),
+      courseType: orderData.courseType || '',
+      batchId: orderData.batchId || '',
+      batchDetails: orderData.batchDetails || {},
+      language: language,
     });
 
     return { success: true, order };
@@ -48,7 +54,7 @@ export const createRazorpayOrder = async (orderData) => {
 export const initiateRazorpayPayment = async (orderDetails) => {
   // Load Razorpay script
   const scriptLoaded = await loadRazorpayScript();
-  
+
   if (!scriptLoaded) {
     alert('Razorpay SDK failed to load. Please check your internet connection.');
     return { success: false, error: 'Script load failed' };
@@ -87,11 +93,11 @@ export const initiateRazorpayPayment = async (orderDetails) => {
     handler: async function (response) {
       // Payment successful
       console.log('Payment successful:', response);
-      
+
       try {
         // Get the order details to create enrollment
         const order = await pb.collection('orders').getOne(orderId);
-        
+
         // Update order status in PocketBase
         await pb.collection('orders').update(orderId, {
           status: 'completed',
@@ -159,7 +165,7 @@ export const verifyPayment = async (paymentData) => {
   try {
     // Check if the payment record exists and is completed
     const order = await pb.collection('orders').getOne(paymentData.orderId);
-    
+
     return {
       success: order.status === 'completed',
       order,

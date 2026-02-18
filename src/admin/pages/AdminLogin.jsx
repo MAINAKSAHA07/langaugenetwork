@@ -15,8 +15,14 @@ const AdminLogin = () => {
     setError('');
 
     try {
-      // Authenticate as PocketBase admin (separate from regular mastery kit users)
-      await pb.admins.authWithPassword(email, password);
+      // Authenticate as PocketBase admin
+      // pb.admins is deprecated in newer SDK — use _superusers collection
+      try {
+        await pb.collection('_superusers').authWithPassword(email, password);
+      } catch {
+        // Fallback for older PocketBase versions
+        await pb.admins.authWithPassword(email, password);
+      }
       navigate('/admin/dashboard');
     } catch (error) {
       console.error('Admin login failed:', error);
@@ -96,7 +102,7 @@ const AdminLogin = () => {
         {/* Additional Info */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            This login is for <span className="font-semibold">TLN admins only</span>. 
+            This login is for <span className="font-semibold">TLN admins only</span>.
             Mastery Kit customers should use the regular login/signup on the main site
             (with the same email used to purchase) and access their content via
             <span className="font-semibold"> My Mastery Kits</span>.

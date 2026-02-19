@@ -89,70 +89,28 @@ const MasteryKitEnrollmentModal = ({ kitDetails, onClose }) => {
         phone: formData.phone,
         description: MASTERY_KIT_NAME,
         onSuccess: async (response) => {
-          // Payment successful - Grant access automatically
-          try {
-            // Import PocketBase
-            const pb = (await import('../../config/pocketbase')).default;
+          // Payment captured — access will be granted automatically when the
+          // user logs in to MyMasteryKitsPage with the same email.
+          // We cannot look up / create purchase records here because the
+          // browser has no authenticated PocketBase session at this point.
+          console.log('✅ Payment successful:', response.razorpay_payment_id);
 
-            // Find or create user
-            let user;
-            try {
-              const users = await pb.collection('users').getFullList({
-                filter: `email="${formData.email}"`
-              });
-              user = users[0];
-            } catch (err) {
-              console.log('User not found, will need to create account');
-            }
+          alert(
+            '🎉 Payment successful!\n\n' +
+            'To access your kits:\n' +
+            '1. Go to "My Mastery Kits" page\n' +
+            '2. Create an account (or log in) using this email: ' + formData.email + '\n' +
+            '3. Your kits will appear automatically!'
+          );
 
-            if (user) {
-              // User exists - grant access to all kits in this language
-              const kits = await pb.collection('mastery_kits').getFullList({
-                filter: `language="${MASTERY_KIT_LANGUAGE}"`
-              });
-
-              // Check existing purchases
-              const existingPurchases = await pb.collection('mastery_kit_purchases').getFullList({
-                filter: `user="${user.id}"`
-              });
-              const existingKitIds = new Set(existingPurchases.map(p => p.mastery_kit));
-
-              // Grant access to all kits in this language
-              for (const kit of kits) {
-                if (!existingKitIds.has(kit.id)) {
-                  await pb.collection('mastery_kit_purchases').create({
-                    user: user.id,
-                    mastery_kit: kit.id,
-                    purchase_date: new Date().toISOString(),
-                    payment_status: 'completed',
-                    transaction_id: response.razorpay_payment_id || `RAZORPAY_${Date.now()}`,
-                    amount: MASTERY_KIT_PRICE,
-                  });
-                }
-              }
-
-              alert(`🎉 Payment successful! Access granted to ${kits.length} ${MASTERY_KIT_LANGUAGE.toUpperCase()} kit(s). Redirecting to your kits...`);
-
-              // Redirect to my mastery kits page
-              setTimeout(() => {
-                window.location.href = '/my-mastery-kits';
-              }, 2000);
-            } else {
-              // User doesn't exist - show message to create account
-              alert('🎉 Payment successful! Please create an account with this email (' + formData.email + ') to access your kits. Redirecting to login page...');
-
-              setTimeout(() => {
-                window.location.href = '/my-mastery-kits?mode=register';
-              }, 2000);
-            }
-          } catch (accessError) {
-            console.error('Error granting access:', accessError);
-            alert('🎉 Payment successful! Please contact support to activate your access.');
-          }
-
-          // Reset form
+          // Reset form & close modal
           setFormData({ name: '', email: '', phone: '' });
           onClose();
+
+          // Send them to the register page (new buyers won't have an account yet)
+          setTimeout(() => {
+            window.location.href = '/my-mastery-kits?mode=register';
+          }, 500);
         },
         onFailure: (error) => {
           // Payment failed

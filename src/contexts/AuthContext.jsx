@@ -69,12 +69,16 @@ export const AuthProvider = ({ children }) => {
                 emailVisibility: true,
             };
 
-            const record = await pb.collection('users').create(userData);
+            await pb.collection('users').create(userData);
 
-            // Auto-login after registration
-            await login(email, password);
+            // Auto-login after registration — use the login result so we get
+            // the authenticated record (with session token), not the bare record
+            const loginResult = await login(email, password);
+            if (!loginResult.success) {
+                return { success: false, error: loginResult.error };
+            }
 
-            return { success: true, user: record };
+            return { success: true, user: loginResult.user };
         } catch (error) {
             console.error('Registration error:', error);
             const msg = parsePocketBaseError(error);

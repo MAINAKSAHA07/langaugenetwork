@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { getUserMasteryKits, getMasteryKitContent } from '../api/masteryKits';
+import pb from '../config/pocketbase';
 import './MyMasteryKitsPage.css';
 
 const MyMasteryKitsPage = () => {
@@ -56,12 +57,24 @@ const MyMasteryKitsPage = () => {
         }
 
         try {
+            let res;
             if (authMode === 'login') {
-                const res = await login(authForm.email, authForm.password);
-                if (!res.success) setAuthError(res.error || 'Login failed. Please check your details.');
+                res = await login(authForm.email, authForm.password);
+                if (!res.success) {
+                    setAuthError(res.error || 'Login failed. Please check your details.');
+                    return;
+                }
             } else {
-                const res = await register(authForm.email, authForm.password, authForm.name?.trim());
-                if (!res.success) setAuthError(res.error || 'Registration failed. Please try again.');
+                res = await register(authForm.email, authForm.password, authForm.name?.trim());
+                if (!res.success) {
+                    setAuthError(res.error || 'Registration failed. Please try again.');
+                    return;
+                }
+            }
+            // res.user is the newly authenticated user — pass directly so we
+            // don't race against the AuthContext state update
+            if (res.user) {
+                await fetchUserMasteryKits(res.user);
             }
         } catch (err) {
             console.error('Auth error:', err);
@@ -69,10 +82,68 @@ const MyMasteryKitsPage = () => {
         }
     };
 
-    const fetchUserMasteryKits = async () => {
+    /**
+     * Grants mastery kit access for any completed Razorpay orders
+     * that match the logged-in user's email but haven't been assigned yet.
+     * This runs in an authenticated context so all PocketBase rules pass.
+     */
+    const grantPendingAccess = async (loggedInUser) => {
+        try {
+            // 1. Find completed mastery-kit orders for this email
+            const pendingOrders = await pb.collection('orders').getFullList({
+                filter: `customerEmail="${loggedInUser.email}" && courseType="mastery-kit" && status="completed"`,
+            });
+
+            if (pendingOrders.length === 0) return;
+
+            // 2. Get all kits this user already has access to
+            const existingPurchases = await pb.collection('mastery_kit_purchases').getFullList({
+                filter: `user="${loggedInUser.id}"`,
+            });
+            const alreadyGranted = new Set(existingPurchases.map(p => p.mastery_kit));
+
+            // 3. For each order, find the matching language kits and grant access
+            let granted = 0;
+            for (const order of pendingOrders) {
+                if (!order.language) continue;
+
+                const kits = await pb.collection('mastery_kits').getFullList({
+                    filter: `language="${order.language.toLowerCase()}"`,
+                });
+
+                for (const kit of kits) {
+                    if (alreadyGranted.has(kit.id)) continue;
+
+                    await pb.collection('mastery_kit_purchases').create({
+                        user: loggedInUser.id,
+                        mastery_kit: kit.id,
+                        purchase_date: order.completedAt || new Date().toISOString(),
+                        payment_status: 'completed',
+                        transaction_id: order.razorpayPaymentId || `ORDER_${order.id}`,
+                        amount: order.amount,
+                    });
+
+                    alreadyGranted.add(kit.id);
+                    granted++;
+                }
+            }
+
+            if (granted > 0) {
+                console.log(`✅ Granted access to ${granted} mastery kit(s)`);
+            }
+        } catch (err) {
+            // Non-fatal — don't block the page from loading
+            console.error('grantPendingAccess error:', err);
+        }
+    };
+
+    const fetchUserMasteryKits = async (loggedInUser) => {
+        const targetUser = loggedInUser || user;
         try {
             setLoading(true);
-            const kits = await getUserMasteryKits(user.id);
+            // First grant any access that hasn't been assigned yet
+            await grantPendingAccess(targetUser);
+            const kits = await getUserMasteryKits(targetUser.id);
             setMasteryKits(kits);
         } catch (err) {
             setError('Failed to load your mastery kits');

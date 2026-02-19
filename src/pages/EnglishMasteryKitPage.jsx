@@ -3,7 +3,21 @@ import ScrollReveal from '../components/common/ScrollReveal';
 import MasteryKitEnrollmentModal from '../components/common/MasteryKitEnrollmentModal';
 
 const EnglishMasteryKitPage = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showEnrollModal, setShowEnrollModal] = useState(false);
+
+    const kitDetails = {
+        title: 'English Mastery Kit (Volume 1-4)',
+        language: 'english',
+        price: 999,
+        description: 'Complete English mastery system from beginner to upper-intermediate',
+        features: [
+            '16 structured books (Volumes 1-4)',
+            'Classwork, Exercises, Answer Keys per volume',
+            '45+ professional bonus resources',
+            'Lifetime access',
+            'Instant digital download'
+        ]
+    };
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -36,7 +50,7 @@ const EnglishMasteryKitPage = () => {
 
                     <div>
                         <button
-                            onClick={() => setIsModalOpen(true)}
+                            onClick={() => setShowEnrollModal(true)}
                             className="inline-block bg-[#17C3B2] text-white py-[18px] px-[48px] rounded-[10px] text-[18px] font-[700] shadow-[0_6px_20px_rgba(23,195,178,0.4)] hover:scale-105 transition-transform duration-300"
                         >
                             Get Complete Access Now →
@@ -342,7 +356,7 @@ const EnglishMasteryKitPage = () => {
                         </ul>
 
                         <button
-                            onClick={() => setIsModalOpen(true)}
+                            onClick={() => setShowEnrollModal(true)}
                             className="inline-block bg-[#17C3B2] text-white py-[20px] px-[60px] rounded-[12px] text-[20px] font-[700] shadow-[0_8px_24px_rgba(23,195,178,0.4)] hover:scale-105 transition-transform duration-300"
                         >
                             Get Instant Access →
@@ -378,10 +392,12 @@ const EnglishMasteryKitPage = () => {
             </section>
 
             {/* Enrollment Modal */}
-            <MasteryKitEnrollmentModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-            />
+            {showEnrollModal && (
+                <MasteryKitEnrollmentModal
+                    kitDetails={kitDetails}
+                    onClose={() => setShowEnrollModal(false)}
+                />
+            )}
         </div>
     );
 };

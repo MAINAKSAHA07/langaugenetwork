@@ -125,7 +125,7 @@ const MasteryKitEnrollmentModal = ({ kitDetails, onClose }) => {
                     mastery_kit: kit.id,
                     purchase_date: new Date().toISOString(),
                     payment_status: 'completed',
-                    transaction_id: response.razorpayPaymentId || `RAZORPAY_${Date.now()}`,
+                    transaction_id: response.razorpay_payment_id || `RAZORPAY_${Date.now()}`,
                     amount: MASTERY_KIT_PRICE,
                   });
                 }

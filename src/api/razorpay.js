@@ -95,26 +95,25 @@ export const initiateRazorpayPayment = async (orderDetails) => {
       console.log('Payment successful:', response);
 
       try {
-        // Get the order details to create enrollment
-        const order = await pb.collection('orders').getOne(orderId);
-
-        // Update order status in PocketBase
+        // Update order status in PocketBase (no auth needed — updateRule is open)
         await pb.collection('orders').update(orderId, {
           status: 'completed',
-          razorpayPaymentId: response.razorpay_payment_id,
+          razorpayPaymentId: response.razorpay_payment_id,   // correct field name
           razorpayOrderId: response.razorpay_order_id,
           razorpaySignature: response.razorpay_signature,
           completedAt: new Date().toISOString(),
         });
+        console.log('✅ Order updated to completed');
 
-        // Create enrollment record
+        // Create enrollment record (best-effort, non-blocking)
         try {
+          const order = await pb.collection('orders').getOne(orderId);
           await pb.collection('enrollments').create({
             studentName: order.customerName,
             studentEmail: order.customerEmail,
             studentPhone: order.customerPhone,
             batchId: order.batchId || '',
-            courseType: order.courseType || 'batch',
+            courseType: order.courseType || 'mastery-kit',
             courseName: description || 'Course Enrollment',
             orderId: orderId,
             status: 'active',
@@ -124,16 +123,18 @@ export const initiateRazorpayPayment = async (orderDetails) => {
           console.log('✅ Enrollment record created');
         } catch (enrollError) {
           console.error('Warning: Failed to create enrollment record:', enrollError);
-          // Don't fail the payment if enrollment creation fails
+          // Non-fatal — don't block onSuccess
         }
 
+        // Always call onSuccess so access-granting logic runs
         if (onSuccess) {
           onSuccess(response);
         }
       } catch (error) {
         console.error('Error updating order:', error);
-        if (onFailure) {
-          onFailure(error);
+        // Still call onSuccess so user gets access even if DB update failed
+        if (onSuccess) {
+          onSuccess(response);
         }
       }
     },

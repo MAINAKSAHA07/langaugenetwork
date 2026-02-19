@@ -83,53 +83,79 @@ const MyMasteryKitsPage = () => {
     };
 
     /**
-     * Grants mastery kit access for any completed Razorpay orders
-     * that match the logged-in user's email but haven't been assigned yet.
-     * This runs in an authenticated context so all PocketBase rules pass.
+     * Grants mastery kit access for any purchases matching the logged-in
+     * user's email that haven't been assigned yet.
+     *
+     * Checks TWO sources:
+     *  1. orders collection      — primary  (courseType=mastery-kit, status=completed)
+     *  2. enrollments collection — fallback (courseType=mastery-kit, status=active)
+     *
+     * Runs in an authenticated context so all PocketBase rules are satisfied.
      */
     const grantPendingAccess = async (loggedInUser) => {
         try {
-            // 1. Find completed mastery-kit orders for this email
-            const pendingOrders = await pb.collection('orders').getFullList({
-                filter: `customerEmail="${loggedInUser.email}" && courseType="mastery-kit" && status="completed"`,
-            });
-
-            if (pendingOrders.length === 0) return;
-
-            // 2. Get all kits this user already has access to
+            // Load what the user already has so we never double-grant
             const existingPurchases = await pb.collection('mastery_kit_purchases').getFullList({
                 filter: `user="${loggedInUser.id}"`,
             });
             const alreadyGranted = new Set(existingPurchases.map(p => p.mastery_kit));
-
-            // 3. For each order, find the matching language kits and grant access
             let granted = 0;
-            for (const order of pendingOrders) {
-                if (!order.language) continue;
 
+            /** Finds all kits for a language and creates purchase records */
+            const grantForLanguage = async (language, txId, purchaseDate, amount) => {
+                if (!language) return;
                 const kits = await pb.collection('mastery_kits').getFullList({
-                    filter: `language="${order.language.toLowerCase()}"`,
+                    filter: `language="${language.toLowerCase().trim()}"`,
                 });
-
                 for (const kit of kits) {
                     if (alreadyGranted.has(kit.id)) continue;
-
                     await pb.collection('mastery_kit_purchases').create({
                         user: loggedInUser.id,
                         mastery_kit: kit.id,
-                        purchase_date: order.completedAt || new Date().toISOString(),
+                        purchase_date: purchaseDate || new Date().toISOString(),
                         payment_status: 'completed',
-                        transaction_id: order.razorpayPaymentId || `ORDER_${order.id}`,
-                        amount: order.amount,
+                        transaction_id: txId || `GRANT_${Date.now()}`,
+                        amount: amount || 0,
                     });
-
                     alreadyGranted.add(kit.id);
                     granted++;
                 }
+            };
+
+            // ── 1. PRIMARY: completed orders ──
+            const completedOrders = await pb.collection('orders').getFullList({
+                filter: `customerEmail="${loggedInUser.email}" && courseType="mastery-kit" && status="completed"`,
+            });
+            for (const order of completedOrders) {
+                await grantForLanguage(
+                    order.language,
+                    order.razorpayPaymentId || `ORDER_${order.id}`,
+                    order.completedAt,
+                    order.amount,
+                );
+            }
+
+            // ── 2. FALLBACK: active enrollments ──
+            // Catches cases where the order language was missing or status update
+            // failed — the enrollment record is created separately and is reliable.
+            const enrollments = await pb.collection('enrollments').getFullList({
+                filter: `studentEmail="${loggedInUser.email}" && courseType="mastery-kit" && status="active"`,
+            });
+            for (const enrollment of enrollments) {
+                const lang =
+                    enrollment.courseDetails?.language ||
+                    enrollment.courseDetails?.batchDetails?.language ||
+                    null;
+                await grantForLanguage(
+                    lang,
+                    `ENROLLMENT_${enrollment.id}`,
+                    enrollment.enrollmentDate,
+                    null,
+                );
             }
 
             if (granted > 0) {
-                console.log(`✅ Granted access to ${granted} mastery kit(s)`);
+                console.log(`✅ Granted access to ${granted} mastery kit(s) for ${loggedInUser.email}`);
             }
         } catch (err) {
             // Non-fatal — don't block the page from loading

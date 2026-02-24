@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import pb from '../api/pocketbase';
 import { getPublishedBlogs } from '../api/blogs';
+import { subscribeNewsletter } from '../api/forms';
 
 const BlogsPage = () => {
   const [searchParams] = useSearchParams();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const selectedTag = searchParams.get('tag');
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState(''); // '' | 'loading' | 'success' | 'duplicate' | 'error'
 
   useEffect(() => {
     loadBlogs();
@@ -19,16 +22,16 @@ const BlogsPage = () => {
       const result = await getPublishedBlogs();
       if (result.success) {
         let filteredBlogs = result.data;
-        
+
         // Filter by tag if selected
         if (selectedTag) {
-          filteredBlogs = filteredBlogs.filter(blog => 
-            blog.tags && blog.tags.some(tag => 
+          filteredBlogs = filteredBlogs.filter(blog =>
+            blog.tags && blog.tags.some(tag =>
               tag.toLowerCase() === selectedTag.toLowerCase()
             )
           );
         }
-        
+
         setBlogs(filteredBlogs);
       }
     } catch (error) {
@@ -51,6 +54,28 @@ const BlogsPage = () => {
       month: 'long',
       day: 'numeric'
     });
+  };
+
+  const handleNewsletterSubmit = async () => {
+    if (!newsletterEmail || !newsletterEmail.includes('@')) {
+      setNewsletterStatus('error');
+      setTimeout(() => setNewsletterStatus(''), 3000);
+      return;
+    }
+    setNewsletterStatus('loading');
+    const result = await subscribeNewsletter(newsletterEmail);
+    if (result.success) {
+      setNewsletterStatus('success');
+      setNewsletterEmail('');
+      setTimeout(() => setNewsletterStatus(''), 4000);
+    } else if (result.error?.includes('unique')) {
+      setNewsletterStatus('duplicate');
+      setNewsletterEmail('');
+      setTimeout(() => setNewsletterStatus(''), 4000);
+    } else {
+      setNewsletterStatus('error');
+      setTimeout(() => setNewsletterStatus(''), 3000);
+    }
   };
 
   return (
@@ -96,7 +121,7 @@ const BlogsPage = () => {
           ) : blogs.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-gray-600 text-lg">
-                {selectedTag 
+                {selectedTag
                   ? `No blog posts found for "${selectedTag}"`
                   : 'No blog posts available yet. Check back soon!'}
               </p>
@@ -139,9 +164,9 @@ const BlogsPage = () => {
                       {blog.author && (
                         <p className="text-sm text-gray-500 mb-4">By {blog.author}</p>
                       )}
-                      <Link 
+                      <Link
                         to={`/blog/${blog.slug}`}
-                        className="text-sm font-semibold transition-colors" 
+                        className="text-sm font-semibold transition-colors"
                         style={{ color: '#1F9F90' }}
                       >
                         Read More →
@@ -168,15 +193,29 @@ const BlogsPage = () => {
             <input
               type="email"
               placeholder="Enter your email"
+              value={newsletterEmail}
+              onChange={(e) => setNewsletterEmail(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleNewsletterSubmit()}
               className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-opacity-50 outline-none"
             />
             <button
-              className="px-8 py-3 text-white rounded-lg font-semibold transition-all hover:brightness-110"
+              onClick={handleNewsletterSubmit}
+              disabled={newsletterStatus === 'loading'}
+              className="px-8 py-3 text-white rounded-lg font-semibold transition-all hover:brightness-110 disabled:opacity-50"
               style={{ backgroundColor: '#1F9F90' }}
             >
-              Subscribe
+              {newsletterStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
             </button>
           </div>
+          {newsletterStatus === 'success' && (
+            <p className="mt-4 text-[#1F9F90] font-medium">✓ You're subscribed! Welcome aboard 🎉</p>
+          )}
+          {newsletterStatus === 'duplicate' && (
+            <p className="mt-4 text-[#1F9F90] font-medium">✓ You're already subscribed — we'll keep you posted!</p>
+          )}
+          {newsletterStatus === 'error' && (
+            <p className="mt-4 text-red-500 font-medium">✗ Please enter a valid email address.</p>
+          )}
         </div>
       </section>
     </div>

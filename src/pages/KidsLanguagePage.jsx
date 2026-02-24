@@ -5,6 +5,7 @@ import FeatureModal from '../components/common/FeatureModal';
 import UpcomingBatchesSection from '../components/sections/UpcomingBatchesSection';
 import { languageData } from '../data/languageData';
 import pb from '../api/pocketbase';
+import { subscribeNewsletter } from '../api/forms';
 
 const KidsLanguagePage = () => {
   const { language } = useParams();
@@ -72,20 +73,22 @@ const KidsLanguagePage = () => {
   const handleNewsletterSubmit = async () => {
     if (!newsletterEmail || !newsletterEmail.includes('@')) {
       setNewsletterStatus('error');
+      setTimeout(() => setNewsletterStatus(''), 3000);
       return;
     }
 
     setNewsletterStatus('loading');
-    try {
-      await pb.collection('newsletter_subscribers').create({
-        email: newsletterEmail,
-        active: true
-      });
+    const result = await subscribeNewsletter(newsletterEmail);
+
+    if (result.success) {
       setNewsletterStatus('success');
       setNewsletterEmail('');
-      setTimeout(() => setNewsletterStatus(''), 3000);
-    } catch (error) {
-      console.error('Newsletter subscription error:', error);
+      setTimeout(() => setNewsletterStatus(''), 4000);
+    } else if (result.error?.includes('unique')) {
+      setNewsletterStatus('duplicate');
+      setNewsletterEmail('');
+      setTimeout(() => setNewsletterStatus(''), 4000);
+    } else {
       setNewsletterStatus('error');
       setTimeout(() => setNewsletterStatus(''), 3000);
     }
@@ -287,7 +290,7 @@ const KidsLanguagePage = () => {
   // Clean language parameter (remove -kids suffix if present)
   const cleanLanguage = language?.toLowerCase().replace('-kids', '');
   const data = languageData[cleanLanguage] || languageData.french;
-  
+
   // Get base language for links (always use base language, not -kids version)
   const baseLanguage = cleanLanguage;
 
@@ -1206,10 +1209,13 @@ const KidsLanguagePage = () => {
             </button>
           </div>
           {newsletterStatus === 'success' && (
-            <p className="text-white mt-4">✓ Successfully subscribed!</p>
+            <p className="text-white mt-4">✓ You're subscribed! Welcome aboard 🎉</p>
+          )}
+          {newsletterStatus === 'duplicate' && (
+            <p className="text-white mt-4">✓ You're already subscribed — we'll keep you posted!</p>
           )}
           {newsletterStatus === 'error' && (
-            <p className="text-white mt-4">✗ Something went wrong. Please try again.</p>
+            <p className="text-white mt-4">✗ Please enter a valid email address.</p>
           )}
         </div>
       </section>

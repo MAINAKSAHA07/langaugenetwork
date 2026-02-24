@@ -7,6 +7,7 @@ import DemoForm from '../components/sections/DemoForm';
 import UpcomingBatchesSection from '../components/sections/UpcomingBatchesSection';
 import { languageData } from '../data/languageData';
 import pb from '../api/pocketbase';
+import { subscribeNewsletter } from '../api/forms';
 
 const LanguagePage = () => {
   const { language } = useParams();
@@ -39,7 +40,7 @@ const LanguagePage = () => {
 
   // Newsletter State
   const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [newsletterStatus, setNewsletterStatus] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState(''); // '' | 'loading' | 'success' | 'duplicate' | 'error'
 
   // Map language param to batch language value
   const getBatchLanguage = () => {
@@ -59,20 +60,23 @@ const LanguagePage = () => {
   const handleNewsletterSubmit = async () => {
     if (!newsletterEmail || !newsletterEmail.includes('@')) {
       setNewsletterStatus('error');
+      setTimeout(() => setNewsletterStatus(''), 3000);
       return;
     }
 
     setNewsletterStatus('loading');
-    try {
-      await pb.collection('newsletter_subscribers').create({
-        email: newsletterEmail,
-        active: true
-      });
+    const result = await subscribeNewsletter(newsletterEmail);
+
+    if (result.success) {
       setNewsletterStatus('success');
       setNewsletterEmail('');
-      setTimeout(() => setNewsletterStatus(''), 3000);
-    } catch (error) {
-      console.error('Newsletter subscription error:', error);
+      setTimeout(() => setNewsletterStatus(''), 4000);
+    } else if (result.error?.includes('unique')) {
+      // Duplicate email — treat as success from user's perspective
+      setNewsletterStatus('duplicate');
+      setNewsletterEmail('');
+      setTimeout(() => setNewsletterStatus(''), 4000);
+    } else {
       setNewsletterStatus('error');
       setTimeout(() => setNewsletterStatus(''), 3000);
     }
@@ -534,10 +538,13 @@ const LanguagePage = () => {
               </button>
             </div>
             {newsletterStatus === 'success' && (
-              <p className="text-white mt-6 text-lg font-medium">✓ Successfully subscribed!</p>
+              <p className="text-white mt-6 text-lg font-medium">✓ You're subscribed! Welcome aboard 🎉</p>
+            )}
+            {newsletterStatus === 'duplicate' && (
+              <p className="text-white mt-6 text-lg font-medium">✓ You're already subscribed — we'll keep you posted!</p>
             )}
             {newsletterStatus === 'error' && (
-              <p className="text-white mt-6 text-lg font-medium">✗ Something went wrong. Please try again.</p>
+              <p className="text-white mt-6 text-lg font-medium">✗ Please enter a valid email address.</p>
             )}
           </div>
         </div>

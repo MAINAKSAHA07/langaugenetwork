@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import FloatingCTA from './components/common/FloatingCTA';
+import SocialProofToast from './components/common/SocialProofToast';
 import DemoForm from './components/sections/DemoForm';
 import HomePage from './pages/HomePage';
 import LanguagePageWrapper from './pages/LanguagePageWrapper';
@@ -238,6 +239,7 @@ function AppContent() {
 
       <Footer />
       <FloatingCTA />
+      <SocialProofToast />
 
       <DemoForm
         isOpen={isDemoFormOpen}

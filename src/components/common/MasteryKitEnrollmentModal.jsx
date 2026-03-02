@@ -190,7 +190,7 @@ const MasteryKitEnrollmentModal = ({ kitDetails, onClose }) => {
                 value={formData.name}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#17C3B2] focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#17C3B2] focus:border-transparent text-gray-900 bg-white"
                 placeholder="Enter your full name"
               />
             </div>
@@ -205,7 +205,7 @@ const MasteryKitEnrollmentModal = ({ kitDetails, onClose }) => {
                 value={formData.email}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#17C3B2] focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#17C3B2] focus:border-transparent text-gray-900 bg-white"
                 placeholder="your.email@example.com"
               />
             </div>
@@ -222,7 +222,7 @@ const MasteryKitEnrollmentModal = ({ kitDetails, onClose }) => {
                 required
                 maxLength="10"
                 pattern="[0-9]{10}"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#17C3B2] focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#17C3B2] focus:border-transparent text-gray-900 bg-white"
                 placeholder="10-digit mobile number"
               />
             </div>

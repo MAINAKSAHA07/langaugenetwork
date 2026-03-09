@@ -7,8 +7,9 @@ import { languageData } from '../data/languageData';
 import pb from '../api/pocketbase';
 import { subscribeNewsletter } from '../api/forms';
 
-const KidsLanguagePage = () => {
+const KidsLanguagePage = ({ parsedLanguage }) => {
   const { language } = useParams();
+  const currentLanguage = parsedLanguage || language;
   const [openFAQ, setOpenFAQ] = useState(null);
   const [showFullContent, setShowFullContent] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState(null);
@@ -23,7 +24,7 @@ const KidsLanguagePage = () => {
 
   // Map language param to batch language value
   const getBatchLanguage = () => {
-    const lang = language?.replace('-kids', '') || language;
+    const lang = currentLanguage?.replace('-kids', '') || currentLanguage;
     const langMap = {
       'french': 'French',
       'german': 'German',
@@ -288,7 +289,7 @@ const KidsLanguagePage = () => {
   };
 
   // Clean language parameter (remove -kids suffix if present)
-  const cleanLanguage = language?.toLowerCase().replace('-kids', '');
+  const cleanLanguage = currentLanguage?.toLowerCase().replace('-kids', '');
   const data = languageData[cleanLanguage] || languageData.french;
 
   // Get base language for links (always use base language, not -kids version)

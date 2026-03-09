@@ -9,9 +9,10 @@ import { languageData } from '../data/languageData';
 import pb from '../api/pocketbase';
 import { subscribeNewsletter } from '../api/forms';
 
-const LanguagePage = () => {
+const LanguagePage = ({ parsedLanguage }) => {
   const { language } = useParams();
-  const data = languageData[language] || languageData.french;
+  const currentLanguage = parsedLanguage || language;
+  const data = languageData[currentLanguage] || languageData.french;
 
   // Demo form state
   const [showDemo, setShowDemo] = useState(false);
@@ -29,7 +30,7 @@ const LanguagePage = () => {
   };
 
   // Get brochure URL for current language (adults only for now)
-  const brochureUrl = brochureUrls[language] || null;
+  const brochureUrl = brochureUrls[currentLanguage] || null;
 
   // State for mobile carousels
   const [currentClassIndex, setCurrentClassIndex] = useState(0);
@@ -53,7 +54,7 @@ const LanguagePage = () => {
       'korean': 'Korean',
       'mandarin': 'Mandarin',
     };
-    return langMap[language] || 'French';
+    return langMap[currentLanguage] || 'French';
   };
 
   // Newsletter submit handler

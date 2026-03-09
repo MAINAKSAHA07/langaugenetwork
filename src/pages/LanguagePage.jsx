@@ -87,17 +87,17 @@ const LanguagePage = () => {
     {
       image: data.kidsImage,
       title: `${data.name} Classes for Kids`,
-      description: "Dive into French fun with interactive online classes designed to spark excitement and curiosity in young learners!"
+      description: `Dive into ${data.name} fun with interactive online classes designed to spark excitement and curiosity in young learners!`
     },
     {
       image: data.adultImage,
       title: `${data.name} Classes for Adults`,
-      description: "Embark on a journey to French fluency with dynamic online classes tailored to fit your busy lifestyle and ignite your passion for language learning!"
+      description: `Embark on a journey to ${data.name} fluency with dynamic online classes tailored to fit your busy lifestyle and ignite your passion for language learning!`
     },
     {
       image: data.abroadImage,
       title: `${data.name} Classes to Study Abroad`,
-      description: "Prepare for your French adventure with immersive online classes that will equip you with the language skills and cultural insights needed to thrive abroad!"
+      description: `Prepare for your ${data.name} adventure with immersive online classes that will equip you with the language skills and cultural insights needed to thrive abroad!`
     }
   ];
 
@@ -105,17 +105,17 @@ const LanguagePage = () => {
     {
       image: data.schoolImage,
       title: `${data.name} Classes for School`,
-      description: "Spark excitement with our online French classes for kids! Whether it's curriculum-based or as a hobby, we make learning engaging and enjoyable."
+      description: `Spark excitement with our online ${data.name} classes for kids! Whether it's curriculum-based or as a hobby, we make learning engaging and enjoyable.`
     },
     {
       image: data.collegeImage,
       title: `${data.name} Classes for College`,
-      description: "Dive into French fluency with our flexible online classes tailored to fit your college schedule. Explore the language, culture, and opportunities that await!"
+      description: `Dive into ${data.name} fluency with our flexible online classes tailored to fit your college schedule. Explore the language, culture, and opportunities that await!`
     },
     {
       image: data.corporateImage,
       title: `${data.name} Classes for Corporate`,
-      description: "Elevate your French skills with our customized online classes. Whether you're an individual seeking personal growth or a company fostering a global mindset, we're here to help you thrive!",
+      description: `Elevate your ${data.name} skills with our customized online classes. Whether you're an individual seeking personal growth or a company fostering a global mindset, we're here to help you thrive!`,
       trending: true
     }
   ];

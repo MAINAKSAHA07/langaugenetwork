@@ -971,7 +971,7 @@ const KidsLanguagePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                text: "My daughter absolutely loves her French classes! The teacher makes it so fun and engaging. She's learning so much and can't wait for each session!",
+                text: `My daughter absolutely loves her ${data.name} classes! The teacher makes it so fun and engaging. She's learning so much and can't wait for each session!`,
                 author: "Parent of Ananya, Age 9",
                 rating: 5
               },
@@ -981,7 +981,7 @@ const KidsLanguagePage = () => {
                 rating: 5
               },
               {
-                text: "The interactive sessions keep my daughter excited about learning. Her French has improved dramatically in just 3 months! Highly recommended.",
+                text: `The interactive sessions keep my daughter excited about learning. Her ${data.name} has improved dramatically in just 3 months! Highly recommended.`,
                 author: "Parent of Priya, Age 10",
                 rating: 5
               }

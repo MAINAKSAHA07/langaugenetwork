@@ -92,7 +92,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <div className="text-sm font-semibold text-gray-500 mb-1 uppercase tracking-wide">Mail</div>
-                    <a href="mailto:info@thelanguagenetwork.com" className="text-lg font-bold text-[#333] hover:text-[#17C3B2] transition-colors break-all">
+                    <a href="mailto:team.langauge.network@gmail.com" className="text-lg font-bold text-[#333] hover:text-[#17C3B2] transition-colors break-all">
                       team.langauge.network@gmail.com
                     </a>
                   </div>
